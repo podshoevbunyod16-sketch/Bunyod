@@ -1,0 +1,15 @@
+=== test_rasm*.py (root v0.1-v0.7) ===
+57 passed in 0.96s
+=== rasm_cim_v8/tests ===
+52 passed in 1.55s
+=== tests_v9 ===
+40 passed in 2.27s
+=== tests_v10 ===
+14 passed in 0.88s
+=== tests_v11 (new) ===
+56 passed in 0.45s
+=== v08 freeze ===
+0
+=== baseline freeze (272 files) ===
+0
+451bbfa52e67a72b04c0046d9df4e9d5  -

@@ -1,0 +1,161 @@
+{"id": "v11_tr_0001", "text": "Привет", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0002", "text": "Хай", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0003", "text": "Салют", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0004", "text": "Здравствуйте", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0005", "text": "Здравствуй", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0006", "text": "Здравствуйте!", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0007", "text": "Приветик", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0008", "text": "Хэллоу", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0009", "text": "Приветствую вас", "intent": "greeting", "template": "greet_simple", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0010", "text": "Доброе утро", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0011", "text": "Добрый день", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0012", "text": "Добрый вечер", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0013", "text": "Доброй ночи", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0014", "text": "Доброго дня", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0015", "text": "доброе утро!", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0016", "text": "Добрый день!", "intent": "greeting", "template": "greet_time", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0017", "text": "Что такое фотосинтез?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0018", "text": "Что такое гравитация?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0019", "text": "Что такое эпопея?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0020", "text": "Что такое демократия?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0021", "text": "Что такое инфляция?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0022", "text": "Что такое молекула?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0023", "text": "Что такое континент?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0024", "text": "Что такое архетип?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0025", "text": "Что такое аллегория?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0026", "text": "Что такое метафора?", "intent": "ask_definition", "template": "def_what_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0027", "text": "Кто такой Пушкин?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0028", "text": "Кто такой Эйнштейн?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0029", "text": "Кто такая Ахматова?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0030", "text": "Кто такие декабристы?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0031", "text": "Кто такой Байрон?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0032", "text": "Кто такая Мария Кюри?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0033", "text": "Кто такой Менделеев?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0034", "text": "Кто такой Гоголь?", "intent": "ask_definition", "template": "def_who_is", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0035", "text": "Какая столица Франции?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0036", "text": "Столица Японии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0037", "text": "Какая столица у Германии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0038", "text": "Какая столица у Италии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0039", "text": "Какая столица у Испании?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0040", "text": "Назови столицу Канады", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0041", "text": "Какая столица у Бразилии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0042", "text": "Какая столица у Австралии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0043", "text": "Какая столица у Казахстана?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0044", "text": "Какая столица у Таджикистана?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0045", "text": "Где столица Португалии?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0046", "text": "Столица Польши?", "intent": "ask_fact", "template": "fact_capital", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0047", "text": "Кто написал Войну и мир?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0048", "text": "Кто написал Евгения Онегина?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0049", "text": "Кто написал Преступление и наказание?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0050", "text": "Кто написал Мастера и Маргариту?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0051", "text": "Кто написал Вишнёвый сад?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0052", "text": "Кто написал Мертвые души?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0053", "text": "Кто написал Героя нашего времени?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0054", "text": "Кто написал Анну Каренину?", "intent": "ask_fact", "template": "fact_author", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0055", "text": "Правда ли что киты млекопитающие?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0056", "text": "Правда ли что Земля круглая?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0057", "text": "Правда ли что вода кипит при 100 градусах?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0058", "text": "Правда ли что пингвины умеют летать?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0059", "text": "Правда ли что Солнце это звезда?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0060", "text": "Правда ли что Луна спутник Земли?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0061", "text": "Правда ли что акулы это рыбы?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0062", "text": "Правда ли что Летучая мышь это млекопитающее?", "intent": "yes_no", "template": "yesno_truth", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0063", "text": "Чем отличается кошка от собаки?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0064", "text": "Чем отличается луна от солнца?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0065", "text": "В чём разница между балладой и сонетом?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0066", "text": "В чем разница между океаном и морем?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0067", "text": "Чем отличается паук от насекомого?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0068", "text": "Чем отличается сталь от железа?", "intent": "compare", "template": "cmp_diff", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0069", "text": "Что лучше чай или кофе?", "intent": "compare", "template": "cmp_better", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0070", "text": "Что лучше лето или зима?", "intent": "compare", "template": "cmp_better", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0071", "text": "Что лучше море или горы?", "intent": "compare", "template": "cmp_better", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0072", "text": "Что лучше книга или фильм?", "intent": "compare", "template": "cmp_better", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0073", "text": "Что хуже засуха или наводнение?", "intent": "compare", "template": "cmp_better", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0074", "text": "Перечисли млекопитающих", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0075", "text": "Перечисли планеты солнечной системы", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0076", "text": "Перечисли океаны", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0077", "text": "Назови все дни недели", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0078", "text": "Назови несколько столиц", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0079", "text": "Перечисли гласные буквы", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0080", "text": "Назови все месяцы", "intent": "list", "template": "lst_imperative", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0081", "text": "Где находится Эйфелева башня?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0082", "text": "Где находится Тадж-Махал?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0083", "text": "Где находится Амазонка?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0084", "text": "Где находится Кремль?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0085", "text": "Где находится Большой каньон?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_tr_0086", "text": "Где находится Эрмитаж?", "intent": "ask_fact", "template": "fact_where", "split": "train", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0087", "text": "Умеет ли пингвин летать?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0088", "text": "Есть ли жизнь на Марсе?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0089", "text": "Может ли рыба дышать под водой?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0090", "text": "Бывает ли снег летом?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0091", "text": "Будет ли дождь завтра?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0092", "text": "Умеет ли кошка плавать?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0093", "text": "Может ли человек летать без самолёта?", "intent": "yes_no", "template": "yesno_auxli", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0094", "text": "Сколько планет в солнечной системе?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0095", "text": "Сколько дней в феврале?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0096", "text": "Сколько ног у паука?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0097", "text": "Сколько континентов на Земле?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0098", "text": "Сколько месяцев в году?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0099", "text": "Сколько будет два плюс два?", "intent": "ask_fact", "template": "fact_howmany", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0100", "text": "Сравни кошку и собаку", "intent": "compare", "template": "cmp_compare", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0101", "text": "Сравни лето и зиму", "intent": "compare", "template": "cmp_compare", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0102", "text": "Сравни книгу и фильм", "intent": "compare", "template": "cmp_compare", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0103", "text": "Сравни океан и море", "intent": "compare", "template": "cmp_compare", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0104", "text": "Сравни чай и кофе", "intent": "compare", "template": "cmp_compare", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0105", "text": "Какие есть насекомые?", "intent": "list", "template": "lst_whatall", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0106", "text": "Какие есть планеты?", "intent": "list", "template": "lst_whatall", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0107", "text": "Какие бывают облака?", "intent": "list", "template": "lst_whatall", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0108", "text": "Какие существуют океаны?", "intent": "list", "template": "lst_whatall", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0109", "text": "Какие бывают металлы?", "intent": "list", "template": "lst_whatall", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0110", "text": "Доброго времени суток", "intent": "greeting", "template": "greet_formal", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0111", "text": "Как дела?", "intent": "greeting", "template": "greet_formal", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0112", "text": "Добрый вечерок", "intent": "greeting", "template": "greet_formal", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_de_0113", "text": "Приветствую!", "intent": "greeting", "template": "greet_formal", "split": "dev", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0114", "text": "Что значит слово синоним?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0115", "text": "Что означает слово эпитет?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0116", "text": "Что значит слово метафора?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0117", "text": "Что означает слово дилемма?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0118", "text": "Что значит слово апогей?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0119", "text": "Что означает слово катарсис?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0120", "text": "Что значит слово харизма?", "intent": "ask_definition", "template": "def_meaning", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0121", "text": "Когда начался Великий шёлковый путь?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0122", "text": "Когда была Курская битва?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0123", "text": "Когда изобрели радио?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0124", "text": "Когда родился Пушкин?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0125", "text": "Когда закончилась Вторая мировая война?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0126", "text": "Когда полетел Гагарин в космос?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0127", "text": "Когда основан Санкт-Петербург?", "intent": "ask_fact", "template": "fact_when", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0128", "text": "Верно ли что страусы летают?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0129", "text": "Верно ли что пингвины птицы?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0130", "text": "Верно ли что золото металл?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0131", "text": "Верно ли что дельфины рыбы?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0132", "text": "Верно ли что Луна больше Земли?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0133", "text": "Верно ли что все пауки ядовиты?", "intent": "yes_no", "template": "yesno_trueli", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0134", "text": "В чём разница между ирисом и лилией?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0135", "text": "Чем отличается барокко от классицизма?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0136", "text": "Чем отличается атом от молекулы?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0137", "text": "В чём разница между приливом и течением?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0138", "text": "Чем отличается минерал от горной породы?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0139", "text": "Чем отличается гремучая змея от ужа?", "intent": "compare", "template": "cmp_difference2", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0140", "text": "Какие есть цветы?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0141", "text": "Какие есть языки программирования?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0142", "text": "Какие бывают дождливые облака?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0143", "text": "Какие существуют типы почв?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0144", "text": "Какие есть страны Европы?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0145", "text": "Какие бывают созвездия?", "intent": "list", "template": "lst_known", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0146", "text": "абырвалг турюм пурюм", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0147", "text": "12 + 34 = ?", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0148", "text": "))))))", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0149", "text": "!!!!!", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0150", "text": "...", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0151", "text": "asdf qwer zxcv", "intent": "unknown", "template": "unk_gibberish", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0152", "text": "Открой окно", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0153", "text": "Включи музыку", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0154", "text": "Выключи свет", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0155", "text": "Закрой дверь", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0156", "text": "Поставь чайник", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0157", "text": "Купи хлеб", "intent": "unknown", "template": "unk_action", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0158", "text": "Hello, how are you?", "intent": "unknown", "template": "unk_english", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0159", "text": "What is the capital of France?", "intent": "unknown", "template": "unk_english", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0160", "text": "Tell me a joke", "intent": "unknown", "template": "unk_english", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
+{"id": "v11_te_0161", "text": "Good morning!", "intent": "unknown", "template": "unk_english", "split": "test", "source": "handwritten-2026-11-26", "schema": "rasm-cim-corpus/0"}
