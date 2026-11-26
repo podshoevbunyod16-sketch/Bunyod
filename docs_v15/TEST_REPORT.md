@@ -7,15 +7,16 @@
 | v0.12 | pytest tests_v12 | 27 passed |
 | v0.13 | pytest tests_v13 | 40 passed |
 | v0.14 | pytest tests_v14 | 21 passed |
-| v0.15 | pytest tests_v15 | 14 passed |
-| Итого | | **321 passed / 0 failed** |
+| v0.15 | pytest tests_v15 | **15 passed** (+1 регресс-тест на artifacts-указатель) |
+| Phase C | pytest tests_phase_c | 10 passed |
+| Итого | полный гейт (results_v15/final_full_gate.log) | **332 passed / 0 failed** |
 | v0.8 freeze | md5sum -c results_v9/v08_freeze_manifest.md5 | 0 mismatch |
-| baseline-272 | md5sum -c results_v11/freeze_manifest_baseline_v0.10.md5 | 0 mismatch |
+| baseline-272 | md5sum -c results_v11/freeze_manifest_baseline_v0.10.md5 | **ровно 3 задокументированных исключения**: README.md, pyproject.toml, requirements-dev.txt (spec-mandated; см. results_v15/freeze_delta_report_v0.10_to_v0.15.md) |
 | Rust v0.7 | sha256 set | 451bbfa5… без изменений |
 
 SKIP: нет. Унаследованные INCONCLUSIVE (device fsync) без изменений.
 
-## Что покрывают 14 тестов v0.15
+## Что покрывают 15 тестов v0.15
 - Corpus: размеры 265/84/88 в пределах требований ТЗ; split by template family; ни одно семейство
   не пересекает splits; идентичный текст не встречается в разных splits; manifest sha256 совпадает
   с файлами; полная пересборка детерминирована и даёт тот же corpus_sha256.
@@ -39,5 +40,17 @@ definition-слоем на «Кем написана…» и дисквалиф�
 ## Честные замечания
 - verdict_acc — только KB-answerable подмножество (capital_of субъект, can-fly deny, exists,
   wrote reverse). is_a object-side и population метрикой не покрыты (правильное UNKNOWN).
-- 321 passed ≠ модель понимает русский; это «не выдаёт неподтверждённого» + детерминизм + rollback.
+- 332 passed ≠ модель понимает русский; это «не выдаёт неподтверждённого» + детерминизм + rollback.
 - FAILED-случаев в финальном прогоне нет.
+- Инциденты Phase D (честно): (1) frozen v0.1 `rasm_cim/__init__.py` был случайно перезаписан
+  каркасом unified-CLI → обнаружено freeze-проверкой, восстановлен byte-identical (git checkout,
+  md5 верифицирован), CLI теперь живёт в добавленных `rasm_cim/cli.py`/`__main__.py`;
+  (2) свежая песочница потеряла pip-пакеты (pytest/numpy/sklearn) → переустановлены, sklearn/numpy
+  записаны в requirements-dev.txt и pyproject[dev] (frozen v0.5 тесты импортируют sklearn);
+  (3) `LearnedArtifacts.save/current/rollback` игнорировали `out_dir` при записи/чтении
+  `current.json` (всегда указывали в репозиторий) → тесты утёкали dangling-указатель lv_001;
+  исправлено, регресс-тест добавлен, tracked-файл `rasm_cim_v15/learned/current.json` оставлен
+  в committed-состоянии lv_000; (4) smoke-команда `python -m rasm_cim --demo` вызывала
+  `rasm_cim_v12/cli.py` как скрипт → ImportError; теперь `python -m rasm_cim_v12.cli` с PYTHONPATH=_ROOT.
+- Host-числа (p50 ≈ 1.4 ms диалог / ≈ 236–343 µs reasoning, RSS ≤ 23 MB) измерены на Linux-host;
+  Android/Termux НЕ измерялся — числа не переносятся.

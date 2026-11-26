@@ -33,7 +33,29 @@
 - evaluate.py verdict_acc metric redefined на KB-answerable подмножество (определение было неверным:
   ожидала TRUE от вопроса «что такое млекопитающее?», на который подтверждать факт не может).
 
+## v0.15 packaging (Phase C/D, 2026-11-26, commit ee81645)
+### Added
+- `python -m rasm_cim` — unified CLI (chat/ask/teach/memory/evaluate/system-info);
+  stdout=результаты, stderr=диагностика; exit codes 0/2/3/4/5; `--demo` strictly opt-in;
+  help/exit/reset/teach/inspect in chat; evidence печатает st_id→provenance;
+  legacy `python -m rasm_cim_v9.cli` untouched (regression-tested).
+- pyproject → 0.15.0 (packages v8…v15 + rasm_cim; entry script `rasm-cim`);
+  requirements-dev.txt + pyproject[dev] дополнены scikit-learn (frozen v0.5 tests) и numpy
+  (frozen v0.1 import). 332 passed.
+- docs_v15/FINAL_REPORT.md — честный итог v0.11…v0.15 (host vs device, что не сделано).
+
+### Fixed
+- `rasm_cim_v15/artifacts.py`: save/current/rollback игнорировали `out_dir` при записи/чтении
+  `current.json` → тесты утёкали dangling-указатель в tracked-файл `rasm_cim_v15/learned/current.json`.
+  Исправлено; регресс-тест test_save_does_not_touch_repo_pointer.
+
+### Freeze
+- v0.8 manifest: 0 mismatch. baseline-272: ровно 3 задокументированных исключения
+  (README.md, pyproject.toml, requirements-dev.txt) — results_v15/freeze_delta_report_v0.10_to_v0.15.md.
+  Frozen v0.1 rasm_cim/__init__.py восстановлен byte-identical после случайного касания.
+- Rust v0.7: sha256-set 451bbfa5… без изменений.
+
 ## Compatibility
 - v0.11…v0.14 frozen/untouched (кроме 2 багфиксов выше); 163 исторических теста зелёные;
-  freeze v0.8: 0 mismatch; baseline-272: 0 mismatch; Rust v0.7 хэш неизменён.
+  freeze v0.8: 0 mismatch; baseline-272: 3 задокументированных исключения; Rust v0.7 хэш неизменён.
 - Corrections НЕ пишут в KB напрямую; only fold into artifacts (кроме kind=answer — только лог+promote API, не автоприменяется).
