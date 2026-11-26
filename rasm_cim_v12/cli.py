@@ -152,10 +152,16 @@ def cmd_seed_demo(a):
                              "rasm_cim_v11", "data", "demo_facts.jsonl")
     type_map = {"capital_of": ("place", "place"), "is_a": ("thing", "concept"),
                 "написал": ("person", "thing"), "может_летать": ("thing", "concept"), "является_столицей": ("place", "place")}
+    # v0.14 consistency fix: same entity name must get ONE type across the
+    # whole seed (person names were typed thing in is_a and person in написал,
+    # producing silent duplicates). Seed is demo data hygiene, not a merge.
+    persons = {"Пушкин", "Толстой", "Достоевский", "Ломоносов", "Гагарин"}
     n = 0
     for line in open(demo_path, encoding="utf-8"):
         f = json.loads(line)
         st_types = type_map.get(f["relation"], ("thing", "thing"))
+        st_types = ("person", st_types[1]) if f["subject"] in persons else st_types
+        st_types = (st_types[0], "person") if f["object"] in persons else st_types
         obj = f["object"]
         obj_is_entity = not obj[0].isdigit()
         try:

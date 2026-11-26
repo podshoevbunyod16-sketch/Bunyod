@@ -1,0 +1,44 @@
+{
+  "python": "3.11.2",
+  "machine": "x86_64",
+  "method": "300 reps after 30 warm, fixed fixture KB, tmpfs host; not measured on device",
+  "latency": {
+    "Какая столица у Франции?": {
+      "n": 300,
+      "p50_us": 258.0,
+      "p95_us": 340.6,
+      "p99_us": 413.7
+    },
+    "Что такое Киты?": {
+      "n": 300,
+      "p50_us": 245.8,
+      "p95_us": 331.4,
+      "p99_us": 477.9
+    },
+    "Где расположен Париж?": {
+      "n": 300,
+      "p50_us": 236.5,
+      "p95_us": 282.6,
+      "p99_us": 305.8
+    },
+    "Правда ли что дракон существует?": {
+      "n": 300,
+      "p50_us": 342.7,
+      "p95_us": 434.2,
+      "p99_us": 493.3
+    },
+    "У кого население больше: Франция или Германия?": {
+      "n": 300,
+      "p50_us": 258.8,
+      "p95_us": 448.3,
+      "p99_us": 670.8
+    }
+  },
+  "quality": {
+    "answer_accuracy": 1.0,
+    "unsupported_answer_rate": 0.0,
+    "abstention_accuracy": 1.0,
+    "labeled_questions": 11
+  },
+  "peak_rss_mb_process": 22.7
+}

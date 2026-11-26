@@ -18,7 +18,12 @@ numpy 2.4.6, scikit-learn 1.9.1, hypothesis/pytest переустановлен�
   тем-генерирован; dev-ошибка «Добрый вечерок» сохранена как измеренная.
 - [x] v0.12 — concepts/entities/relations + provenance + Teach/Remember API
 - [x] v0.13 — диалоговый контекст, местоимения, мульти-вопросы
-- [ ] v0.14 — pipeline parse→retrieve→reason→verify→compose + evidence + multi-hop
+- [x] **v0.14** — EvidenceSet pipeline (direct/derived/missing, категориальная confidence,
+  правила R01-R03 + KB-BFS depth≤3, composition ТОЛЬКО из EvidenceSet + evidence-check gate);
+  verdict (TRUE/FALSE/UNKNOWN/CONFLICT) отделён от confidence (supported/partial/unknown/conflict);
+  307 passed (163 ист. + 56 + 27 + 40 + 21); freeze 0 mismatch; Rust unchanged;
+  bench: p50≈236–343µs, RSS 22.7 MB, 11-вопросный accuracy 1.0 / unsupported 0.0 / abstention 1.0;
+  seed-demo type repair (персонажи — единый тип person).
 - [ ] v0.15 — корпус 200–500/50–100/50–100, обучение, correction loop, offline eval
 - [ ] Финал: unified CLI (python -m rasm_cim), README, архив, freeze-проверки, PR
 
