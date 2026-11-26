@@ -1,0 +1,32 @@
+{
+  "python": "3.11.2",
+  "machine": "x86_64",
+  "note": "per-call includes context reset+parse+KB lookup+context persist; tmpfs host; batched context flush (1 fsync/turn-group) applied after first measurement",
+  "results": {
+    "Какая столица у Франции?": {
+      "n": 300,
+      "p50_us": 1423.2,
+      "p95_us": 1698.6
+    },
+    "Что такое киты?": {
+      "n": 300,
+      "p50_us": 3231.7,
+      "p95_us": 3924.7
+    },
+    "Привет": {
+      "n": 300,
+      "p50_us": 1336.0,
+      "p95_us": 1594.6
+    },
+    "Кто написал Войну и мир?": {
+      "n": 300,
+      "p50_us": 3281.6,
+      "p95_us": 3947.3
+    },
+    "1) Какая столица у Франции? 2) Что такое киты? 3) Кто написал Войну и мир?": {
+      "n": 300,
+      "p50_us": 2846.3,
+      "p95_us": 3763.2
+    }
+  }
+}

@@ -151,7 +151,7 @@ def cmd_seed_demo(a):
     demo_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                              "rasm_cim_v11", "data", "demo_facts.jsonl")
     type_map = {"capital_of": ("place", "place"), "is_a": ("thing", "concept"),
-                "написал": ("person", "thing"), "может_летать": ("animal", "concept"), "является_столицей": ("place", "place")}
+                "написал": ("person", "thing"), "может_летать": ("thing", "concept"), "является_столицей": ("place", "place")}
     n = 0
     for line in open(demo_path, encoding="utf-8"):
         f = json.loads(line)

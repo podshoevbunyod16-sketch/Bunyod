@@ -17,7 +17,7 @@ numpy 2.4.6, scikit-learn 1.9.1, hypothesis/pytest переустановлен�
   Честные пробелы: morphology = псевдо-стемминг; intent на 7 классов; корпус
   тем-генерирован; dev-ошибка «Добрый вечерок» сохранена как измеренная.
 - [x] v0.12 — concepts/entities/relations + provenance + Teach/Remember API
-- [ ] v0.13 — диалоговый контекст, местоимения, мульти-вопросы
+- [x] v0.13 — диалоговый контекст, местоимения, мульти-вопросы
 - [ ] v0.14 — pipeline parse→retrieve→reason→verify→compose + evidence + multi-hop
 - [ ] v0.15 — корпус 200–500/50–100/50–100, обучение, correction loop, offline eval
 - [ ] Финал: unified CLI (python -m rasm_cim), README, архив, freeze-проверки, PR
