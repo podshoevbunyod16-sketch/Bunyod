@@ -25,7 +25,16 @@ numpy 2.4.6, scikit-learn 1.9.1, hypothesis/pytest переустановлен�
   bench: p50≈236–343µs, RSS 22.7 MB, 11-вопросный accuracy 1.0 / unsupported 0.0 / abstention 1.0;
   seed-demo type repair (персонажи — единый тип person).
 - [x] v0.15 — корпус 200–500/50–100/50–100, обучение, correction loop, offline eval
-- [ ] Финал: unified CLI (python -m rasm_cim), README, архив, freeze-проверки, PR
+- [x] **Финал (v0.15 packaging)** — unified CLI `python -m rasm_cim` (chat/ask/teach/memory/
+  evaluate/system-info; stdout=результаты, stderr=диагностика; exit 0/2/3/4/5; кодучи 0-5;
+  `--demo` строго opt-in; `python -m rasm_cim_v9.cli` сохранён), README переписан под фактическое
+  состояние, pyproject → 0.15.0 (packages v8…v15 + rasm_cim, rasm-cim entry), requirements-dev
+  и pyproject[dev] дополнены scikit-learn (свежей средой обнаружено: frozen v0.5 tests import
+  sklearn), numpy (frozen v0.1 rasm_cim/ импортирует numpy). Freeze: v0.8 манифест 0 mismatch;
+  baseline-272 → ровно 3 задокументированных исключения (README.md, pyproject.toml,
+  requirements-dev.txt — см. results_v15/freeze_delta_report_v0.10_to_v0.15.md); rasm_cim/__init__.py
+  (frozen v0.1) восстановлен byte-identical после случайного касания и повторно верифицирован
+  по md5. v0.15-layer bug fix: LearnedArtifacts pointer (current.json) игнорировал out_dir и утёк в tracks-файл; исправлено + регрессионный тест добавлен. Полный гейт: 332 passed. Архив/PR — в работе.
 
 ## Правила, принятые в этой работе
 - Исторические версии и Rust v0.7 не изменяются; новые пакеты — аддитивны.

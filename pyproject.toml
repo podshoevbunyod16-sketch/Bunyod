@@ -4,19 +4,31 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rasm-cim"
-version = "0.10.0"
-description = "RASM-CIM: residue-addressable associative memory over streaming storage (experimental, offline, stdlib-first)"
+version = "0.15.0"
+description = "RASM-CIM: offline Russian-language CIM stack — language layer, provenance KB, dialogue, evidence-bound reasoning, managed improvement (experimental, stdlib-first)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+dependencies = ["numpy>=1.26"]  # frozen v0.1 research package (rasm_cim/) imports numpy at package import; numpy is PyPI-small, offline installable, no LLM involved
 
 [project.optional-dependencies]
-dev = ["pytest", "hypothesis", "atheris"]
+dev = ["pytest", "hypothesis", "atheris", "scikit-learn"]  # scikit-learn: frozen v0.5 tests import sklearn (rasm_cim_v5/learn5.py)
 numpy = ["numpy>=1.26"]
 
 [project.scripts]
 rasm-cim-demo = "rasm_cim_v9.cli:main"
+rasm-cim = "rasm_cim.cli:main"
 
 [tool.setuptools]
 packages = ["rasm_cim_v9", "rasm_cim_v9.storage", "rasm_cim_v9.memory",
-            "rasm_cim_v8", "rasm_cim_v8.storage", "rasm_cim_v8.memory", "rasm_cim_v8.hv"]
+            "rasm_cim_v8", "rasm_cim_v8.storage", "rasm_cim_v8.memory", "rasm_cim_v8.hv",
+            "rasm_cim_v11", "rasm_cim_v11.language",
+            "rasm_cim_v12", "rasm_cim_v12.knowledge",
+            "rasm_cim_v13", "rasm_cim_v13.dialogue",
+            "rasm_cim_v14", "rasm_cim_v14.reasoning",
+            "rasm_cim_v15",
+            "rasm_cim"]
+
+[tool.setuptools.package-data]
+rasm_cim_v11 = ["data/*.jsonl"]
+rasm_cim_v15 = ["corpus/*.jsonl", "corpus/*.json", "learned/*.json"]

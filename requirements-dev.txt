@@ -1,5 +1,9 @@
-# RASM-CIM v0.10 dev/test extras ONLY (core runtime = stdlib; numpy optional
-# accelerator for big v3 base builds, auto-disabled when absent).
+# RASM-CIM dev/test extras. NOTE: frozen v0.5 tests import scikit-learn
+# (rasm_cim_v5/learn5.py imports sklearn); frozen v0.1 research package
+# (rasm_cim/) imports numpy at package import time. Both are test/runtime
+# infra for the frozen stack, not for the v0.11+ layers (stdlib-only).
 pytest
 hypothesis
 atheris
+numpy
+scikit-learn

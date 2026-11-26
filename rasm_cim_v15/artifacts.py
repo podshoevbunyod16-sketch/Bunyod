@@ -153,7 +153,7 @@ class LearnedArtifacts:
         path = os.path.join(out_dir, f"{self.s['version']}.json")
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(self.s, fh, ensure_ascii=False, indent=2)
-        with open(CURRENT_POINTER, "w", encoding="utf-8") as fh:
+        with open(os.path.join(out_dir, "current.json"), "w", encoding="utf-8") as fh:
             json.dump({"current": self.s["version"], "sha256":
                        hashlib.sha256(open(path, "rb").read()).hexdigest()},
                       fh)
@@ -168,11 +168,12 @@ class LearnedArtifacts:
 
     @classmethod
     def current(cls, out_dir: str = ARTIFACTS_DIR) -> Optional["LearnedArtifacts"]:
-        if not os.path.exists(CURRENT_POINTER):
+        pointer = os.path.join(out_dir, "current.json")
+        if not os.path.exists(pointer):
             cands = sorted(f for f in os.listdir(out_dir)
                            if re.fullmatch(r"lv_\d+\.json", f)) if os.path.isdir(out_dir) else []
             return cls.load(cands[-1][:-5], out_dir) if cands else None
-        with open(CURRENT_POINTER, encoding="utf-8") as fh:
+        with open(pointer, encoding="utf-8") as fh:
             cur = json.load(fh)
         return cls.load(cur["current"], out_dir)
 
@@ -182,7 +183,7 @@ class LearnedArtifacts:
         target = cls.load(version, out_dir)
         os.makedirs(out_dir, exist_ok=True)
         path = os.path.join(out_dir, f"{version}.json")
-        with open(CURRENT_POINTER, "w", encoding="utf-8") as fh:
+        with open(os.path.join(out_dir, "current.json"), "w", encoding="utf-8") as fh:
             json.dump({"current": version,
                        "sha256": hashlib.sha256(open(path, "rb").read()).hexdigest()},
                       fh)

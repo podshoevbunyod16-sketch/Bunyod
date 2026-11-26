@@ -1,0 +1,10 @@
+=== FULL SUITE (fresh deps) ===
+1 error in 1.38s
+=== FREEZE v0.8 ===
+0
+=== FREEZE baseline-272 (v0.11) ===
+README.md: FAILED
+pyproject.toml: FAILED
+md5sum: WARNING: 2 computed checksums did NOT match
+=== RUST ===
+451bbfa52e67a72b04c0046d9df4e9d5  -

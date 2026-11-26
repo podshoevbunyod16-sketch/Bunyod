@@ -92,6 +92,19 @@ class TestArtifacts:
         b = LearnedArtifacts.train(train, "sha", parent=None)
         assert a.s["intent_fallback"] == b.s["intent_fallback"]
 
+    def test_save_does_not_touch_repo_pointer(self, arts_dir):
+        # Regression: LearnedArtifacts.save(out_dir=tmp) must write current.json into
+        # out_dir, not into the repo's ARTIFACTS_DIR — otherwise every test run leaks
+        # a dangling lv_XXX pointer into the tracked rasm_cim_v15/learned/current.json.
+        from rasm_cim_v15.artifacts import ARTIFACTS_DIR, CURRENT_POINTER
+        before = open(CURRENT_POINTER, "rb").read() if os.path.exists(CURRENT_POINTER) else None
+        train = _split_rows("train")
+        arts = LearnedArtifacts.train(train, "pointer-leak-check", parent=None)
+        arts.save(arts_dir)
+        after = open(CURRENT_POINTER, "rb").read() if os.path.exists(CURRENT_POINTER) else None
+        assert before == after, "repo rasm_cim_v15/learned/current.json was modified"
+        assert os.path.exists(os.path.join(arts_dir, "current.json"))
+
     def test_rollback_restores_parent(self, arts_dir):
         train = _split_rows("train")
         base = LearnedArtifacts.train(train, "sha", parent=None)
