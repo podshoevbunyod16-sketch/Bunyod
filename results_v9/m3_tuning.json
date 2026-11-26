@@ -1,0 +1,194 @@
+{
+ "rows": [
+  {
+   "task": "A_lru",
+   "n": 100000,
+   "workloads": {
+    "repeat_single": {
+     "plain": {
+      "p50_us": 1.97,
+      "p95_us": 2.16
+     },
+     "lru": {
+      "p50_us": 0.3,
+      "p95_us": 0.34,
+      "hit_rate": 1.0,
+      "cache_size": 1
+     },
+     "lru_over_plain_p50": 6.57
+    },
+    "uniform_random": {
+     "plain": {
+      "p50_us": 15.44,
+      "p95_us": 17.98
+     },
+     "lru": {
+      "p50_us": 16.2,
+      "p95_us": 20.28,
+      "hit_rate": 0.009,
+      "cache_size": 1982
+     },
+     "lru_over_plain_p50": 0.95
+    },
+    "zipf_a1.0": {
+     "plain": {
+      "p50_us": 1.88,
+      "p95_us": 2.28
+     },
+     "lru": {
+      "p50_us": 0.33,
+      "p95_us": 2.91,
+      "hit_rate": 0.763,
+      "cache_size": 473
+     },
+     "lru_over_plain_p50": 5.7
+    },
+    "zipf_a1.2": {
+     "plain": {
+      "p50_us": 1.82,
+      "p95_us": 2.2
+     },
+     "lru": {
+      "p50_us": 0.32,
+      "p95_us": 2.88,
+      "hit_rate": 0.825,
+      "cache_size": 351
+     },
+     "lru_over_plain_p50": 5.69
+    },
+    "full_scan_once": {
+     "plain": {
+      "p50_us": 2.07,
+      "p95_us": 2.24
+     },
+     "lru": {
+      "p50_us": 2.76,
+      "p95_us": 2.95,
+      "hit_rate": 0.0,
+      "cache_size": 4000
+     },
+     "lru_over_plain_p50": 0.75
+    }
+   }
+  },
+  {
+   "task": "B_warm",
+   "n": 100000,
+   "warm_modes": {
+    "cold8": {
+     "p50_us": 15.45,
+     "p95_us": 19.29,
+     "cache_hits": 966
+    },
+    "warm64": {
+     "p50_us": 2.31,
+     "p95_us": 2.65,
+     "cache_hits": 5951
+    }
+   }
+  },
+  {
+   "task": "C_mmap",
+   "n": 100000,
+   "mode_matrix": {
+    "pread_cp2": {
+     "p50_us": 15.52,
+     "p95_us": 19.92
+    },
+    "mmap_cp2": {
+     "p50_us": 13.64,
+     "p95_us": 17.13
+    },
+    "pread_cp8": {
+     "p50_us": 15.42,
+     "p95_us": 19.49
+    },
+    "mmap_cp8": {
+     "p50_us": 13.56,
+     "p95_us": 16.48
+    },
+    "pread_cp64": {
+     "p50_us": 2.29,
+     "p95_us": 2.64
+    },
+    "mmap_cp64": {
+     "p50_us": 2.26,
+     "p95_us": 4.13
+    }
+   }
+  },
+  {
+   "task": "D_decomp",
+   "n": 100000,
+   "components_us": {
+    "bisect_left_keys_array": 0.398,
+    "bisect_left_dict_equiv(list)": 0.697,
+    "rec_unpack_from_buffer": 0.267,
+    "crc32_32KiB": 9.022,
+    "pread_32KiB_hotpage": 2.047,
+    "dict_get_reference": 82.741,
+    "full_get_cachedpage": 1.769
+   },
+   "floor_note": "cached-page path floor = bisect+unpack (~1 us); cold-page adds pread+crc per 32 KiB page (~10-20 us) \u2014 p95 gap driver",
+   "annotation": "dict_get_reference=82.7us is a MEASUREMENT ARTIFACT (lambda rebuilds the 2000-item dict per iteration); use dict_ref rows from results_v9/m1_m2.json instead: p95 0.59us @100k, 0.80us @1M. No conclusion in the report uses the 82.7 figure."
+  },
+  {
+   "task": "F_scan",
+   "n": 100000,
+   "scan_pr2048_pread": {
+    "rows": 100000,
+    "s": 0.028
+   },
+   "scan_pr2048_mmap": {
+    "rows": 100000,
+    "s": 0.0262
+   },
+   "scan_pr8192_pread": {
+    "rows": 100000,
+    "s": 0.0316
+   },
+   "scan_pr8192_mmap": {
+    "rows": 100000,
+    "s": 0.0298
+   }
+  },
+  {
+   "task": "F_scan",
+   "n": 1000000,
+   "scan_pr2048_pread": {
+    "rows": 1000000,
+    "s": 0.312
+   },
+   "scan_pr2048_mmap": {
+    "rows": 1000000,
+    "s": 0.2955
+   },
+   "scan_pr8192_pread": {
+    "rows": 1000000,
+    "s": 0.3071
+   },
+   "scan_pr8192_mmap": {
+    "rows": 1000000,
+    "s": 0.3055
+   }
+  }
+ ],
+ "dict_baseline_this_session": {
+  "task": "dict_ref",
+  "n": 100000,
+  "build_s": 0.026,
+  "p50_ms": 0.00026,
+  "p95_ms": 0.00037,
+  "rss_at_query_mib": 22.0,
+  "peak_mib": 23.6
+ },
+ "verdicts": {
+  "M3_p95_vs_dict_warm64": {
+   "TARGET": "<=2x dict",
+   "ACTUAL": 7.2,
+   "verdict": "FAIL",
+   "floor_note": "see D components"
+  }
+ },
+ "note": "100k V3Store; LRU judged across FIVE workloads, not one."
+}

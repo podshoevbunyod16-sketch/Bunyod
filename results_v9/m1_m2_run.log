@@ -1,0 +1,95 @@
+== warm reference files (v2 build also doubles as v0.8 baseline re-check) ==
+v2_build {'task': 'v2_build', 'n': 1000, 'build_s': 0.008, 'peak_mib': 11.7, 'rss_after_mib': 11.7, 'bytes': 32064}
+v2_build {'task': 'v2_build', 'n': 10000, 'build_s': 0.017, 'peak_mib': 13.1, 'rss_after_mib': 13.1, 'bytes': 320128}
+v2_build {'task': 'v2_build', 'n': 100000, 'build_s': 0.09, 'peak_mib': 24.8, 'rss_after_mib': 14.3, 'bytes': 3200832}
+v2_build {'task': 'v2_build', 'n': 1000000, 'build_s': 0.903, 'peak_mib': 141.8, 'rss_after_mib': 14.7, 'bytes': 32007872}
+v3_build tuples -> {'task': 'v3_build', 'n': 1000, 'build_s': 0.007, 'peak_mib': 11.8, 'rss_after_mib': 11.8, 'bytes': 32056, 'sort': 'tuples'}
+v3_build order -> {'task': 'v3_build', 'n': 1000, 'build_s': 0.007, 'peak_mib': 11.8, 'rss_after_mib': 11.8, 'bytes': 32056, 'sort': 'order'}
+v3_build numpy -> {'task': 'v3_build', 'n': 1000, 'build_s': 0.091, 'peak_mib': 26.7, 'rss_after_mib': 26.7, 'bytes': 32056, 'sort': 'numpy'}
+v3_build auto -> {'task': 'v3_build', 'n': 1000, 'build_s': 0.081, 'peak_mib': 26.7, 'rss_after_mib': 26.7, 'bytes': 32056, 'sort': 'auto'}
+v3_build tuples -> {'task': 'v3_build', 'n': 10000, 'build_s': 0.018, 'peak_mib': 13.6, 'rss_after_mib': 13.5, 'bytes': 320120, 'sort': 'tuples'}
+v3_build order -> {'task': 'v3_build', 'n': 10000, 'build_s': 0.019, 'peak_mib': 12.8, 'rss_after_mib': 12.7, 'bytes': 320120, 'sort': 'order'}
+v3_build numpy -> {'task': 'v3_build', 'n': 10000, 'build_s': 0.082, 'peak_mib': 28.0, 'rss_after_mib': 27.6, 'bytes': 320120, 'sort': 'numpy'}
+v3_build auto -> {'task': 'v3_build', 'n': 10000, 'build_s': 0.068, 'peak_mib': 27.9, 'rss_after_mib': 27.6, 'bytes': 320120, 'sort': 'auto'}
+v3_build tuples -> {'task': 'v3_build', 'n': 100000, 'build_s': 0.129, 'peak_mib': 28.1, 'rss_after_mib': 13.5, 'bytes': 3200824, 'sort': 'tuples'}
+v3_build order -> {'task': 'v3_build', 'n': 100000, 'build_s': 0.157, 'peak_mib': 21.5, 'rss_after_mib': 13.4, 'bytes': 3200824, 'sort': 'order'}
+v3_build numpy -> {'task': 'v3_build', 'n': 100000, 'build_s': 0.161, 'peak_mib': 33.3, 'rss_after_mib': 27.5, 'bytes': 3200824, 'sort': 'numpy'}
+v3_build auto -> {'task': 'v3_build', 'n': 100000, 'build_s': 0.155, 'peak_mib': 33.3, 'rss_after_mib': 27.5, 'bytes': 3200824, 'sort': 'auto'}
+v3_build tuples -> {'task': 'v3_build', 'n': 1000000, 'build_s': 1.389, 'peak_mib': 172.9, 'rss_after_mib': 14.0, 'bytes': 32007864, 'sort': 'tuples'}
+v3_build order -> {'task': 'v3_build', 'n': 1000000, 'build_s': 1.393, 'peak_mib': 103.9, 'rss_after_mib': 20.8, 'bytes': 32007864, 'sort': 'order'}
+v3_build numpy -> {'task': 'v3_build', 'n': 1000000, 'build_s': 1.045, 'peak_mib': 88.4, 'rss_after_mib': 27.6, 'bytes': 32007864, 'sort': 'numpy'}
+v3_build auto -> {'task': 'v3_build', 'n': 1000000, 'build_s': 1.029, 'peak_mib': 88.4, 'rss_after_mib': 27.6, 'bytes': 32007864, 'sort': 'auto'}
+v2_query 1000 {'task': 'v2_query', 'n': 1000, 'open_s': 0.0004, 'p50_ms': 0.00204, 'p95_ms': 0.00222, 'rss_at_query_mib': 12.1, 'peak_mib': 12.1}
+v3_query 1000 {'task': 'v3_query', 'n': 1000, 'open_s': 0.0003, 'p50_ms': 0.00202, 'p95_ms': 0.00223, 'scan_rows': 1000, 'index_bytes': 16000, 'rss_at_query_mib': 12.3, 'peak_mib': 12.3}
+dict_ref 1000 {'task': 'dict_ref', 'n': 1000, 'build_s': 0.0, 'p50_ms': 0.00016, 'p95_ms': 0.00019, 'rss_at_query_mib': 11.0, 'peak_mib': 11.0}
+residue_v2 1000 {'task': 'residue_v2', 'n': 1000, 'build_s': 0.001, 'rss_delta_mib': 0.0, 'p50_ms': 0.0009, 'p95_ms': 0.0012, 'peak_mib': 11.8}
+residue_v3 1000 {'task': 'residue_v3', 'n': 1000, 'build_s': 0.001, 'rss_delta_mib': 0.4, 'bytes': 91408, 'p50_ms': 0.0009, 'p95_ms': 0.0011, 'peak_mib': 12.1}
+v2_query 10000 {'task': 'v2_query', 'n': 10000, 'open_s': 0.0027, 'p50_ms': 0.00222, 'p95_ms': 0.00248, 'rss_at_query_mib': 12.4, 'peak_mib': 12.4}
+v3_query 10000 {'task': 'v3_query', 'n': 10000, 'open_s': 0.0029, 'p50_ms': 0.00208, 'p95_ms': 0.00235, 'scan_rows': 10000, 'index_bytes': 160000, 'rss_at_query_mib': 12.9, 'peak_mib': 12.9}
+dict_ref 10000 {'task': 'dict_ref', 'n': 10000, 'build_s': 0.002, 'p50_ms': 0.00024, 'p95_ms': 0.00039, 'rss_at_query_mib': 12.1, 'peak_mib': 12.1}
+residue_v2 10000 {'task': 'residue_v2', 'n': 10000, 'build_s': 0.009, 'rss_delta_mib': 1.0, 'p50_ms': 0.0014, 'p95_ms': 0.0024, 'peak_mib': 12.7}
+residue_v3 10000 {'task': 'residue_v3', 'n': 10000, 'build_s': 0.007, 'rss_delta_mib': 0.6, 'bytes': 522712, 'p50_ms': 0.0025, 'p95_ms': 0.0026, 'peak_mib': 12.6}
+v2_query 100000 {'task': 'v2_query', 'n': 100000, 'open_s': 0.0273, 'p50_ms': 0.01553, 'p95_ms': 0.02588, 'rss_at_query_mib': 14.1, 'peak_mib': 14.1}
+v3_query 100000 {'task': 'v3_query', 'n': 100000, 'open_s': 0.0267, 'p50_ms': 0.01549, 'p95_ms': 0.01985, 'scan_rows': 100000, 'index_bytes': 1600000, 'rss_at_query_mib': 14.2, 'peak_mib': 14.2}
+dict_ref 100000 {'task': 'dict_ref', 'n': 100000, 'build_s': 0.026, 'p50_ms': 0.00026, 'p95_ms': 0.00037, 'rss_at_query_mib': 22.0, 'peak_mib': 23.6}
+residue_v2 100000 {'task': 'residue_v2', 'n': 100000, 'build_s': 0.089, 'rss_delta_mib': 7.6, 'p50_ms': 0.0087, 'p95_ms': 0.0179, 'peak_mib': 19.3}
+residue_v3 100000 {'task': 'residue_v3', 'n': 100000, 'build_s': 0.061, 'rss_delta_mib': 3.3, 'bytes': 4910496, 'p50_ms': 0.0173, 'p95_ms': 0.0194, 'peak_mib': 16.9}
+v2_query 1000000 {'task': 'v2_query', 'n': 1000000, 'open_s': 0.2786, 'p50_ms': 0.01634, 'p95_ms': 0.02212, 'rss_at_query_mib': 27.6, 'peak_mib': 27.6}
+v3_query 1000000 {'task': 'v3_query', 'n': 1000000, 'open_s': 0.2616, 'p50_ms': 0.01652, 'p95_ms': 0.02232, 'scan_rows': 1000000, 'index_bytes': 16000000, 'rss_at_query_mib': 27.9, 'peak_mib': 28.2}
+dict_ref 1000000 {'task': 'dict_ref', 'n': 1000000, 'build_s': 0.313, 'p50_ms': 0.00052, 'p95_ms': 0.00084, 'rss_at_query_mib': 111.7, 'peak_mib': 113.3}
+residue_v2 1000000 {'task': 'residue_v2', 'n': 1000000, 'build_s': 0.969, 'rss_delta_mib': 72.2, 'p50_ms': 0.2745, 'p95_ms': 0.3784, 'peak_mib': 83.9}
+residue_v3 1000000 {'task': 'residue_v3', 'n': 1000000, 'build_s': 0.631, 'rss_delta_mib': 27.3, 'bytes': 48552048, 'p50_ms': 0.1657, 'p95_ms': 0.1882, 'peak_mib': 54.6}
+update_v3 1000 {'task': 'update_v3', 'n': 1000, 'base_build_s': 0.052, 'upd_fsync_median_ms': 0.0348, 'upd_nofsync_median_ms': 0.0527, 'open_after_60txns_s': 0.0005, 'compact_s': 0.002, 'peak_mib': 28.2}
+update_v3 10000 {'task': 'update_v3', 'n': 10000, 'base_build_s': 0.063, 'upd_fsync_median_ms': 0.0339, 'upd_nofsync_median_ms': 0.0533, 'open_after_60txns_s': 0.0031, 'compact_s': 0.017, 'peak_mib': 30.5}
+update_v3 100000 {'task': 'update_v3', 'n': 100000, 'base_build_s': 0.17, 'upd_fsync_median_ms': 0.0312, 'upd_nofsync_median_ms': 0.0532, 'open_after_60txns_s': 0.028, 'compact_s': 0.145, 'peak_mib': 51.4}
+update_v3 1000000 {'task': 'update_v3', 'n': 1000000, 'base_build_s': 1.077, 'upd_fsync_median_ms': 0.0322, 'upd_nofsync_median_ms': 0.053, 'open_after_60txns_s': 0.2918, 'compact_s': 1.446, 'peak_mib': 264.1}
+
+VERDICTS: {
+ "M2_update_1M": {
+  "TARGET": "<=5 ms (fsync incl.)",
+  "ACTUAL_fsync_ms": 0.0322,
+  "ACTUAL_nofsync_ms": 0.053,
+  "verdict": "PASS"
+ },
+ "M1_build_peak": {
+  "1,000": {
+   "v08_tuples_peak": 11.7,
+   "v09_numpy_peak": 26.7,
+   "v09_order_peak": 11.8
+  },
+  "10,000": {
+   "v08_tuples_peak": 13.1,
+   "v09_numpy_peak": 28.0,
+   "v09_order_peak": 12.8
+  },
+  "100,000": {
+   "v08_tuples_peak": 24.8,
+   "v09_numpy_peak": 33.3,
+   "v09_order_peak": 21.5
+  },
+  "1,000,000": {
+   "v08_tuples_peak": 141.8,
+   "v09_numpy_peak": 88.4,
+   "v09_order_peak": 103.9
+  }
+ },
+ "M1_residue_rss": {
+  "1,000": {
+   "v08_dict_delta_mib": 0.0,
+   "v09_array_delta_mib": 0.4
+  },
+  "10,000": {
+   "v08_dict_delta_mib": 1.0,
+   "v09_array_delta_mib": 0.6
+  },
+  "100,000": {
+   "v08_dict_delta_mib": 7.6,
+   "v09_array_delta_mib": 3.3
+  },
+  "1,000,000": {
+   "v08_dict_delta_mib": 72.2,
+   "v09_array_delta_mib": 27.3
+  }
+ }
+}
+saved /home/user/results_v9/m1_m2.json

@@ -1,0 +1,12 @@
+storage/serialize_50k   time:   [1.1264 ms 1.1320 ms 1.1388 ms]
+storage/deserialize_50k time:   [1.0805 ms 1.0915 ms 1.1046 ms]
+storage/packed_put_50k  time:   [1.9769 ms 1.9982 ms 2.0259 ms]
+synth_len3              time:   [39.574 µs 39.829 µs 40.166 µs]
+storage/serialize_50k   time:   [1.1220 ms 1.1238 ms 1.1258 ms]
+                        thrpt:  [677.73 MiB/s 678.92 MiB/s 679.99 MiB/s]
+                        time:   [-0.7557% -0.4047% -0.0758%] (p = 0.02 < 0.05)
+                        thrpt:  [+0.0758% +0.4063% +0.7615%]
+storage/deserialize_50k time:   [1.0496 ms 1.0510 ms 1.0526 ms]
+                        thrpt:  [724.86 MiB/s 725.93 MiB/s 726.92 MiB/s]
+                        time:   [-3.9712% -3.3891% -2.8815%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.9670% +3.5080% +4.1354%]

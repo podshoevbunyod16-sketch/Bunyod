@@ -1,0 +1,85 @@
+{'task': 'v2_build', 'n': 1000, 'reps': 3, 'wall_untraced_s_med': 0.0053, 'wall_s_med': 0.0143, 'wall_s_range': [0.014, 0.0203], 'peak_mib_med': 13.3, 'peak_mib_range': [13.3, 13.4], 'rss_after_mib_med': 13.3, 'file_mib_med': 0.031}
+{'task': 'v3_build', 'n': 1000, 'reps': 3, 'wall_untraced_s_med': 0.0064, 'wall_s_med': 0.0261, 'wall_s_range': [0.026, 0.0278], 'peak_mib_med': 13.4, 'peak_mib_range': [13.3, 13.4], 'rss_after_mib_med': 13.4, 'file_mib_med': 0.031}
+{'task': 'v3_open', 'n': 1000, 'reps': 3, 'open_s_med': 0.0056}
+{'task': 'v2_get', 'n': 1000, 'reps': 3, 'p50_us_med': 2.06, 'p95_us_med': 3.86, 'p95_us_range': [2.26, 5.33], 'p99_us_med': 5.54, 'p99_us_range': [4.39, 9.19], 'throughput_qps_med': 421184, 'rss_mib_med': 13.5}
+{'task': 'v3_get', 'n': 1000, 'reps': 3, 'p50_us_med': 1.99, 'p95_us_med': 3.65, 'p95_us_range': [3.58, 3.81], 'p99_us_med': 8.27, 'p99_us_range': [6.13, 37.34], 'throughput_qps_med': 416356, 'rss_mib_med': 13.5}
+{'task': 'v3_partial', 'n': 1000, 'reps': 3, 'residue_build_s_med': 0.0015, 'p50_us_med': 0.95, 'p95_us_med': 1.22, 'p95_us_range': [1.11, 2.21], 'p99_us_med': 3.79, 'p99_us_range': [2.96, 5.6], 'rss_delta_mib_med': 0.5, 'residue_bytes_med': 91408}
+{'task': 'v3_scan', 'n': 1000, 'reps': 3, 'wall_s_med': 0.0003, 'wall_s_range': [0.0003, 0.0004], 'recs_per_s_med': 3013464, 'rows_med': 1000}
+{'task': 'v3_update_fsync', 'n': 1000, 'reps': 3, 'update_ms_median_med': 0.044, 'update_ms_median_range': [0.0338, 0.1248], 'update_ms_p99_med': 0.1074, 'update_ms_max_med': 0.1074}
+{'task': 'v3_frames_curve', 'n': 1000, 'reps': 3}
+{'task': 'v3_compact', 'n': 1000, 'reps': 3, 'compact_s_med': 0.005, 'compact_s_range': [0.0031, 0.0061], 'size_ratio_med': 1.0}
+{'task': 'v2_build', 'n': 10000, 'reps': 3, 'wall_untraced_s_med': 0.0153, 'wall_s_med': 0.1147, 'wall_s_range': [0.112, 0.1269], 'peak_mib_med': 17.0, 'peak_mib_range': [17.0, 17.0], 'rss_after_mib_med': 16.7, 'file_mib_med': 0.305}
+{'task': 'v3_build', 'n': 10000, 'reps': 3, 'wall_untraced_s_med': 0.0183, 'wall_s_med': 0.2011, 'wall_s_range': [0.199, 0.2026], 'peak_mib_med': 16.1, 'peak_mib_range': [16.1, 16.1], 'rss_after_mib_med': 15.2, 'file_mib_med': 0.305}
+{'task': 'v3_open', 'n': 10000, 'reps': 3, 'open_s_med': 0.0082}
+{'task': 'v2_get', 'n': 10000, 'reps': 3, 'p50_us_med': 2.15, 'p95_us_med': 2.54, 'p95_us_range': [2.4, 2.77], 'p99_us_med': 5.66, 'p99_us_range': [4.75, 5.74], 'throughput_qps_med': 424812, 'rss_mib_med': 13.8}
+{'task': 'v3_get', 'n': 10000, 'reps': 3, 'p50_us_med': 2.21, 'p95_us_med': 3.62, 'p95_us_range': [3.55, 3.88], 'p99_us_med': 6.4, 'p99_us_range': [5.78, 7.22], 'throughput_qps_med': 395799, 'rss_mib_med': 14.0}
+{'task': 'v3_partial', 'n': 10000, 'reps': 3, 'residue_build_s_med': 0.0083, 'p50_us_med': 2.47, 'p95_us_med': 5.09, 'p95_us_range': [2.68, 7.16], 'p99_us_med': 7.14, 'p99_us_range': [5.08, 12.94], 'rss_delta_mib_med': 0.4, 'residue_bytes_med': 522712}
+{'task': 'v3_scan', 'n': 10000, 'reps': 3, 'wall_s_med': 0.0032, 'wall_s_range': [0.0031, 0.0035], 'recs_per_s_med': 3160404, 'rows_med': 10000}
+{'task': 'v3_update_fsync', 'n': 10000, 'reps': 3, 'update_ms_median_med': 0.042, 'update_ms_median_range': [0.0347, 0.0501], 'update_ms_p99_med': 0.1004, 'update_ms_max_med': 0.1004}
+{'task': 'v3_frames_curve', 'n': 10000, 'reps': 3}
+{'task': 'v3_compact', 'n': 10000, 'reps': 3, 'compact_s_med': 0.029, 'compact_s_range': [0.0219, 0.0424], 'size_ratio_med': 1.0}
+{'task': 'v2_build', 'n': 100000, 'reps': 3, 'wall_untraced_s_med': 0.0903, 'wall_s_med': 1.1811, 'wall_s_range': [1.1455, 1.2403], 'peak_mib_med': 56.8, 'peak_mib_range': [56.7, 56.8], 'rss_after_mib_med': 39.1, 'file_mib_med': 3.053}
+{'task': 'v3_build', 'n': 100000, 'reps': 3, 'wall_untraced_s_med': 0.1471, 'wall_s_med': 2.0206, 'wall_s_range': [1.9276, 2.068], 'peak_mib_med': 41.5, 'peak_mib_range': [41.5, 41.6], 'rss_after_mib_med': 26.8, 'file_mib_med': 3.053}
+{'task': 'v3_open', 'n': 100000, 'reps': 3, 'open_s_med': 0.0328}
+{'task': 'v2_get', 'n': 100000, 'reps': 3, 'p50_us_med': 15.78, 'p95_us_med': 21.44, 'p95_us_range': [20.63, 30.31], 'p99_us_med': 45.24, 'p99_us_range': [45.09, 57.55], 'throughput_qps_med': 66733, 'rss_mib_med': 15.2}
+{'task': 'v3_get', 'n': 100000, 'reps': 3, 'p50_us_med': 15.75, 'p95_us_med': 20.14, 'p95_us_range': [18.47, 20.45], 'p99_us_med': 45.19, 'p99_us_range': [44.43, 49.17], 'throughput_qps_med': 68642, 'rss_mib_med': 15.4}
+{'task': 'v3_partial', 'n': 100000, 'reps': 3, 'residue_build_s_med': 0.0818, 'p50_us_med': 18.53, 'p95_us_med': 36.21, 'p95_us_range': [20.46, 40.08], 'p99_us_med': 61.31, 'p99_us_range': [38.42, 61.62], 'rss_delta_mib_med': 3.3, 'residue_bytes_med': 4910496}
+{'task': 'v3_scan', 'n': 100000, 'reps': 3, 'wall_s_med': 0.0279, 'wall_s_range': [0.027, 0.03], 'recs_per_s_med': 3585123, 'rows_med': 100000}
+{'task': 'v3_update_fsync', 'n': 100000, 'reps': 3, 'update_ms_median_med': 0.0434, 'update_ms_median_range': [0.0334, 0.0542], 'update_ms_p99_med': 0.0987, 'update_ms_max_med': 0.0987}
+{'task': 'v3_frames_curve', 'n': 100000, 'reps': 3}
+{'task': 'v3_compact', 'n': 100000, 'reps': 3, 'compact_s_med': 0.1961, 'compact_s_range': [0.1869, 0.2257], 'size_ratio_med': 1.0}
+{'task': 'v2_build', 'n': 1000000, 'reps': 3, 'wall_untraced_s_med': 0.895, 'wall_s_med': 11.9187, 'wall_s_range': [11.3593, 12.1058], 'peak_mib_med': 436.0, 'peak_mib_range': [436.0, 436.1], 'rss_after_mib_med': 252.5, 'file_mib_med': 30.525}
+{'task': 'v3_build', 'n': 1000000, 'reps': 3, 'wall_untraced_s_med': 1.1268, 'wall_s_med': 17.5852, 'wall_s_range': [16.4231, 19.0791], 'peak_mib_med': 89.3, 'peak_mib_range': [89.3, 89.4], 'rss_after_mib_med': 28.2, 'file_mib_med': 30.525}
+{'task': 'v3_open', 'n': 1000000, 'reps': 3, 'open_s_med': 0.3821}
+{'task': 'v2_get', 'n': 1000000, 'reps': 3, 'p50_us_med': 20.2, 'p95_us_med': 37.75, 'p95_us_range': [33.7, 54.96], 'p99_us_med': 65.12, 'p99_us_range': [63.08, 89.55], 'throughput_qps_med': 41675, 'rss_mib_med': 28.9}
+{'task': 'v3_get', 'n': 1000000, 'reps': 3, 'p50_us_med': 20.66, 'p95_us_med': 39.48, 'p95_us_range': [27.85, 50.64], 'p99_us_med': 64.39, 'p99_us_range': [51.48, 72.97], 'throughput_qps_med': 40015, 'rss_mib_med': 29.1}
+{'task': 'v3_partial', 'n': 1000000, 'reps': 3, 'residue_build_s_med': 0.7036, 'p50_us_med': 166.59, 'p95_us_med': 204.0, 'p95_us_range': [203.17, 343.35], 'p99_us_med': 224.58, 'p99_us_range': [224.57, 405.96], 'rss_delta_mib_med': 26.7, 'residue_bytes_med': 48552048}
+{'task': 'v3_scan', 'n': 1000000, 'reps': 3, 'wall_s_med': 0.2945, 'wall_s_range': [0.2765, 0.3165], 'recs_per_s_med': 3395698, 'rows_med': 1000000}
+{'task': 'v3_update_fsync', 'n': 1000000, 'reps': 3, 'update_ms_median_med': 0.0454, 'update_ms_median_range': [0.0326, 0.0555], 'update_ms_p99_med': 0.1159, 'update_ms_max_med': 0.1159}
+{'task': 'v3_frames_curve', 'n': 1000000, 'reps': 3}
+{'task': 'v3_compact', 'n': 1000000, 'reps': 3, 'compact_s_med': 1.6744, 'compact_s_range': [1.6603, 1.7196], 'size_ratio_med': 1.0}
+
+========================================================================================
+cell                               n |      p50      p95      p99 |  peak/RSS MiB
+v2_build                        1000 |        -        -        - |          13.3
+v3_build                        1000 |        -        -        - |          13.4
+v3_open                         1000 |        -        -        - |             -
+v2_get                          1000 |     2.06     3.86     5.54 |          13.5
+v3_get                          1000 |     1.99     3.65     8.27 |          13.5
+v3_partial                      1000 |     0.95     1.22     3.79 |           0.5
+v3_scan                         1000 |        -        -        - |             -
+v3_update_fsync                 1000 |        -        -        - |             -
+v3_frames_curve                 1000 |        -        -        - |             -
+v3_compact                      1000 |        -        -        - |             -
+v2_build                       10000 |        -        -        - |          17.0
+v3_build                       10000 |        -        -        - |          16.1
+v3_open                        10000 |        -        -        - |             -
+v2_get                         10000 |     2.15     2.54     5.66 |          13.8
+v3_get                         10000 |     2.21     3.62      6.4 |          14.0
+v3_partial                     10000 |     2.47     5.09     7.14 |           0.4
+v3_scan                        10000 |        -        -        - |             -
+v3_update_fsync                10000 |        -        -        - |             -
+v3_frames_curve                10000 |        -        -        - |             -
+v3_compact                     10000 |        -        -        - |             -
+v2_build                      100000 |        -        -        - |          56.8
+v3_build                      100000 |        -        -        - |          41.5
+v3_open                       100000 |        -        -        - |             -
+v2_get                        100000 |    15.78    21.44    45.24 |          15.2
+v3_get                        100000 |    15.75    20.14    45.19 |          15.4
+v3_partial                    100000 |    18.53    36.21    61.31 |           3.3
+v3_scan                       100000 |        -        -        - |             -
+v3_update_fsync               100000 |        -        -        - |             -
+v3_frames_curve               100000 |        -        -        - |             -
+v3_compact                    100000 |        -        -        - |             -
+v2_build                     1000000 |        -        -        - |         436.0
+v3_build                     1000000 |        -        -        - |          89.3
+v3_open                      1000000 |        -        -        - |             -
+v2_get                       1000000 |     20.2    37.75    65.12 |          28.9
+v3_get                       1000000 |    20.66    39.48    64.39 |          29.1
+v3_partial                   1000000 |   166.59    204.0   224.58 |          26.7
+v3_scan                      1000000 |        -        -        - |             -
+v3_update_fsync              1000000 |        -        -        - |             -
+v3_frames_curve              1000000 |        -        -        - |             -
+v3_compact                   1000000 |        -        -        - |             -
+saved results_v10/profile_matrix.json
+PROFILE_EXIT=0

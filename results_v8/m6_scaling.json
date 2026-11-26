@@ -1,0 +1,481 @@
+{
+ "N_list": [
+  1000,
+  10000,
+  100000,
+  1000000
+ ],
+ "note": "all numbers measured at stated N; MemoryError rows are real failures, not omissions",
+ "runs": {
+  "1000:stream": {
+   "n": 1000,
+   "cond": "stream",
+   "memcap_mib": 1500,
+   "build_s": 0.001,
+   "file_bytes": 32064,
+   "open_s": 0.0003,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.002032999873335939,
+    "p95_ms": 0.0022160002117743716,
+    "max_ms": 0.04018599975097459,
+    "mean_ms": 0.002113030999498733
+   },
+   "rss_at_query_mib": 13.8,
+   "update_rebuild_s": 0.001,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.05823299989060615,
+    "p95_ms": 0.0689379999130324,
+    "max_ms": 0.0689379999130324,
+    "mean_ms": 0.06105166661048619
+   },
+   "partial_candidates_max": 11,
+   "resident_index_bytes": 16000,
+   "deserialize_full_s": 0.001,
+   "peak_rss_mib": 14.2
+  },
+  "1000:stream+hv": {
+   "n": 1000,
+   "cond": "stream+hv",
+   "memcap_mib": 1500,
+   "build_s": 0.001,
+   "file_bytes": 32064,
+   "open_s": 0.0003,
+   "hv_open_s": 0.059,
+   "hv_ram_mib": 0.1,
+   "noisy": {
+    "n": 200,
+    "p50_ms": 0.1691170000412967,
+    "p95_ms": 0.21716899982493487,
+    "max_ms": 0.234574999922188,
+    "mean_ms": 0.17705454498127438
+   },
+   "noisy_hits": "200/200",
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.002043000222329283,
+    "p95_ms": 0.002288999894517474,
+    "max_ms": 0.06885199991302215,
+    "mean_ms": 0.0021660774057636447
+   },
+   "rss_at_query_mib": 28.4,
+   "update_rebuild_s": 0.001,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.058150000313617056,
+    "p95_ms": 0.06526700008180342,
+    "max_ms": 0.06526700008180342,
+    "mean_ms": 0.05982600017280978
+   },
+   "partial_candidates_max": 11,
+   "resident_index_bytes": 16000,
+   "deserialize_full_s": 0.001,
+   "peak_rss_mib": 28.4
+  },
+  "1000:dict": {
+   "n": 1000,
+   "cond": "dict",
+   "memcap_mib": 1500,
+   "build_s": 0.001,
+   "file_bytes": 32064,
+   "open_s": 0.001,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.0002909996510425117,
+    "p95_ms": 0.0003390000529179815,
+    "max_ms": 0.03603200002544327,
+    "mean_ms": 0.00031530420210401644
+   },
+   "rss_at_query_mib": 13.8,
+   "update_rebuild_s": 0.001,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.06093199999668286,
+    "p95_ms": 0.07162900010371231,
+    "max_ms": 0.07162900010371231,
+    "mean_ms": 0.06409999999353506
+   },
+   "partial_candidates_max": 11,
+   "resident_index_bytes": 16000,
+   "deserialize_full_s": 0.001,
+   "peak_rss_mib": 13.8
+  },
+  "1000:v06mem": {
+   "n": 1000,
+   "cond": "v06mem",
+   "memcap_mib": 1500,
+   "build_s": 0.03,
+   "exact": {
+    "n": 2000,
+    "p50_ms": 0.00045099977796780877,
+    "p95_ms": 0.0007519997780036647,
+    "max_ms": 0.0207039997803804,
+    "mean_ms": 0.0005095310073102155
+   },
+   "exact_acc_note": "hits by construction (same dict path)",
+   "peak_rss_mib": 37.1
+  },
+  "10000:stream": {
+   "n": 10000,
+   "cond": "stream",
+   "memcap_mib": 1500,
+   "build_s": 0.008,
+   "file_bytes": 320128,
+   "open_s": 0.0028,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.0022060003175283782,
+    "p95_ms": 0.002472999767633155,
+    "max_ms": 0.06742699997630552,
+    "mean_ms": 0.002358069999536383
+   },
+   "rss_at_query_mib": 14.1,
+   "update_rebuild_s": 0.011,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.6201430001055996,
+    "p95_ms": 0.6277229999795964,
+    "max_ms": 0.6277229999795964,
+    "mean_ms": 0.6176396667190905
+   },
+   "partial_candidates_max": 104,
+   "resident_index_bytes": 160000,
+   "deserialize_full_s": 0.009,
+   "peak_rss_mib": 18.0
+  },
+  "10000:stream+hv": {
+   "n": 10000,
+   "cond": "stream+hv",
+   "memcap_mib": 1500,
+   "build_s": 0.008,
+   "file_bytes": 320128,
+   "open_s": 0.0029,
+   "hv_open_s": 0.104,
+   "hv_ram_mib": 0.8,
+   "noisy": {
+    "n": 200,
+    "p50_ms": 1.8063205002363247,
+    "p95_ms": 2.8137029999015795,
+    "max_ms": 3.7742790000265813,
+    "mean_ms": 1.931647209996754
+   },
+   "noisy_hits": "200/200",
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.0022989997887634672,
+    "p95_ms": 0.00302399985230295,
+    "max_ms": 0.047431999973923666,
+    "mean_ms": 0.00249286380067133
+   },
+   "rss_at_query_mib": 30.5,
+   "update_rebuild_s": 0.01,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.5982339998809039,
+    "p95_ms": 0.6497979998130177,
+    "max_ms": 0.6497979998130177,
+    "mean_ms": 0.6130116667009133
+   },
+   "partial_candidates_max": 104,
+   "resident_index_bytes": 160000,
+   "deserialize_full_s": 0.009,
+   "peak_rss_mib": 33.3
+  },
+  "10000:dict": {
+   "n": 10000,
+   "cond": "dict",
+   "memcap_mib": 1500,
+   "build_s": 0.008,
+   "file_bytes": 320128,
+   "open_s": 0.0107,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.00034000004234258085,
+    "p95_ms": 0.0005320002856024075,
+    "max_ms": 0.07588900007249322,
+    "mean_ms": 0.0004045752001729852
+   },
+   "rss_at_query_mib": 15.1,
+   "update_rebuild_s": 0.01,
+   "partial": {
+    "n": 3,
+    "p50_ms": 0.6090819997552899,
+    "p95_ms": 0.6393479998223484,
+    "max_ms": 0.6393479998223484,
+    "mean_ms": 0.6162603331176797
+   },
+   "partial_candidates_max": 104,
+   "resident_index_bytes": 160000,
+   "deserialize_full_s": 0.01,
+   "peak_rss_mib": 19.0
+  },
+  "10000:v06mem": {
+   "n": 10000,
+   "cond": "v06mem",
+   "memcap_mib": 1500,
+   "build_s": 0.19,
+   "exact": {
+    "n": 2000,
+    "p50_ms": 0.0007400001322821481,
+    "p95_ms": 0.0011059996722906362,
+    "max_ms": 0.026905000140686752,
+    "mean_ms": 0.0007869224946261966
+   },
+   "exact_acc_note": "hits by construction (same dict path)",
+   "peak_rss_mib": 61.8
+  },
+  "100000:stream": {
+   "n": 100000,
+   "cond": "stream",
+   "memcap_mib": 1500,
+   "build_s": 0.085,
+   "file_bytes": 3200832,
+   "open_s": 0.0333,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.015675999975428567,
+    "p95_ms": 0.02852400029951241,
+    "max_ms": 0.07096199988154694,
+    "mean_ms": 0.015650135399755526
+   },
+   "rss_at_query_mib": 17.6,
+   "update_rebuild_s": 0.139,
+   "partial": {
+    "n": 3,
+    "p50_ms": 6.185073000324337,
+    "p95_ms": 10.904351000135648,
+    "max_ms": 10.904351000135648,
+    "mean_ms": 7.753930000186908
+   },
+   "partial_candidates_max": 1031,
+   "resident_index_bytes": 1600000,
+   "deserialize_full_s": 0.111,
+   "peak_rss_mib": 64.7
+  },
+  "100000:stream+hv": {
+   "n": 100000,
+   "cond": "stream+hv",
+   "memcap_mib": 1500,
+   "build_s": 0.082,
+   "file_bytes": 3200832,
+   "open_s": 0.0275,
+   "hv_open_s": 0.503,
+   "hv_ram_mib": 8.4,
+   "noisy": {
+    "n": 200,
+    "p50_ms": 18.835065500070414,
+    "p95_ms": 23.0826690003596,
+    "max_ms": 33.76783299972885,
+    "mean_ms": 19.47482554999624
+   },
+   "noisy_hits": "200/200",
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.01589850012351235,
+    "p95_ms": 0.02841099967554328,
+    "max_ms": 0.33989499979725224,
+    "mean_ms": 0.01593435360264266
+   },
+   "rss_at_query_mib": 54.3,
+   "update_rebuild_s": 0.1,
+   "partial": {
+    "n": 3,
+    "p50_ms": 6.138594000276498,
+    "p95_ms": 6.15220000008776,
+    "max_ms": 6.15220000008776,
+    "mean_ms": 6.074391666667604
+   },
+   "partial_candidates_max": 1031,
+   "resident_index_bytes": 1600000,
+   "deserialize_full_s": 0.114,
+   "peak_rss_mib": 78.2
+  },
+  "100000:dict": {
+   "n": 100000,
+   "cond": "dict",
+   "memcap_mib": 1500,
+   "build_s": 0.079,
+   "file_bytes": 3200832,
+   "open_s": 0.1094,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.0004429998625710141,
+    "p95_ms": 0.0006400000529538374,
+    "max_ms": 0.027987000066787004,
+    "mean_ms": 0.00047713439944345736
+   },
+   "rss_at_query_mib": 37.7,
+   "update_rebuild_s": 0.096,
+   "partial": {
+    "n": 3,
+    "p50_ms": 5.856895000306395,
+    "p95_ms": 5.865441999958421,
+    "max_ms": 5.865441999958421,
+    "mean_ms": 5.841382000047209
+   },
+   "partial_candidates_max": 1031,
+   "resident_index_bytes": 1600000,
+   "deserialize_full_s": 0.111,
+   "peak_rss_mib": 76.4
+  },
+  "100000:v06mem": {
+   "n": 100000,
+   "cond": "v06mem",
+   "memcap_mib": 1500,
+   "build_s": 1.829,
+   "exact": {
+    "n": 2000,
+    "p50_ms": 0.0009769998996489448,
+    "p95_ms": 0.0014060001376492437,
+    "max_ms": 0.028652999844780425,
+    "mean_ms": 0.0010545235022618726
+   },
+   "exact_acc_note": "hits by construction (same dict path)",
+   "peak_rss_mib": 296.3
+  },
+  "1000000:stream": {
+   "n": 1000000,
+   "cond": "stream",
+   "memcap_mib": 1500,
+   "build_s": 0.871,
+   "file_bytes": 32007872,
+   "open_s": 0.2961,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.01729299992803135,
+    "p95_ms": 0.02349599981243955,
+    "max_ms": 0.12424199985616724,
+    "mean_ms": 0.018501568800002133
+   },
+   "rss_at_query_mib": 43.7,
+   "update_rebuild_s": 1.003,
+   "partial": {
+    "n": 3,
+    "p50_ms": 58.445149999897694,
+    "p95_ms": 62.07656800006589,
+    "max_ms": 62.07656800006589,
+    "mean_ms": 59.583651999976915
+   },
+   "partial_candidates_max": 10310,
+   "resident_index_bytes": 16000000,
+   "deserialize_full_s": 1.38,
+   "peak_rss_mib": 497.5
+  },
+  "1000000:stream+hv": {
+   "n": 1000000,
+   "cond": "stream+hv",
+   "memcap_mib": 1500,
+   "build_s": 1.125,
+   "file_bytes": 32007872,
+   "open_s": 0.3061,
+   "hv_open_s": 4.725,
+   "hv_ram_mib": 83.9,
+   "noisy": {
+    "n": 200,
+    "p50_ms": 194.56394650023867,
+    "p95_ms": 214.90189199994347,
+    "max_ms": 249.5482589997664,
+    "mean_ms": 196.92568286998946
+   },
+   "noisy_hits": "200/200",
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.01811599986467627,
+    "p95_ms": 0.023257000066223554,
+    "max_ms": 0.10176200021305704,
+    "mean_ms": 0.018853639803273835
+   },
+   "rss_at_query_mib": 303.4,
+   "update_rebuild_s": 1.002,
+   "partial": {
+    "n": 3,
+    "p50_ms": 58.09605399963402,
+    "p95_ms": 61.33495499989294,
+    "max_ms": 61.33495499989294,
+    "mean_ms": 59.14759699984037
+   },
+   "partial_candidates_max": 10310,
+   "resident_index_bytes": 16000000,
+   "deserialize_full_s": 1.388,
+   "peak_rss_mib": 486.4
+  },
+  "1000000:dict": {
+   "n": 1000000,
+   "cond": "dict",
+   "memcap_mib": 1500,
+   "build_s": 0.865,
+   "file_bytes": 32007872,
+   "open_s": 1.2455,
+   "exact_acc": true,
+   "exact": {
+    "n": 5000,
+    "p50_ms": 0.0006800000846851617,
+    "p95_ms": 0.0009979999049392063,
+    "max_ms": 0.07150400006139535,
+    "mean_ms": 0.0007342699980654288
+   },
+   "rss_at_query_mib": 230.7,
+   "update_rebuild_s": 0.95,
+   "partial": {
+    "n": 3,
+    "p50_ms": 58.12769900012427,
+    "p95_ms": 58.73492399996394,
+    "max_ms": 58.73492399996394,
+    "mean_ms": 58.127079000011385
+   },
+   "partial_candidates_max": 10310,
+   "resident_index_bytes": 16000000,
+   "deserialize_full_s": 1.388,
+   "peak_rss_mib": 597.3
+  },
+  "1000000:v06mem": {
+   "n": 1000000,
+   "cond": "v06mem",
+   "memcap_mib": 1500,
+   "failure": "MemoryError (cap hit) \u2014 recorded, not extrapolated",
+   "peak_rss_mib": 1368.0
+  }
+ },
+ "residue_index_study": {
+  "1000": {
+   "n": 1000,
+   "residue_build_s": 0.001,
+   "residue_entries": 3000,
+   "partial20_s": 0.0,
+   "peak_rss_mib": 11.8
+  },
+  "10000": {
+   "n": 10000,
+   "residue_build_s": 0.009,
+   "residue_entries": 30000,
+   "partial20_s": 0.0001,
+   "peak_rss_mib": 12.3
+  },
+  "100000": {
+   "n": 100000,
+   "residue_build_s": 0.091,
+   "residue_entries": 300000,
+   "partial20_s": 0.0004,
+   "peak_rss_mib": 18.9
+  },
+  "1000000": {
+   "n": 1000000,
+   "residue_build_s": 0.912,
+   "residue_entries": 3000000,
+   "partial20_s": 0.0073,
+   "peak_rss_mib": 83.4
+  }
+ }
+}

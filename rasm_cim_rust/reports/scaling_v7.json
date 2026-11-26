@@ -1,0 +1,78 @@
+{
+ "scaling": {
+  "python_n1000": {
+   "rns_enc_ms": 3.1161,
+   "rns_dec_ms": 2.2828,
+   "mem_build_ms": 31.6564,
+   "mem_query_ms": 0.4418,
+   "rns_ok": true,
+   "mem_hits": 1000,
+   "mem_len": 1000,
+   "n": 1000
+  },
+  "rust_n1000": {
+   "rns_enc_ms": 0.5048,
+   "rns_dec_ms": 0.3302,
+   "mem_build_ms": 1.3648,
+   "mem_query_ms": 0.3423,
+   "rns_ok": true,
+   "mem_hits": 1000,
+   "mem_len": 1000,
+   "n": 1000
+  },
+  "python_n10000": {
+   "rns_enc_ms": 30.1552,
+   "rns_dec_ms": 22.0426,
+   "mem_build_ms": 170.1459,
+   "mem_query_ms": 2.2566,
+   "rns_ok": true,
+   "mem_hits": 5000,
+   "mem_len": 10000,
+   "n": 10000
+  },
+  "rust_n10000": {
+   "rns_enc_ms": 5.7517,
+   "rns_dec_ms": 6.7009,
+   "mem_build_ms": 20.5514,
+   "mem_query_ms": 4.1959,
+   "rns_ok": true,
+   "mem_hits": 5000,
+   "mem_len": 10000,
+   "n": 10000
+  },
+  "python_n100000": {
+   "rns_enc_ms": 296.6961,
+   "rns_dec_ms": 224.1818,
+   "mem_build_ms": 2050.6773,
+   "mem_query_ms": 3.7341,
+   "rns_ok": true,
+   "mem_hits": 5000,
+   "mem_len": 100000,
+   "n": 100000
+  },
+  "rust_n100000": {
+   "rns_enc_ms": 36.9926,
+   "rns_dec_ms": 33.8989,
+   "mem_build_ms": 160.3423,
+   "mem_query_ms": 2.9571,
+   "rns_ok": true,
+   "mem_hits": 5000,
+   "mem_len": 100000,
+   "n": 100000
+  }
+ },
+ "debug_vs_release": {
+  "debug": {
+   "rns_enc_ms": 11.5785,
+   "synth_ms": 0.124,
+   "cands": 238,
+   "ca200_ms": 3.2837
+  },
+  "release": {
+   "rns_enc_ms": 9.7446,
+   "synth_ms": 0.075,
+   "cands": 238,
+   "ca200_ms": 2.0075
+  }
+ }
+}

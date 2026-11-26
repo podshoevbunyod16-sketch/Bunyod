@@ -1,0 +1,5 @@
+# RASM-CIM v0.10 dev/test extras ONLY (core runtime = stdlib; numpy optional
+# accelerator for big v3 base builds, auto-disabled when absent).
+pytest
+hypothesis
+atheris

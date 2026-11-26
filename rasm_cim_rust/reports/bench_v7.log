@@ -1,0 +1,14 @@
+=== rns_arithmetic ===
+  python: ERROR ome/user/rasm_cim_rust/benchmarks/run_bench.py", line 410, in run_in_process
+    r = fn(suite, data)
+  File "/home/user/
+=== exact_memory ===
+=== partial_memory ===
+=== noisy_retrieval ===
+=== graph_traversal ===
+=== ca_dense ===
+=== ca_sparse ===
+=== synthesis ===
+=== packed_storage ===
+=== batch_ops ===
+saved: results_v7/bench_v7.json
