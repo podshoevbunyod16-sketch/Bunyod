@@ -16,7 +16,7 @@ numpy 2.4.6, scikit-learn 1.9.1, hypothesis/pytest переустановлен�
   семействам), 56 новых тестов, итого 219 passed. Отчёты: docs_v11/, results_v11/.
   Честные пробелы: morphology = псевдо-стемминг; intent на 7 классов; корпус
   тем-генерирован; dev-ошибка «Добрый вечерок» сохранена как измеренная.
-- [ ] v0.12 — concepts/entities/relations + provenance + Teach/Remember API
+- [x] v0.12 — concepts/entities/relations + provenance + Teach/Remember API
 - [ ] v0.13 — диалоговый контекст, местоимения, мульти-вопросы
 - [ ] v0.14 — pipeline parse→retrieve→reason→verify→compose + evidence + multi-hop
 - [ ] v0.15 — корпус 200–500/50–100/50–100, обучение, correction loop, offline eval

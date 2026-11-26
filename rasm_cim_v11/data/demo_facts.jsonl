@@ -31,4 +31,4 @@
 {"subject": "Толстой", "relation": "написал", "object": "Война и мир", "polarity": "true"}
 {"subject": "Пушкин", "relation": "написал", "object": "Евгений Онегин", "polarity": "true"}
 {"subject": "Достоевский", "relation": "написал", "object": "Преступление и наказание", "polarity": "true"}
-{"subject": "Берлин", "relation": "столица", "object": "Германия", "polarity": "true"}
+{"subject": "Берлин", "relation": "является_столицей", "object": "Германия", "polarity": "true"}
