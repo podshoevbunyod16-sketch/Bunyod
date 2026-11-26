@@ -1,0 +1,88 @@
+{
+  "splits": [
+    {
+      "split": "dev",
+      "artifact": null,
+      "intent_acc": {
+        "n": 84,
+        "acc": 0.8333,
+        "fallback_used": 0
+      },
+      "verdict_acc": {
+        "n": 29,
+        "acc": 1.0
+      },
+      "unsupported_rate": 0.0,
+      "latency_p50_ms": {
+        "reps": 30,
+        "p50_ms": 0.67
+      },
+      "regression_ok": true,
+      "peak_rss_mb": 18.1
+    },
+    {
+      "split": "dev",
+      "artifact": "lv_000",
+      "intent_acc": {
+        "n": 84,
+        "acc": 0.8571,
+        "fallback_used": 2
+      },
+      "verdict_acc": {
+        "n": 29,
+        "acc": 1.0
+      },
+      "unsupported_rate": 0.0,
+      "latency_p50_ms": {
+        "reps": 30,
+        "p50_ms": 0.67
+      },
+      "regression_ok": true,
+      "peak_rss_mb": 18.4
+    },
+    {
+      "split": "test",
+      "artifact": null,
+      "intent_acc": {
+        "n": 88,
+        "acc": 0.7614,
+        "fallback_used": 0
+      },
+      "verdict_acc": {
+        "n": 32,
+        "acc": 1.0
+      },
+      "unsupported_rate": 0.0,
+      "latency_p50_ms": {
+        "reps": 30,
+        "p50_ms": 0.66
+      },
+      "regression_ok": true,
+      "peak_rss_mb": 18.1
+    },
+    {
+      "split": "test",
+      "artifact": "lv_000",
+      "intent_acc": {
+        "n": 88,
+        "acc": 0.7841,
+        "fallback_used": 4
+      },
+      "verdict_acc": {
+        "n": 32,
+        "acc": 1.0
+      },
+      "unsupported_rate": 0.0,
+      "latency_p50_ms": {
+        "reps": 30,
+        "p50_ms": 0.65
+      },
+      "regression_ok": true,
+      "peak_rss_mb": 18.3
+    }
+  ],
+  "delta_intent_acc": {
+    "dev": 0.0238,
+    "test": 0.0227
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "rasm-cim-corpus/1",
+  "split_policy": "template_family",
+  "seed": 0,
+  "files": {
+    "train": {
+      "count": 265,
+      "sha256": "ea2df5b0f74206636718c0040f4c649b21f420a9a8dc1f82629d9b998387ae10"
+    },
+    "dev": {
+      "count": 84,
+      "sha256": "7383eb844c548ab0d23988eb7d5594c1a9b95f8ed7d58ff2c6b619112b541363"
+    },
+    "test": {
+      "count": 88,
+      "sha256": "33db1286c05a6b0ecb810cff87e9724176d5e1ef31010f7b3a6458aa2b19fd7c"
+    }
+  },
+  "corpus_sha256": "391dbb1acf9f9891902911e90cea9a64832fd0f2dccad3dfd8ca0d35c3256232"
+}

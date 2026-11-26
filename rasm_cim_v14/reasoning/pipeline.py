@@ -29,10 +29,11 @@ _KW_PRED = [
     ("столиц", "capital_of"),
     ("населени", "population_of"), ("жител", "population_of"),
     ("рост", "height_of"),
-    ("написал", "written_by"), ("автор", "written_by"),
+    ("написал", "written_by"), ("написан", "written_by"), ("автор", "written_by"),
     ("может_летать", "может_летать"), ("лета", "может_летать"),
     ("расположен", "located_in"), ("находится", "located_in"),
-    ("существует", "существует"),
+    ("существует", "существует"), ("существов", "существует"),
+    ("реальн", "существует"),
 ]
 _DEF_TRIGGERS = ("что такое", "кто так", "что значит", "что означает")
 _COMPARE_TRIGGERS = ("больше", "выше", "меньше", "ниже", "быстрее", "медленнее",
@@ -394,14 +395,22 @@ class ReasoningPipeline:
             else:
                 own_all = [s for s in confirmed if s.subject == e["id"]]
                 if own_all:
-                    for s in own_all:
-                        es.items.append(_ev_item_for_statement(s))
-                    payload = "; ".join(
-                        f"{s.predicate} = {_fmt_entity(self.kb, s)}"
-                        for s in own_all)
-                    ids = ", ".join(sorted({s.id for s in own_all}))
-                    sentences.append(f"{e['name']}: {payload} [{ids}]")
-                    statuses.append("supported")
+                    pols = {s.polarity for s in own_all}
+                    if pols == {"assert", "deny"}:
+                        for s in own_all:
+                            es.items.append(_ev_item_for_statement(s, note="CONFLICT"))
+                        ids = ", ".join(sorted({s.id for s in own_all}))
+                        sentences.append(f"{e['name']}: данные противоречат друг другу ({ids})")
+                        statuses.append("conflict")
+                    else:
+                        for s in own_all:
+                            es.items.append(_ev_item_for_statement(s))
+                        payload = "; ".join(
+                            f"{s.predicate} = {_fmt_entity(self.kb, s)}"
+                            for s in own_all)
+                        ids = ", ".join(sorted({s.id for s in own_all}))
+                        sentences.append(f"{e['name']}: {payload} [{ids}]")
+                        statuses.append("supported")
                 else:
                     self._add_missing(es, "is_a", [e["name"]])
                     sentences.append(f"«{e['name']}»: нет данных")
