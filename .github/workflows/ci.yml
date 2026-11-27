@@ -1,0 +1,122 @@
+# RASM-CIM CI — verifies exactly what the release claims, nothing more.
+# Honesty rules: no --ignore, no masking; cross-language tests run against the
+# shipped prebuilt .so (or the CI-built one); the freeze-baseline gate expects
+# EXACTLY the 3 documented exceptions and fails on any other drift.
+name: CI
+on:
+  push:
+    branches: [main, arena/**]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: atheris on 3.13 (visible if missing; not imported by pytest suite)
+        if: matrix.python-version == '3.13'
+        run: python -m pip install atheris || echo "::warning::atheris not installable on 3.13 — fuzz harness not exercised (not part of pytest suite)"
+      - name: Full Python suite (single command, incl. cross-language)
+        run: python -m pytest test_rasm*.py rasm_cim_v8/tests tests_v9 tests_v10 tests_v11 tests_v12 tests_v13 tests_v14 tests_v15 tests_phase_c rasm_cim_rust/tests/test_cross_language.py -q
+      - name: Freeze v0.8 manifest must be clean
+        run: |
+          out=$(md5sum -c results_v9/v08_freeze_manifest.md5 | grep -v ': OK' || true)
+          if [ -n "$out" ]; then echo "frozen v0.8 drift:"; echo "$out"; exit 1; fi
+          echo "freeze v0.8: 0 mismatch"
+      - name: Freeze baseline-272 must show EXACTLY the 3 documented exceptions
+        run: |
+          bad=$(md5sum -c results_v11/freeze_manifest_baseline_v0.10.md5 2>&1 | grep FAILED | cut -d: -f1 | sort | tr '\n' ' ')
+          echo "changed vs baseline: $bad"
+          if [ "$bad" != "README.md pyproject.toml requirements-dev.txt " ]; then
+            echo "UNEXPECTED freeze drift (expected exactly: README.md pyproject.toml requirements-dev.txt)"
+            exit 1
+          fi
+          echo "baseline-272: exactly the 3 documented exceptions"
+      - name: Rust v0.7 source set unchanged
+        run: |
+          h=$(find rasm_cim_rust -name '*.rs' -exec md5sum {} + | sort | md5sum | cut -d' ' -f1)
+          test "$h" = "451bbfa52e67a72b04c0046d9df4e9d5" || { echo "Rust source set drift: $h"; exit 1; }
+          echo "rust v0.7 source set OK (451bbfa5…)"
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rust toolchain (repo pins rust-toolchain.toml)
+        run: |
+          rustup default stable || true
+          rustc --version
+          cargo --version
+      - name: cargo test
+        working-directory: rasm_cim_rust
+        run: cargo test --locked
+      - name: cargo test --release
+        working-directory: rasm_cim_rust
+        run: cargo test --release --locked
+      - name: cargo clippy (informational — legacy lints; NOT gate-failing)
+        working-directory: rasm_cim_rust
+        continue-on-error: true
+        run: cargo clippy --locked --all-targets
+      - name: Build PyO3 extension (cdylib)
+        working-directory: rasm_cim_rust/bindings/python
+        run: cargo build --release --locked
+      - name: Cross-language equivalence against CI-built .so
+        run: |
+          SO=$(find "$GITHUB_WORKSPACE/rasm_cim_rust/bindings/python/target/release" -name 'librasm_cim_ext.so' | head -1)
+          echo "built extension: $SO"
+          test -n "$SO"
+          RASM_CIM_EXT="$SO" python -m pytest rasm_cim_rust/tests/test_cross_language.py -q
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+          python -m build
+      - name: Wheel contains data files, no local paths
+        run: |
+          python - <<'PYEOF'
+          import glob, zipfile
+          whl = glob.glob('dist/*.whl')[0]
+          names = zipfile.ZipFile(whl).namelist()
+          assert any(n.startswith('rasm_cim_v11/data/') for n in names), 'v11 data missing'
+          assert any(n.startswith('rasm_cim_v15/corpus/') for n in names), 'v15 corpus missing'
+          assert any(n.startswith('rasm_cim_v15/learned/') for n in names), 'v15 learned missing'
+          assert not any('/tmp/' in n or n.startswith('/') for n in names), 'local path leaked'
+          print('wheel contents OK:', len(names), 'files')
+          PYEOF
+      - name: Install wheel into a clean environment and smoke test from a foreign cwd
+        run: |
+          python -m venv /tmp/instcheck
+          /tmp/instcheck/bin/pip install dist/rasm_cim-*.whl
+          cd /tmp
+          /tmp/instcheck/bin/rasm-cim --version
+          /tmp/instcheck/bin/rasm-cim --help > /dev/null
+          /tmp/instcheck/bin/python -m rasm_cim --version
+          /tmp/instcheck/bin/rasm-cim --demo ask "Какая столица у Франции?"
+          /tmp/instcheck/bin/rasm-cim system-info > /dev/null
+          set +e
+          /tmp/instcheck/bin/rasm-cim --demo ask "Правда ли что дракон существует?" > /tmp/conflict.txt 2>/dev/null
+          code=$?
+          set -e
+          cat /tmp/conflict.txt
+          test "$code" = "4" || { echo "expected exit 4 (CONFLICT), got $code"; exit 1; }
+          echo "package smoke OK"
