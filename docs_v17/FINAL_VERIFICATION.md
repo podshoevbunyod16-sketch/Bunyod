@@ -27,13 +27,16 @@ git diff --stat be5551ea -- rasm_cim_v16 tests_v16 docs_v16
 | Набор | Команда | Результат |
 |---|---|---|
 | ядро | `pytest tests_v16 -q` | **348 passed** |
-| слой v0.17 | `pytest tests_v17 -q` | **264 passed** |
+| слой v0.17 | `pytest tests_v17 -q` | **305 passed** |
 | v9/v10 | `pytest tests_v9 tests_v10 -q` | **54 passed** |
-| исторические | `pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py rasm_cim_v8/tests -q` | **102 passed** |
-| **Всего** | | **768 passed, 0 failed, 0 skipped** |
+| исторические (корневые + v8) | `pytest test_rasm*.py rasm_cim_v8/tests -q` | **109 passed** (57 + 52) |
+| **Всего** | | **816 passed, 0 failed, 0 skipped** |
 
-`test_rasm_v5.py` не собирается без sklearn — ограничение существовало до v0.17,
-зафиксировано в `LIMITATIONS.md` и в CI.
+`test_rasm_v5.py` требует scikit-learn (не входит в dev-зависимости) —
+ограничение существовало до v0.17, зафиксировано в `LIMITATIONS.md` и в CI.
+С установленным scikit-learn он даёт 7 passed и входит в 163.
+> **Исправлено аудитом 2026-11-27** (коммит `c143166`, ветка `arena/ec75e510-bunyod`): опубликованное число «102 passed» для исторических наборов считало только шесть корневых файлов и `rasm_cim_v8/tests`, без `test_rasm_v5.py` и без `tests_v9`/`tests_v10`. Фактический итог исторических наборов — **163 passed**: 57 корневых (`test_rasm*.py`, включая 7 в `test_rasm_v5.py`, для которых нужен scikit-learn), 54 в `tests_v9`+`tests_v10`, 52 в `rasm_cim_v8/tests`. Перепроверено запуском, вывод: 348 + 305 + 163 = 816 passed.
+
 
 ## 3. Матрица требований ТЗ
 
