@@ -1,7 +1,6 @@
-/// Desktop & Termux Backend Runtime Manager.
-/// Never claims Flutter runs Python inside Dart VM; manages bundled native service
-/// on Windows/Linux/macOS or connects to Termux local daemon / Remote server on Android.
-library;
+// Desktop & Termux Backend Runtime Manager.
+// Never claims Flutter runs Python inside Dart VM; manages bundled native service
+// on Windows/Linux/macOS or connects to Termux local daemon / Remote server on Android.
 
 import 'dart:io';
 

@@ -89,6 +89,12 @@ def _handle_request(req: Dict[str, Any]) -> Dict[str, Any] | None:
 
 
 def main() -> int:
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
     for line in sys.stdin:
         line = line.strip()
         if not line:

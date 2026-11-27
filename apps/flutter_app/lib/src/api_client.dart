@@ -1,6 +1,5 @@
-/// REST & WebSocket client for ModelForge Core API (`/api/v1/*` and `/ws/events`)
-/// with clean Offline Mode enforcement and unreachable-server handling.
-library;
+// REST & WebSocket client for ModelForge Core API (`/api/v1/*` and `/ws/events`)
+// with clean Offline Mode enforcement and unreachable-server handling.
 
 import 'dart:async';
 import 'dart:convert';
@@ -87,10 +86,10 @@ class ModelForgeApiClient {
 
   Stream<Map<String, dynamic>> connectEventStream() {
     _ws?.sink.close();
-    final wsUri = Uri.parse(
-      normalizedBase.replaceFirst('https://', 'wss://').replaceFirst('http://', 'ws://') +
-          '/ws/events',
-    );
+    final wsBase = normalizedBase
+        .replaceFirst('https://', 'wss://')
+        .replaceFirst('http://', 'ws://');
+    final wsUri = Uri.parse('$wsBase/ws/events');
     _ws = WebSocketChannel.connect(wsUri);
     return _ws!.stream.map((raw) {
       final parsed = jsonDecode(raw.toString());

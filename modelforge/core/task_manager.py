@@ -263,4 +263,4 @@ class TaskManager:
         return self.get_task(task_id)
 
     def shutdown(self) -> None:
-        self._pool.shutdown(wait=False)
+        self._pool.shutdown(wait=True)

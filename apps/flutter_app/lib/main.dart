@@ -1,6 +1,5 @@
-/// ModelForge AI — Adaptive Material 3 GUI for Android ARM64, Windows x64, Linux x64 & macOS.
-/// Implements all 12 workspaces specified in Section 12 of the Master Specification.
-library;
+// ModelForge AI — Adaptive Material 3 GUI for Android ARM64, Windows x64, Linux x64 & macOS.
+// Implements all 12 workspaces specified in Section 12 of the Master Specification.
 
 import 'dart:async';
 import 'dart:convert';

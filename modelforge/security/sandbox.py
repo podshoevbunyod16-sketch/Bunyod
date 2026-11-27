@@ -79,10 +79,11 @@ def _posix_limit_setter(max_cpu_seconds: int, max_memory_mb: int):
 
             cpu_lim = max(1, int(max_cpu_seconds))
             resource.setrlimit(resource.RLIMIT_CPU, (cpu_lim, cpu_lim + 1))
-            mem_bytes = max(64, int(max_memory_mb)) * 1024 * 1024
-            # RLIMIT_AS caps virtual address space; guard against platforms where Python's mmap needs headroom
-            resource.setrlimit(resource.RLIMIT_AS, (mem_bytes, mem_bytes))
             resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+            # On Linux, cap virtual address space; on macOS arm64, dyld shared cache occupies multi-GB VA space
+            if sys.platform.startswith("linux"):
+                mem_bytes = max(64, int(max_memory_mb)) * 1024 * 1024
+                resource.setrlimit(resource.RLIMIT_AS, (mem_bytes, mem_bytes))
         except Exception:
             pass
 
@@ -107,20 +108,22 @@ def run_restricted_python(
 
     clean_env = {
         "PATH": os.environ.get("PATH", ""),
-        "PYTHONPATH": str(Path(__file__).resolve().parents[2]),
+        "PYTHONPATH": os.pathsep.join([str(ws), str(Path(__file__).resolve().parents[2])]),
         "PYTHONUNBUFFERED": "1",
         "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONUTF8": "1",
+        "PYTHONIOENCODING": "utf-8",
         "HOME": str(ws),
         "TMPDIR": str(ws),
         "MODELFORGE_OFFLINE": "0" if allow_network else "1",
     }
     if os.name == "nt":
-        for k in ("SYSTEMROOT", "TEMP", "TMP", "USERPROFILE"):
+        for k in ("SYSTEMROOT", "SYSTEMDRIVE", "TEMP", "TMP", "USERPROFILE", "COMSPEC"):
             if k in os.environ:
                 clean_env[k] = os.environ[k]
 
     preexec = _posix_limit_setter(timeout_sec, max_memory_mb) if os.name == "posix" else None
-    cmd = [sys.executable, "-I" if False else "-B", *script_or_module_args]
+    cmd = [sys.executable, "-B", *script_or_module_args]
 
     t0 = time.monotonic()
     timed_out = False
@@ -131,6 +134,8 @@ def run_restricted_python(
             env=clean_env,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout_sec,
             preexec_fn=preexec,
         )

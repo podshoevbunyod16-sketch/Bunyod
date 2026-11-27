@@ -1,5 +1,4 @@
-/// Multilingual UI strings (Russian, Tajik Cyrillic, English) for ModelForge AI.
-library;
+// Multilingual UI strings (Russian, Tajik Cyrillic, English) for ModelForge AI.
 
 class AppStrings {
   final String localeCode;

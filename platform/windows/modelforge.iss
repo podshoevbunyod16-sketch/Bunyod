@@ -10,8 +10,8 @@ AppVersion={#MyAppVersion}
 AppPublisher=ModelForge AI
 DefaultDirName={autopf}\ModelForge AI
 DefaultGroupName=ModelForge AI
-ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64compatible
+ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64
 OutputDir=..\..\release_artifacts
 OutputBaseFilename=ModelForge-Windows-x64-Setup
 Compression=lzma2
@@ -21,7 +21,6 @@ PrivilegesRequired=lowest
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 
 [Files]
 Source: "..\..\apps\flutter_app\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

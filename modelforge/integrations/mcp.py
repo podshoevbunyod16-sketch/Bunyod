@@ -144,13 +144,21 @@ class MCPManager:
             "PATH": os.environ.get("PATH", ""),
             "PYTHONPATH": str(Path(__file__).resolve().parents[2]),
             "PYTHONUNBUFFERED": "1",
+            "PYTHONUTF8": "1",
+            "PYTHONIOENCODING": "utf-8",
         }
+        if os.name == "nt":
+            for k in ("SYSTEMROOT", "SYSTEMDRIVE", "TEMP", "TMP", "USERPROFILE", "COMSPEC"):
+                if k in os.environ:
+                    env[k] = os.environ[k]
         stdin_payload = "\n".join(json.dumps(r, ensure_ascii=False) for r in requests) + "\n"
         proc = subprocess.run(
             [cmd, *args],
             input=stdin_payload,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             env=env,
             timeout=timeout,
         )
