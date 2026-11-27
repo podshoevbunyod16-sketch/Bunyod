@@ -23,8 +23,8 @@ from .meaning import (AS_ASK_DEFINITION, AS_ASK_LIST, AS_ASK_WH, AS_ASK_YESNO,
                       FOCUS_UNKNOWN, MeaningIR, Focus, Presupposition,
                       build_meaning, meanings_for)
 from .corpus import Case, Corpus, load_cases, load_seed
-from .metrics import (evaluate_answers, evaluate_entities, evaluate_intents,
-                      render_report, run_all)
+from .metrics import (evaluate_answers, evaluate_entities, evaluate_evidence,
+                      evaluate_intents, render_report, run_all)
 from .harness import (DEFAULT_CORPUS, DEFAULT_SEED, DEFAULT_V11,
                       build_demo, seed_report)
 
@@ -35,7 +35,7 @@ __all__ = [
     "FOCUS_RESOLVED", "FOCUS_AMBIGUOUS", "FOCUS_UNKNOWN", "FOCUS_PRONOUN",
     "Case", "Corpus", "load_cases", "load_seed",
     "evaluate_intents", "evaluate_entities",
-    "evaluate_answers", "run_all", "render_report",
+    "evaluate_answers", "evaluate_evidence", "run_all", "render_report",
     "build_demo", "seed_report",
     "DEFAULT_CORPUS", "DEFAULT_SEED", "DEFAULT_V11",
 ]

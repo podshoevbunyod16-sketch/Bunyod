@@ -31,6 +31,20 @@ jobs:
         run: python -m rasm_cim metrics --json > metrics.json
       - name: Coreference metrics (Plan C baseline)
         run: python -m rasm_cim coref --json > coref.json
+      - name: Evidence guard (Plan D)
+        run: |
+          python -m rasm_cim metrics --json > metrics.json
+          python - <<'PY'
+          import json
+          ev = json.load(open("metrics.json"))["evidence"]
+          assert ev["evidence_precision"] == 1.0, ev
+          assert ev["combined"]["premises"] >= 1, ev
+          assert ev["premise_coverage"] == 1.0, ev
+          print("evidence ok:", ev["combined"]["facts"], "facts,",
+                ev["combined"]["premises"], "premises")
+          PY
+      - name: Explain smoke (Plan D)
+        run: python -m rasm_cim explain "Кто президент Марса?" --json > explain.json
       - name: Store / bench suites
         run: python -m pytest tests_v9 tests_v10 -q
       - name: Historical suites

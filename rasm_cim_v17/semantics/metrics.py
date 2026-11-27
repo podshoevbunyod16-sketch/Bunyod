@@ -178,7 +178,46 @@ def run_all(corpus: Corpus, dm, name: str = "", respond=None) -> dict:
         "intents": evaluate_intents(corpus.cases, dm),
         "entities": evaluate_entities(corpus.cases, dm),
         "answers": evaluate_answers(corpus.cases, dm, respond=respond),
+        "evidence": evaluate_evidence(corpus.cases, dm, respond=respond),
     }
+
+
+#: fixed inference probes — deliberately *outside* the semantic corpus, so the
+#: evidence numbers below can grow without moving the Plan B baselines
+INFERENCE_PROBES = (
+    "Где находится Париж?",            # one transitive hop: Франция -> Европа
+    "Кто написал Евгений Онегин?",
+    "Кто такой Кит?",
+)
+
+
+def evaluate_evidence(cases, dm, respond=None, probes=INFERENCE_PROBES) -> dict:
+    """Evidence precision over corpus answers + premise coverage over probes."""
+    from ..reasoning.audit import evidence_precision
+
+    answers = []
+    for case in cases:
+        if not (getattr(case, "answer_status", "") or
+                getattr(case, "answer_contains", None)):
+            continue
+        try:
+            answers.append((respond or dm.say)(case.text))
+        except Exception:                      # an answer that raises has no facts
+            continue
+    corpus = evidence_precision(dm, answers)
+
+    probe_answers = []
+    for text in probes:
+        try:
+            probe_answers.append((respond or dm.say)(text))
+        except Exception:
+            continue
+    probe = evidence_precision(dm, probe_answers)
+    combined = evidence_precision(dm, answers + probe_answers)
+    return {"corpus": corpus, "probes": probe, "combined": combined,
+            "probe_texts": list(probes),
+            "evidence_precision": combined["evidence_precision"],
+            "premise_coverage": combined["premise_coverage"]}
 
 
 def render_report(report: dict) -> str:
@@ -200,10 +239,21 @@ def render_report(report: dict) -> str:
     if e.get("n_cases"):
         lines.append(f"  сущности: P={e['precision']:.3f} R={e['recall']:.3f} "
                      f"F1={e['f1']:.3f} (tp={e['tp']} fp={e['fp']} fn={e['fn']})")
+    ev = report.get("evidence") or {}
+    lines_extra = []
+    if ev:
+        lines_extra.append(
+            f"Источники: точность {ev['evidence_precision']} "
+            f"(фактов {ev['combined']['facts']}, из них выведенных "
+            f"{ev['combined']['inferred']}); посылки доказательств "
+            f"{ev['premise_coverage']} "
+            f"({ev['combined']['premises_with_evidence']}/"
+            f"{ev['combined']['premises']})")
     a = report["answers"]
     if a.get("n"):
         lines.append(f"  ответы: {a['correct']}/{a['n']} = {a['accuracy']:.1%}")
         if a["unsupported_rate"] is not None:
             lines.append(f"  ответы без источника: {a['unsupported_rate']:.1%} "
                          f"({a['unsupported_facts']}/{a['facts_in_answers']})")
+    lines.extend(lines_extra)
     return "\n".join(lines)

@@ -257,6 +257,52 @@ def cmd_coref(a) -> int:
     return 0
 
 
+def cmd_explain(a) -> int:
+    """Proof chain of an answer, with the source of every premise."""
+    from rasm_cim_v17.pipeline import SemanticPipeline
+    from rasm_cim_v17.reasoning import (audit_answer, explanation_lines,
+                                       fact_within_policy)
+    dm, _ = _build(a.home)
+    pipeline = SemanticPipeline(dm)
+    answer = pipeline.respond(a.text)
+    payload = {"text": a.text, "status": answer.status,
+               "answer": answer.text,
+               "audit": None, "facts": []}
+    if pipeline.last_audit is not None:
+        payload["audit"] = pipeline.last_audit.as_dict()
+    else:
+        payload["audit"] = audit_answer(dm, answer).as_dict()
+    for fact in answer.facts:
+        allowed, why = fact_within_policy(fact)
+        payload["facts"].append({
+            "predicate": fact.predicate, "status": fact.status,
+            "depth": fact.depth, "confidence": round(fact.confidence, 4),
+            "statement_id": fact.statement_id,
+            "within_policy": allowed, "policy_note": why,
+            "proof": explanation_lines(dm, fact),
+        })
+    if a.json:
+        _print_json(payload)
+        return 0
+    print(answer.text)
+    print(f"статус: {answer.status}; делегировано ядру: "
+          f"{'да' if pipeline.last_delegated else 'нет'}")
+    if not payload["facts"]:
+        print("доказательств нет: ответ не опирается на утверждения базы")
+    for i, fact in enumerate(payload["facts"], 1):
+        print(f"\nфакт {i}: {fact['predicate']} [{fact['status']}, "
+              f"глубина {fact['depth']}, уверенность {fact['confidence']}]")
+        if not fact["within_policy"]:
+            print(f"  ВНЕ ПОЛИТИКИ: {fact['policy_note']}")
+        for line in fact["proof"]:
+            print(f"  {line}")
+    audit = payload["audit"]
+    print(f"\nисточники: фактов {audit['facts']}, с источником "
+          f"{audit['facts_with_evidence']}, посылок {audit['premises']}, "
+          f"из них с источником {audit['premises_with_evidence']}")
+    return 0
+
+
 def cmd_meaning(a) -> int:
     dm, _ = _build(a.home)
     from rasm_cim_v17.semantics import meanings_for
@@ -412,6 +458,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--json", action="store_true")
 
     sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
+    ep = add("explain", cmd_explain, "доказательство ответа: цепочка и источники")
+    ep.add_argument("text")
+    ep.add_argument("--json", action="store_true")
     sp.add_argument("--corpus", default=None)
     sp.add_argument("--json", action="store_true")
 

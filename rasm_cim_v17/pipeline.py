@@ -31,6 +31,8 @@ from dataclasses import replace as _dc_replace
 from rasm_cim_v16.language_parser import INT_RETRACT, INT_TEACH
 
 from .discourse.binding import apply_context, record_turn
+from .reasoning.audit import audit_answer
+from .reasoning.use import answer_with_inference
 from .semantics.meaning import (AS_ASK_DEFINITION, AS_ASK_LIST, AS_ASK_WH,
                                 AS_ASK_YESNO, AS_RETRACT, AS_TELL, AS_UNKNOWN,
                                 FOCUS_AMBIGUOUS, FOCUS_PRONOUN, MeaningIR,
@@ -42,11 +44,15 @@ MAX_LIST_ITEMS = 12
 class SemanticPipeline:
     """Thin, explicit router around a v0.16 ``DialogueManager``."""
 
-    def __init__(self, dm, semantic: bool = True):
+    def __init__(self, dm, semantic: bool = True, use_inference: bool = True):
         self.dm = dm
         self.semantic = semantic
+        #: Plan D — when v0.16 answers "не знаю" but its own engine can prove
+        #: the answer (inverse reading, wh orientation), answer with the proof
+        self.use_inference = use_inference
         self.last_meaning: MeaningIR | None = None
         self.last_delegated: bool = False
+        self.last_audit = None
 
     # -- public ------------------------------------------------------------
     def respond(self, text: str, mode: str | None = None) -> Answer:
@@ -64,9 +70,18 @@ class SemanticPipeline:
         self.last_meaning = m
         if not m.repaired:
             self.last_delegated = True
-            return self.dm.say(text, mode)
+            answer = self.dm.say(text, mode)
+            if self.use_inference and answer.status == A_UNKNOWN:
+                better = answer_with_inference(self.dm, m, mode)
+                if better is not None:
+                    self.last_delegated = False
+                    self.last_audit = audit_answer(self.dm, better)
+                    record_turn(self.dm, text, m, better)
+                    return better
+            return answer
         self.last_delegated = False
         answer = self._respond_repaired(m, mode)
+        self.last_audit = audit_answer(self.dm, answer)
         record_turn(self.dm, text, m, answer)
         return answer
 

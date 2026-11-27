@@ -93,3 +93,35 @@ v0.16 — именно поэтому 348 тестов ядра не теряю�
 `ResponseIR`/NLG), `learning/` (План F — версии артефакта, совместимые по схеме
 с `rasm-cim-learned/1`), `robust/` (План G — fuzz, бюджеты, Termux).  Ни одного
 из этих модулей пока нет — в `PROGRESS.md` они честно помечены «не начато».
+
+## Reasoning (План D)
+
+```
+ответ ядра UNKNOWN?
+        │ да
+        ▼
+answer_with_inference ──► Fact (только из InferenceEngine)
+        │                        │
+        │                        ▼
+        │                 fact_within_policy ──► глубина / доказательство /
+        │                                       порог уверенности
+        ▼
+Answer(status=INFERRED, facts=[Fact], explanation=proof)
+        │
+        ▼
+audit_answer ──► evidence_precision, premise_coverage
+```
+
+Правила этого слоя:
+
+1. **Ни одного собственного вывода.** Ответ собирается из `Fact.proof`; если
+   доказательства нет, ответа нет.
+2. **Политика проверяема.** `ReasoningPolicy` — единственное место, где
+   решается, что факт допустим (глубина, наличие вывода, уверенность); CLI
+   `explain` печатает вердикт для каждого факта.
+3. **Переопределение только «не знаю».** Резервный путь включается, если
+   ядро вернуло UNKNOWN; уверенный ответ ядра не заменяется никогда
+   (`test_fallback_never_overrides_a_confident_core_answer`).
+4. **Вывод не пишется в базу.** `InferenceEngine` возвращает выведенные факты
+   вызывающему; в граф они не попадают, и `test_audit_does_not_write_anything`
+   это фиксирует.
