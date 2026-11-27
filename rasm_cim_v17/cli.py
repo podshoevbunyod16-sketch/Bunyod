@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import pathlib
 import sys
 import time
 
@@ -236,6 +237,39 @@ def cmd_metrics(a) -> int:
         sd = report["seed"]
         print(f"  база: {sd['statements']} утверждений, {sd['entities']} "
               f"сущностей, {sd['evidence']} записей об источниках")
+    return 0
+
+
+HERE = pathlib.Path(__file__).resolve().parents[1]
+DEFAULT_COREF_BENCH = str(HERE / "tests_v17" / "corpus" / "coref")
+
+
+def cmd_coref_bench(a) -> int:
+    """Benchmark кореференции: dev / validation / hidden (sealed)."""
+    import json as _json
+    from rasm_cim_v17.discourse.coref_bench import (evaluate_split, load_split,
+                                                   render_score, verify_sealed)
+    from rasm_cim_v17.pipeline import SemanticPipeline
+    from rasm_cim_v17.semantics import build_demo
+
+    root = pathlib.Path(a.dir or DEFAULT_COREF_BENCH)
+    manifest = _json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    name = a.split
+    if name == "hidden" and not a.allow_hidden:
+        print("hidden запечатан: запуск только с --allow-hidden, и он "
+              "записывается в отчёт", file=sys.stderr)
+        return 5
+    split = load_split(root / f"{name}.jsonl", name)
+    verify_sealed(split, manifest)
+    report = evaluate_split(split, build_demo,
+                            lambda dm: SemanticPipeline(dm).respond)
+    report["sealed"] = manifest["splits"][name]["sha256"]
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_score(report, f"КОРЕФЕРЕНЦИЯ — {name}, "
+                                   f"{len(split.cases)} кейсов, "
+                                   f"sha256 {split.sha256[:16]}…"))
     return 0
 
 
@@ -570,6 +604,13 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--no-v11", action="store_true",
                     help="не подмешивать корпус v0.11")
     sp.add_argument("--json", action="store_true")
+
+    cb = add("coref-bench", cmd_coref_bench, "кореференция: 310 кейсов, ДИ Уилсона")
+    cb.add_argument("--split", default="dev",
+                    choices=["dev", "validation", "hidden"])
+    cb.add_argument("--dir", default=None)
+    cb.add_argument("--allow-hidden", action="store_true")
+    cb.add_argument("--json", action="store_true")
 
     sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
     st = add("stress", cmd_stress, "надёжность: фаззинг, офлайн-проверка, замеры")

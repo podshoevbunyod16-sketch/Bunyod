@@ -1,0 +1,41 @@
+{
+  "generator": "rasm_cim_v17.discourse.coref_bench",
+  "note": "v2: harder constructions; hidden запечатан до запуска. Рубрика та же, что в v1 (rasm-cim-coref-bench/1).",
+  "schema": "rasm-cim-coref-manifest/1",
+  "seed": 20261128,
+  "splits": {
+    "dev": {
+      "categories": {
+        "correction_then_shift": 12,
+        "distractor_class": 12,
+        "long_distance": 12,
+        "negation_correction": 12,
+        "plural_ambiguous": 12
+      },
+      "sha256": "e4c5050c0ba8e22422d8a28dbc0977a45bb83f17cf3aad13ef97a24d4559eaaf",
+      "size": 60
+    },
+    "hidden": {
+      "categories": {
+        "correction_then_shift": 5,
+        "distractor_class": 5,
+        "long_distance": 5,
+        "negation_correction": 5,
+        "plural_ambiguous": 5
+      },
+      "sha256": "6d2090fb52cfe6acb2ebf0fe5d2f56bce496baf7594496ff12064c8823c01f63",
+      "size": 25
+    },
+    "validation": {
+      "categories": {
+        "correction_then_shift": 8,
+        "distractor_class": 8,
+        "long_distance": 8,
+        "negation_correction": 8,
+        "plural_ambiguous": 8
+      },
+      "sha256": "67c69c8dd57d79d5529f3285336a73a5e2b7d5250156c7d0f6f56bc226c9984c",
+      "size": 40
+    }
+  }
+}
