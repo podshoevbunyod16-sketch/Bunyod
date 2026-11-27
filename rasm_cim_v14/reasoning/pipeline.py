@@ -12,6 +12,7 @@ EvidenceSet, and the list of missing prerequisites.
 """
 from __future__ import annotations
 
+import functools
 import re
 from typing import List, Optional, Tuple
 
@@ -40,6 +41,7 @@ _COMPARE_TRIGGERS = ("больше", "выше", "меньше", "ниже", "б
                      "старше", "моложе", "лучше", "хуже")
 
 
+@functools.lru_cache(maxsize=32768)
 def _stems(text: str) -> set:
     return {lemma(w) for w in _STEM_RE.findall(normalize(text).text.lower())
             if w.strip()}
