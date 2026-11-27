@@ -54,6 +54,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python test deps (cross-language suite needs pytest + numpy)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy
       - name: Rust toolchain (repo pins rust-toolchain.toml)
         run: |
           rustup default stable || true
