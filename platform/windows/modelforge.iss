@@ -23,7 +23,7 @@ PrivilegesRequired=lowest
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\..\apps\flutter_app\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\release_artifacts\win_bundle\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\ModelForge AI"; Filename: "{app}\modelforge_app.exe"

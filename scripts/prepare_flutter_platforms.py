@@ -14,9 +14,12 @@ FLUTTER_DIR = REPO_ROOT / "apps" / "flutter_app"
 
 
 def run_cmd(cmd: list[str], cwd: Path) -> None:
-    exe = shutil.which(cmd[0]) or shutil.which(f"{cmd[0]}.bat") or cmd[0]
+    if os.name == "nt":
+        exe = shutil.which(f"{cmd[0]}.bat") or shutil.which(f"{cmd[0]}.cmd") or shutil.which(cmd[0]) or cmd[0]
+    else:
+        exe = shutil.which(cmd[0]) or cmd[0]
     full_cmd = [exe, *cmd[1:]]
-    print(f"+ {' '.join(full_cmd)} (cwd={cwd})")
+    print(f"+ {' '.join(full_cmd)} (cwd={cwd})", flush=True)
     subprocess.run(full_cmd, cwd=str(cwd), check=True)
 
 
@@ -40,13 +43,20 @@ def patch_android_manifest(manifest_path: Path) -> None:
     print(f"Patched AndroidManifest.xml: {manifest_path}")
 
 
+def _force_remove_readonly(func, path, _exc_info) -> None:
+    try:
+        os.chmod(path, 0o700)
+        func(path)
+    except Exception:
+        pass
+
+
 def main() -> int:
-    need_create = not all(
-        (FLUTTER_DIR / p).exists() for p in ("android", "windows", "linux", "macos")
-    )
+    required_platforms = ("windows",) if os.name == "nt" else ("android", "windows", "linux", "macos")
+    need_create = not all((FLUTTER_DIR / p).exists() for p in required_platforms)
 
     if need_create:
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             backup = Path(tmp) / "backup"
             backup.mkdir(parents=True, exist_ok=True)
             for item in ("pubspec.yaml", "analysis_options.yaml", "lib", "test"):
@@ -58,6 +68,11 @@ def main() -> int:
                     else:
                         shutil.copy2(src, dst)
 
+            platforms_args = (
+                ["--platforms", "windows"]
+                if os.name == "nt"
+                else ["--platforms=android,windows,linux,macos"]
+            )
             run_cmd(
                 [
                     "flutter",
@@ -66,7 +81,7 @@ def main() -> int:
                     "ai.modelforge",
                     "--project-name",
                     "modelforge_app",
-                    "--platforms=android,windows,linux,macos",
+                    *platforms_args,
                     ".",
                 ],
                 cwd=FLUTTER_DIR,
@@ -79,8 +94,9 @@ def main() -> int:
                 if bsrc.exists():
                     if tdst.exists():
                         if tdst.is_dir():
-                            shutil.rmtree(tdst)
+                            shutil.rmtree(tdst, onerror=_force_remove_readonly)
                         else:
+                            os.chmod(tdst, 0o700)
                             tdst.unlink()
                     if bsrc.is_dir():
                         shutil.copytree(bsrc, tdst)

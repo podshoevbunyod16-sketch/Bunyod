@@ -129,7 +129,7 @@ def main() -> int:
             sys.stdout.reconfigure(encoding="utf-8", errors="replace")
         except Exception:
             pass
-    with tempfile.TemporaryDirectory() as tmp:
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
         report = run_smoke_verification(Path(tmp) / "mf_smoke")
         print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0

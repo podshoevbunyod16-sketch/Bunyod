@@ -59,7 +59,7 @@ def main() -> int:
         raise FileNotFoundError(f"Expected bundled backend binary not found: {exe_path}")
 
     # Smoke-test the compiled binary on an isolated temp home directory
-    with tempfile.TemporaryDirectory() as tmp_home:
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_home:
         proc = subprocess.run(
             [str(exe_path), "--home", tmp_home, "--json", "doctor"],
             capture_output=True,
