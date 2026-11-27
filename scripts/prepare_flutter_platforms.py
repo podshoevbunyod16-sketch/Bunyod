@@ -40,7 +40,17 @@ def patch_android_manifest(manifest_path: Path) -> None:
             1,
         )
     manifest_path.write_text(txt, encoding="utf-8")
-    print(f"Patched AndroidManifest.xml: {manifest_path}")
+    print(f"Patched AndroidManifest.xml: {manifest_path}", flush=True)
+
+
+def patch_windows_cmake(cmake_path: Path) -> None:
+    if not cmake_path.exists():
+        return
+    txt = cmake_path.read_text(encoding="utf-8")
+    if "/WX" in txt:
+        txt = txt.replace("/WX", "")
+        cmake_path.write_text(txt, encoding="utf-8")
+        print(f"Patched Windows CMakeLists.txt (removed /WX): {cmake_path}", flush=True)
 
 
 def _force_remove_readonly(func, path, _exc_info) -> None:
@@ -106,6 +116,7 @@ def main() -> int:
     patch_android_manifest(
         FLUTTER_DIR / "android" / "app" / "src" / "main" / "AndroidManifest.xml"
     )
+    patch_windows_cmake(FLUTTER_DIR / "windows" / "CMakeLists.txt")
     run_cmd(["flutter", "pub", "get"], cwd=FLUTTER_DIR)
     return 0
 

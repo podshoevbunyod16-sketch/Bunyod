@@ -22,11 +22,14 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "=== [3/5] Building Flutter Windows x64 Release ==="
 Push-Location "$RepoRoot\apps\flutter_app"
 flutter config --enable-windows-desktop
-flutter build windows --release
+$BuildLog = Join-Path $OutDir "flutter_windows_build.log"
+flutter build windows --release *> $BuildLog
 $FlutterExit = $LASTEXITCODE
+Get-Content $BuildLog -Tail 40
 Pop-Location
 if ($FlutterExit -ne 0) {
-  Write-Host "::error::flutter build windows --release failed with exit code $FlutterExit"
+  $TailErr = (Get-Content $BuildLog -Tail 12) -join " | "
+  Write-Host "::error::flutter build windows failed ($FlutterExit): $TailErr"
   exit $FlutterExit
 }
 
