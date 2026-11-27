@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python:
+    name: python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest hypothesis numpy
+      - name: Core suite v0.16
+        run: python -m pytest tests_v16 -q
+      - name: Integration suite v0.17
+        run: python -m pytest tests_v17 -q
+      - name: Store / bench suites
+        run: python -m pytest tests_v9 tests_v10 -q
+      - name: Historical suites
+        run: |
+          python -m pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py \
+                           test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py \
+                           rasm_cim_v8/tests -q
+      - name: No-sklearn guard
+        run: |
+          # test_rasm_v5 imports sklearn via rasm_cim_v5/learn5.py; it is excluded
+          # on purpose. This step fails loudly if the exclusion ever hides more.
+          python - <<'PY'
+          import pathlib
+          excluded = {"test_rasm_v5.py"}
+          present = {p.name for p in pathlib.Path(".").glob("test_rasm*.py")}
+          assert excluded <= present, "excluded test file disappeared"
+          print("excluded:", sorted(excluded))
+          PY
+
+  cli:
+    name: unified CLI smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Both entry points work
+        run: |
+          python -m rasm_cim version
+          python -m rasm_cim_v17 version
+      - name: Round trip on a temp database
+        run: |
+          export RASM_CIM_HOME="$RUNNER_TEMP/rasm-cim-home"
+          python -m rasm_cim import tests_v17/fixtures/v11_demo_facts.jsonl --dry-run
+          python -m rasm_cim import tests_v17/fixtures/v11_demo_facts.jsonl
+          python -m rasm_cim ask "Где столица Франция?"
+          python -m rasm_cim verify --json
+          test -f "$RASM_CIM_HOME/kb.json"
+          test -f "$RASM_CIM_HOME/import_ledger.json"
+
+  package:
+    name: build wheel + foreign-cwd smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip build
+      - run: python -m build
+      - run: python -m pip install dist/*.whl
+      - name: Import from a foreign working directory
+        working-directory: ${{ runner.temp }}
+        run: |
+          python -c "import rasm_cim_v17, rasm_cim_v16; print(rasm_cim_v17.__version__)"
+          python -m rasm_cim version
