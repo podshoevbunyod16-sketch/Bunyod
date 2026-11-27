@@ -73,6 +73,15 @@ class TestMemoryMode:
         kb2 = str(tmp_path / "kb2.json")
         r = run(["--kb", kb2, "memory", "import", out])
         assert r.returncode == 0
+        report = json.loads(r.stdout)
+        # Regression: ImportReport IS a dict subclass; the CLI used to print
+        # res.__dict__ (always "{}") instead of the report contents.
+        assert report, "import report must not be empty"
+        assert report["imported"] >= 1
+        assert report["total_lines"] >= 1
+        r = run(["--kb", kb2, "memory", "import", out])  # re-import: idempotency
+        report2 = json.loads(r.stdout)
+        assert report2["imported"] == 0 and report2["skipped_duplicates"] >= 1
         r = run(["--kb", kb2, "memory", "stats"])
         assert json.loads(r.stdout)["statements_active"] >= 1
 

@@ -209,8 +209,9 @@ def cmd_memory(a) -> int:
         return 0
     if cmd == "import":
         res = import_jsonl(kb, a.file, strict=a.strict)
-        print(json.dumps(res.__dict__ if hasattr(res, "__dict__") else res,
-                         ensure_ascii=False, indent=2, default=str))
+        # ImportReport IS a dict subclass — serialize the mapping itself,
+        # not res.__dict__ (always empty for dict subclasses).
+        print(json.dumps(dict(res), ensure_ascii=False, indent=2, default=str))
         return 0
     if cmd == "retract":
         from rasm_cim_v12.knowledge import retract
