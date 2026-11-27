@@ -25,6 +25,16 @@ numpy 2.4.6, scikit-learn 1.9.1, hypothesis/pytest переустановлен�
   bench: p50≈236–343µs, RSS 22.7 MB, 11-вопросный accuracy 1.0 / unsupported 0.0 / abstention 1.0;
   seed-demo type repair (персонажи — единый тип person).
 - [x] v0.15 — корпус 200–500/50–100/50–100, обучение, correction loop, offline eval
+- [x] **Полная верификация v0.15.0 (2026-11-27)** — Этапы A–J: freeze-аудит (3 documented exceptions),
+  чистое venv-окружение, единая команда => **362 passed** (incl. cross-language через новый
+  аддитивный conftest, ручной PYTHONPATH не нужен; frozen v0.7 test не тронут). Wheel/sdist собраны,
+  установка в чистую venv + smoke из чужой cwd (rasm-cim CLI, exit 4 на CONFLICT) — OK.
+  Баги, найденные аудитом: (1) memory import печатал {} вместо JSON-отчёта (ImportReport — dict;
+  res.__dict__ пуст) — исправлено + регресс-тест; (2) O(entities) морфология на каждый ask
+  (582ms @ +1000 фактов) — _stems закэширован, ask p50 19.3ms→0.60ms (+1000), 81ms→7.9ms (+5000);
+  (3) CI отсутствовал — .github/workflows/ci.yml (python 3.10–3.13 + rust + package); первый прогон
+  — rust job FAIL (не хватало python-deps), исправлено, финальный прогон **всё зелёное** (jobs API).
+  pip-audit чист; секреты не найдены. FINAL_VERIFICATION_REPORT.md в корне. Android/Termux — NOT TESTED.
 - [x] **Финал (v0.15 packaging)** — unified CLI `python -m rasm_cim` (chat/ask/teach/memory/
   evaluate/system-info; stdout=результаты, stderr=диагностика; exit 0/2/3/4/5; кодучи 0-5;
   `--demo` строго opt-in; `python -m rasm_cim_v9.cli` сохранён), README переписан под фактическое

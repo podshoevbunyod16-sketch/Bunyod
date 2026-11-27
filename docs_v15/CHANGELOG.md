@@ -33,6 +33,22 @@
 - evaluate.py verdict_acc metric redefined на KB-answerable подмножество (определение было неверным:
   ожидала TRUE от вопроса «что такое млекопитающее?», на который подтверждать факт не может).
 
+## verification cycle (2026-11-27, commits acc817e..HEAD)
+### Fixed
+- rasm_cim/cli.py `memory import`: ImportReport — подкласс dict, `res.__dict__` всегда {} —
+  stdout был пустым JSON. Печатает содержимое отчёта; регресс-тест в tests_phase_c.
+- rasm_cim_v14/reasoning/pipeline.py `_find_entities`: O(entities) пересчёт морфологии на каждый
+  ask (~19 ms @ +1000 фактов, ~81 ms @ +5000) → `_stems` закэширован (lru_cache 32768);
+  ask p50: 19.3 ms → 0.60 ms (+1000), 81 ms → 7.9 ms (+5000). Регресс-тесты tests_v14/test_stems_cache.py.
+### Added
+- rasm_cim_rust/tests/conftest.py — обнаружение rasm_cim_ext (existing import → $RASM_CIM_EXT →
+  shipped prebuilt .so, linux-x86_64); недоступность => честный SKIP с причиной; frozen v0.7 тест не изменён.
+- .github/workflows/ci.yml — python 3.10–3.13 (тесты + freeze-гейты), rust (cargo test/release/clippy,
+  cdylib, cross-language против CI-собранного .so), package (build + установка колеса + foreign-cwd smoke).
+- FINAL_VERIFICATION_REPORT.md (корень), results_verify/ (все логи верификации).
+### Measured (host, см. результаты verification)
+- 362 passed одной командой; pip-audit чист; CI jobs API: всё зелёное (см. results_verify/stage_h_ci.log).
+
 ## v0.15 packaging (Phase C/D, 2026-11-26, commit ee81645)
 ### Added
 - `python -m rasm_cim` — unified CLI (chat/ask/teach/memory/evaluate/system-info);

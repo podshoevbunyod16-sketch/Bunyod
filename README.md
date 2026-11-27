@@ -21,7 +21,7 @@
 | v0.15 | Корпус (265/84/88, split по семействам шаблонов), обучаемые артефакты rasm-cim-learned/1 (откат, sha256), коррекции пользователя (hash-chain, verify/undo, конфликты показываются), offline eval — 14 тестов |
 | `python -m rasm_cim` | Единая точка входа: режимы chat / ask / teach / memory / evaluate / system-info. `python -m rasm_cim_v9.cli` сохранён как v0.10-совместимый путь |
 
-Итого: **332 теста** (163 исторических + 56 + 27 + 40 + 21 + 15 + 10 unified-CLI), freeze v0.8 = 0 mismatch; baseline-272 — ровно 3 задокументированных исключения (README/pyproject/requirements-dev, см. results_v15/freeze_delta_report_v0.10_to_v0.15.md), Rust v0.7 не изменялся.
+Итого: **362 теста** одной командой (163 исторических + 56 + 27 + 40 + 23 + 15 + 10 unified-CLI + 28 cross-language). freeze v0.8 = 0 mismatch; baseline-272 — ровно 3 задокументированных исключения (README/pyproject/requirements-dev, см. results_v15/freeze_delta_report_v0.10_to_v0.15.md), Rust v0.7 не изменялся. CI: .github/workflows/ci.yml — матрица Python 3.10–3.13 (тесты + freeze-гейты), Rust-задача (cargo test/release/clippy + cdylib + cross-language против CI-собранного .so), package-задача (build + установка колеса + smoke из чужой cwd). Android/Termux НЕ измерялся (см. results_verify/ANDROID_TERMUX_PROFILE.md).
 
 ## Быстрый старт
 
