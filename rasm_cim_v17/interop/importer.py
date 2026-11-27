@@ -529,7 +529,13 @@ def _new_ledger_id(plan: ImportPlan, entries: Iterable[dict]) -> str:
 
 def apply_plan(plan: ImportPlan, dm, store: Store | None = None,
                when: str = "", save: bool = True,
-               backup: bool = True) -> ImportResult:
+               backup: bool = True, record_ledger: bool = True) -> ImportResult:
+    """....
+
+    ``record_ledger=False`` is for in-memory use (the metrics harness): the
+    import still happens through the same code path, but no document is
+    written anywhere, so measuring cannot leave traces in a user's home.
+    """
     """Materialise ``plan`` into ``dm`` (a v0.16 DialogueManager)."""
     when = when or _now()
     store = store or Store()
@@ -663,6 +669,10 @@ def apply_plan(plan: ImportPlan, dm, store: Store | None = None,
         predicate_hints_written=hints_written,
         alias_delta_applied=alias_applied,
         backup=backup_paths, saved=saved)
+
+    if not record_ledger:
+        result.ledger_id = f"ephemeral_{plan.digest()[:8]}"
+        return result
 
     ledger_id = _new_ledger_id(plan, ledger.entries())
     result.ledger_id = ledger_id

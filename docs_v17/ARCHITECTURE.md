@@ -9,6 +9,13 @@ rasm_cim_v16/                  заморожено: граф, вывод, от�
         ▲                      (348 тестов остаются зелёными)
         │ публичный API
 rasm_cim_v17/
+├── semantics/                 План B: QueryIR → MeaningIR + метрики
+│   ├── meaning.py             MeaningIR, focus, пресуппозиции, unknowns
+│   ├── refine.py              исправления речевого акта (с основаниями)
+│   ├── corpus.py              формат корпуса rasm-cim-eval-cases/1
+│   ├── metrics.py             акт / сущности / ответы / unsupported rate
+│   └── harness.py             демо-база: только teach + импорт A
+├── pipeline.py                SemanticPipeline: делегирование или исполнение
 ├── interop/                   План A: данные v0.11–v0.15 → граф v0.16
 │   ├── legacy.py              читатель rasm-cim-kb/1 и demo_facts.jsonl
 │   ├── learned.py             читатель rasm-cim-learned/1 (+sha256)
@@ -56,10 +63,33 @@ apply_plan(plan, dm, store)
 (`(realpath, sha256)` уже применён → no-op) и сам граф (`assert_triple`
 на идентичном триплете не создаёт дубль, а поднимает `reinforce`).
 
-## План B и далее (заготовки, ещё не реализованы)
+## План B — как устроена семантика
 
-`semantics/` (План B) добавит `MeaningIR` рядом с `QueryIR` v0.16 и метрики;
-`discourse/` (План E) — `DiscoursePlanner`/`ResponseIR`/NLG; `learning/`
-(План F) — собственная версия артефакта, совместимая по схеме с
-`rasm-cim-learned/1`. Ни один из этих модулей пока не существует — в
-`PROGRESS.md` они честно помечены «не начато».
+```
+text
+ └─ LanguageParser (v0.16)            syntax: intent, wh, mentions, predicate
+     └─ build_meaning (v0.17)         meaning: act, slot, focus, presuppositions
+         ├─ repaired == False  ->  DialogueManager.say()      (делегирование)
+         └─ repaired == True   ->  SemanticPipeline._respond_* (исполнение)
+```
+
+`MeaningIR.repaired` истинно ровно тогда, когда слой смысла расходится с
+синтаксисом: исправлен речевой акт, восстановлен фокус из хвоста фразы,
+вычищено упоминание.  Для неисправленных реплик поведение остаётся поведением
+v0.16 — именно поэтому 348 тестов ядра не теряют смысла.
+
+Три правила, которые дороже полноты:
+
+1. **Не выдавать чужое за нужное.** «отец Исаака Ньютона» не превращается в
+   «Исаак Ньютон»: родственные слова накладывают вето на восстановление фокуса.
+2. **Не исполнять не тот акт.** Если парсер назвал вопрос обучением, вопрос не
+   записывается в базу.
+3. **Не отвечать при неоднозначности.** Местоимение без контекста → уточняющий
+   вопрос; два кандидата → `AMBIGUOUS`, выбор запрещён.
+
+## Планы C–G (ещё не реализованы)
+
+`discourse/` (План C — контекст и coreference, План E — `DiscoursePlanner`/
+`ResponseIR`/NLG), `learning/` (План F — версии артефакта, совместимые по схеме
+с `rasm-cim-learned/1`), `robust/` (План G — fuzz, бюджеты, Termux).  Ни одного
+из этих модулей пока нет — в `PROGRESS.md` они честно помечены «не начато».

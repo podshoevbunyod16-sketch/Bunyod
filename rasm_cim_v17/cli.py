@@ -36,6 +36,10 @@ from rasm_cim_v17 import __version__                            # noqa: E402
 from rasm_cim_v17.interop import build_plan, apply_plan         # noqa: E402
 from rasm_cim_v17.interop.importer import ImportLedger, restore  # noqa: E402
 from rasm_cim_v17.interop.learned import LearnedSnapshot        # noqa: E402
+from rasm_cim_v17.pipeline import SemanticPipeline              # noqa: E402
+from rasm_cim_v17.semantics import (DEFAULT_CORPUS, DEFAULT_SEED,  # noqa: E402
+                                    DEFAULT_V11, build_demo, load_cases,
+                                    render_report, run_all, seed_report)
 from rasm_cim_v17.verify import verify_home                     # noqa: E402
 
 
@@ -52,6 +56,14 @@ def _build(home: str | None, mode: str = "normal") -> tuple[DialogueManager, Sto
         dm.autosave = True
         store.load(dm)
     return dm, store
+
+
+def _responder(dm, semantic: bool):
+    """Return ``(respond, pipeline)`` — one place that decides delegation."""
+    if not semantic:
+        return dm.say, None
+    pipe = SemanticPipeline(dm)
+    return pipe.respond, pipe
 
 
 def _print_json(obj) -> None:
@@ -71,6 +83,7 @@ def cmd_version(a) -> int:
 
 def cmd_chat(a) -> int:
     dm, store = _build(a.home, a.answer)
+    respond, _ = _responder(dm, not getattr(a, "core", False))
     print(f"RASM-CIM v{__version__} — режим {dm.default_mode}, база: {store.home}")
     print("Команды: :help   Выход: :quit / Ctrl-D")
     while True:
@@ -83,7 +96,7 @@ def cmd_chat(a) -> int:
             continue
         if line.lower() in (":quit", ":exit", "exit", "quit"):
             break
-        ans = dm.say(line)
+        ans = respond(line)
         print(f"система> {ans.render(dm.default_mode)}")
     if store.exists() or dm.kg.all_statements():
         store.save(dm)
@@ -93,7 +106,12 @@ def cmd_chat(a) -> int:
 
 def cmd_ask(a) -> int:
     dm, store = _build(a.home, a.answer)
-    ans = dm.say(a.text)
+    respond, pipe = _responder(dm, not getattr(a, "core", False))
+    ans = respond(a.text)
+    if pipe is not None and pipe.last_meaning is not None and a.explain_meaning:
+        print(f"[смысл] {pipe.last_meaning.describe()}", file=sys.stderr)
+        print(f"[делегировано ядру: {'да' if pipe.last_delegated else 'нет'}]",
+              file=sys.stderr)
     if a.json:
         _print_json({"text": ans.text, "status": ans.status,
                      "confidence": ans.confidence,
@@ -115,7 +133,8 @@ def cmd_say(a) -> int:
 
 def cmd_teach(a) -> int:
     dm, store = _build(a.home, a.answer)
-    ans = dm.say(a.text)
+    respond, _ = _responder(dm, not getattr(a, "core", False))
+    ans = respond(a.text)
     print(ans.render(dm.default_mode))
     if a.save:
         store.save(dm)
@@ -202,6 +221,41 @@ def cmd_verify(a) -> int:
     return 0 if rep.ok else 1
 
 
+def cmd_metrics(a) -> int:
+    dm = build_demo(seed_path=a.seed,
+                    v11_path=None if a.no_v11 else DEFAULT_V11)
+    corpus = load_cases(a.corpus)
+    pipe = SemanticPipeline(dm)
+    report = run_all(corpus, dm, name=a.corpus, respond=pipe.respond)
+    report["seed"] = seed_report(dm)
+    report["pipeline"] = {"semantic": True, "version": __version__}
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_report(report))
+        sd = report["seed"]
+        print(f"  база: {sd['statements']} утверждений, {sd['entities']} "
+              f"сущностей, {sd['evidence']} записей об источниках")
+    return 0
+
+
+def cmd_meaning(a) -> int:
+    dm, _ = _build(a.home)
+    from rasm_cim_v17.semantics import meanings_for
+    meanings = meanings_for(a.text, resolver=dm.kg.resolver,
+                            schema=dm.kg.schema, parser=dm.parser)
+    if a.json:
+        _print_json([m.as_dict() for m in meanings])
+    else:
+        for m in meanings:
+            print(m.describe())
+            for p in m.presuppositions:
+                print(f"  пресуппозиция {p.kind}: {p.text} -> {p.holds}")
+            for note in m.notes:
+                print(f"  · {note}")
+    return 0
+
+
 def cmd_learned(a) -> int:
     snap = LearnedSnapshot.load(a.path)
     _print_json(snap.summary())
@@ -286,23 +340,31 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = add("chat", cmd_chat, "интерактивный диалог")
     sp.add_argument("--answer", default="normal")
+    sp.add_argument("--core", action="store_true")
 
     sp = add("ask", cmd_ask, "задать вопрос")
     sp.add_argument("text")
     sp.add_argument("--answer", default="normal")
     sp.add_argument("--json", action="store_true")
     sp.add_argument("--no-save", dest="save", action="store_false")
+    sp.add_argument("--core", action="store_true",
+                    help="выполнить без семантического слоя (чистый v0.16)")
+    sp.add_argument("--explain-meaning", action="store_true",
+                    help="показать MeaningIR и факт делегирования ядру")
 
     sp = add("say", cmd_say, "любая реплика (вопрос или обучение)")
     sp.add_argument("text")
     sp.add_argument("--answer", default="normal")
     sp.add_argument("--json", action="store_true")
     sp.add_argument("--no-save", dest="save", action="store_false")
+    sp.add_argument("--core", action="store_true")
+    sp.add_argument("--explain-meaning", action="store_true")
 
     sp = add("teach", cmd_teach, "научить факту")
     sp.add_argument("text")
     sp.add_argument("--answer", default="normal")
     sp.add_argument("--no-save", dest="save", action="store_false")
+    sp.add_argument("--core", action="store_true")
 
     sp = add("import", cmd_import, "импорт данных v0.11–v0.15")
     sp.add_argument("source")
@@ -323,6 +385,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = add("learned", cmd_learned, "сводка обучающего артефакта v0.15")
     sp.add_argument("path")
+
+    sp = add("metrics", cmd_metrics, "метрики семантического слоя (План B)")
+    sp.add_argument("--corpus", default=DEFAULT_CORPUS)
+    sp.add_argument("--seed", default=DEFAULT_SEED)
+    sp.add_argument("--no-v11", action="store_true",
+                    help="не подмешивать корпус v0.11")
+    sp.add_argument("--json", action="store_true")
+
+    sp = add("meaning", cmd_meaning, "показать MeaningIR разбора")
+    sp.add_argument("text")
+    sp.add_argument("--json", action="store_true")
 
     sp = add("migrate", cmd_migrate, "миграция схемы базы")
     sp.add_argument("--dry-run", action="store_true")

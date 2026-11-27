@@ -25,6 +25,8 @@ python -m rasm_cim chat            # диалог; :help — команды
 python -m rasm_cim teach "Исаак Ньютон — это физик"
 python -m rasm_cim ask "Кто такой Исаак Ньютон?" --answer detailed
 python -m rasm_cim verify          # проверка целостности базы
+python -m rasm_cim ask "Перечисли, что открыл Ньютон"   # семантический слой
+python -m rasm_cim ask "…" --core  # чистое поведение v0.16 для сравнения
 ```
 
 `python -m rasm_cim`, `python -m rasm_cim_v17` и консольный скрипт `rasm-cim` —
@@ -51,12 +53,26 @@ python -m rasm_cim import path/to/learned/     --dry-run   # rasm-cim-learned/1
 * неизвестный предикат **не** подменяется «похожим»: запись пропускается с
   причиной, таблицу нужно расширить в `rasm_cim_v17/interop/mapping.py`.
 
+## Метрики качества (План B)
+
+```bash
+python -m rasm_cim metrics        # таблица
+python -m rasm_cim meaning "Кем был Исаак Ньютон?"   # как понят вопрос
+```
+
+На размеченном корпусе из 38 реплик (`tests_v17/corpus/semantic_cases.jsonl`,
+sha256 печатается вместе с числами): речевой акт — 97.4 %, сущности
+P/R/F1 = 0.975, точность ответов — 96.4 %, фактов без источника в ответах —
+0.0 %. Полный список промахов и их причины — `docs_v17/BENCHMARK_REPORT.md`.
+Корпус маленький и написан авторами кода; это регрессионный ориентир, а не
+независимая оценка качества.
+
 ## Тесты
 
 ```bash
 python -m pytest tests_v16 -q      # 348 passed
 python -m pytest tests_v9 tests_v10 -q                       # 54 passed
-python -m pytest tests_v17 -q                                # 91 passed
+python -m pytest tests_v17 -q                                # 154 passed
 python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (без test_rasm_v5: нужен sklearn)
 ```
 
@@ -64,7 +80,8 @@ python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (бе�
 
 * `AUDIT_REPORT.md` — фактическое состояние репозитория и найденные дефекты;
 * `PROGRESS.md` — фазы, точки продолжения;
-* `docs_v17/` — ARCHITECTURE, CHANGELOG, TEST_REPORT, LIMITATIONS, REPRODUCE, PLAN_NEXT;
+* `docs_v17/` — ARCHITECTURE, CHANGELOG, TEST_REPORT, BENCHMARK_REPORT,
+  LIMITATIONS, REPRODUCE, PLAN_NEXT;
 * `docs_v16/` — аудит, архитектура и миграция ядра;
 * `docs_v10/`, `docs_v9/`, … — история версий.
 
