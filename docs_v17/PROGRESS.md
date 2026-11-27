@@ -34,8 +34,9 @@
    регрессионные пороги на dev/validation.
 6. `docs_v17/COREF_REPORT.md` + `docs_v17/evidence/*.json`.
 
-Регресс: `pytest -q tests_v16 tests_v17` → **635 passed**;
-`pytest -q rasm_cim_v8/tests` → **52 passed**; ядро v0.16 не изменено.
+Регресс: `pytest -q tests_v16` → **348 passed**, `pytest -q tests_v17` → **305 passed**; исторические наборы — **163 passed** (57 корневых + 54 v9/v10 + 52 v8); ядро v0.16 не изменено. Общее число 816 сверено независимым аудитом (см. `REPORT_INDEPENDENT.md`), ранее опубликованные «102» и «52» относились к подмножествам.
+> **Исправлено аудитом 2026-11-27** (коммит `c143166`, ветка `arena/ec75e510-bunyod`): опубликованное число «102 passed» для исторических наборов считало только шесть корневых файлов и `rasm_cim_v8/tests`, без `test_rasm_v5.py` и без `tests_v9`/`tests_v10`. Фактический итог исторических наборов — **163 passed**: 57 корневых (`test_rasm*.py`, включая 7 в `test_rasm_v5.py`, для которых нужен scikit-learn), 54 в `tests_v9`+`tests_v10`, 52 в `rasm_cim_v8/tests`. Перепроверено запуском, вывод: 348 + 305 + 163 = 816 passed.
+
 
 ## Следующий шаг
 
