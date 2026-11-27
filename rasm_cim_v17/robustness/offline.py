@@ -24,6 +24,18 @@ NETWORK_MODULES = (
 #: commands that would fetch something if executed through subprocess
 NETWORK_COMMANDS = ("curl", "wget", "nc", "ssh", "scp", "ftp", "http")
 
+#: Единственный модуль, которому разрешено трогать сеть, — инструмент агента.
+#: Он выключен по умолчанию (`online=False`), ходит только по списку хостов и
+#: не импортируется, пока агент не попросили об этом. Нарушение в любом другом
+#: файле остаётся нарушением, поэтому гарантия «ядро офлайн» сохраняется, а
+#: исключение ровно одно и проверяется тестом.
+NETWORK_ALLOWLIST = ("rasm_cim_v17/agent/tools.py",)
+
+
+def _is_allowed(path: Path) -> bool:
+    normalized = str(path).replace("\\", "/")
+    return any(normalized.endswith(item) for item in NETWORK_ALLOWLIST)
+
 
 def _module_root(name: str) -> str:
     return (name or "").split(".")[0]
@@ -92,10 +104,15 @@ def scan_paths(paths) -> dict:
             files.append(path)
     findings: list[dict] = []
     for file in files:
-        findings.extend(scan_file(file))
+        found = scan_file(file)
+        if _is_allowed(file):
+            for item in found:
+                item["kind"] = "allowed"
+        findings.extend(found)
+    problems = [f for f in findings if f["kind"] not in ("syntax", "allowed")]
     return {"files": len(files), "findings": findings,
-            "violations": [f for f in findings if f["kind"] != "syntax"],
-            "clean": not [f for f in findings if f["kind"] != "syntax"]}
+            "allowed": [f for f in findings if f["kind"] == "allowed"],
+            "violations": problems, "clean": not problems}
 
 
 def scan_offline(package_dir: str | Path | None = None) -> dict:

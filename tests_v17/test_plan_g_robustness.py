@@ -99,6 +99,13 @@ def test_package_has_no_network_imports():
     report = scan_offline(PKG)
     assert report["clean"] is True, report["violations"]
     assert report["files"] > 20
+    # ровно одно исключение — сетевой инструмент агента, и он выключен по
+    # умолчанию; всё остальное по-прежнему не имеет права открывать сеть
+    allowed_files = {item["path"].replace("\\", "/").split("/")[-1]
+                     for item in report["allowed"]}
+    assert allowed_files <= {"tools.py"}, allowed_files
+    assert all(item["path"].replace("\\", "/").endswith("agent/tools.py")
+               for item in report["allowed"])
 
 
 def test_scan_detects_a_planted_violation(tmp_path):

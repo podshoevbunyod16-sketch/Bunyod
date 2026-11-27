@@ -1,0 +1,1563 @@
+{
+  "hidden_t1": {
+    "rasm": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-001",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-002",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-003",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-004",
+          "cat": "gender_select",
+          "ok": true
+        },
+        {
+          "id": "h-005",
+          "cat": "gender_select",
+          "ok": true
+        },
+        {
+          "id": "h-006",
+          "cat": "recency",
+          "ok": true
+        },
+        {
+          "id": "h-007",
+          "cat": "correction",
+          "ok": true
+        },
+        {
+          "id": "h-008",
+          "cat": "long",
+          "ok": true
+        },
+        {
+          "id": "h-009",
+          "cat": "tajik_mixed",
+          "ok": true
+        },
+        {
+          "id": "h-010",
+          "cat": "typo",
+          "ok": true
+        },
+        {
+          "id": "h-011",
+          "cat": "incomplete",
+          "ok": true
+        },
+        {
+          "id": "h-012",
+          "cat": "conversational",
+          "ok": true
+        },
+        {
+          "id": "h-013",
+          "cat": "repeat_mention",
+          "ok": true
+        },
+        {
+          "id": "h-014",
+          "cat": "long_distance",
+          "ok": true
+        },
+        {
+          "id": "h-015",
+          "cat": "conversational",
+          "ok": true
+        }
+      ]
+    },
+    "b1": {
+      "summary": {
+        "successes": 0,
+        "total": 15,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.20388330103584862
+        ]
+      },
+      "items": [
+        {
+          "id": "h-001",
+          "cat": "pronoun_after_name",
+          "ok": false
+        },
+        {
+          "id": "h-002",
+          "cat": "pronoun_after_name",
+          "ok": false
+        },
+        {
+          "id": "h-003",
+          "cat": "pronoun_after_name",
+          "ok": false
+        },
+        {
+          "id": "h-004",
+          "cat": "gender_select",
+          "ok": false
+        },
+        {
+          "id": "h-005",
+          "cat": "gender_select",
+          "ok": false
+        },
+        {
+          "id": "h-006",
+          "cat": "recency",
+          "ok": false
+        },
+        {
+          "id": "h-007",
+          "cat": "correction",
+          "ok": false
+        },
+        {
+          "id": "h-008",
+          "cat": "long",
+          "ok": false
+        },
+        {
+          "id": "h-009",
+          "cat": "tajik_mixed",
+          "ok": false
+        },
+        {
+          "id": "h-010",
+          "cat": "typo",
+          "ok": false
+        },
+        {
+          "id": "h-011",
+          "cat": "incomplete",
+          "ok": false
+        },
+        {
+          "id": "h-012",
+          "cat": "conversational",
+          "ok": false
+        },
+        {
+          "id": "h-013",
+          "cat": "repeat_mention",
+          "ok": false
+        },
+        {
+          "id": "h-014",
+          "cat": "long_distance",
+          "ok": false
+        },
+        {
+          "id": "h-015",
+          "cat": "conversational",
+          "ok": false
+        }
+      ]
+    },
+    "b2": {
+      "summary": {
+        "successes": 12,
+        "total": 15,
+        "rate": 0.8,
+        "ci95": [
+          0.5481455128483065,
+          0.9295245065301844
+        ]
+      },
+      "items": [
+        {
+          "id": "h-001",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-002",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-003",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-004",
+          "cat": "gender_select",
+          "ok": false
+        },
+        {
+          "id": "h-005",
+          "cat": "gender_select",
+          "ok": true
+        },
+        {
+          "id": "h-006",
+          "cat": "recency",
+          "ok": true
+        },
+        {
+          "id": "h-007",
+          "cat": "correction",
+          "ok": false
+        },
+        {
+          "id": "h-008",
+          "cat": "long",
+          "ok": false
+        },
+        {
+          "id": "h-009",
+          "cat": "tajik_mixed",
+          "ok": true
+        },
+        {
+          "id": "h-010",
+          "cat": "typo",
+          "ok": true
+        },
+        {
+          "id": "h-011",
+          "cat": "incomplete",
+          "ok": true
+        },
+        {
+          "id": "h-012",
+          "cat": "conversational",
+          "ok": true
+        },
+        {
+          "id": "h-013",
+          "cat": "repeat_mention",
+          "ok": true
+        },
+        {
+          "id": "h-014",
+          "cat": "long_distance",
+          "ok": true
+        },
+        {
+          "id": "h-015",
+          "cat": "conversational",
+          "ok": true
+        }
+      ]
+    },
+    "b3": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-001",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-002",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-003",
+          "cat": "pronoun_after_name",
+          "ok": true
+        },
+        {
+          "id": "h-004",
+          "cat": "gender_select",
+          "ok": true
+        },
+        {
+          "id": "h-005",
+          "cat": "gender_select",
+          "ok": true
+        },
+        {
+          "id": "h-006",
+          "cat": "recency",
+          "ok": true
+        },
+        {
+          "id": "h-007",
+          "cat": "correction",
+          "ok": true
+        },
+        {
+          "id": "h-008",
+          "cat": "long",
+          "ok": true
+        },
+        {
+          "id": "h-009",
+          "cat": "tajik_mixed",
+          "ok": true
+        },
+        {
+          "id": "h-010",
+          "cat": "typo",
+          "ok": true
+        },
+        {
+          "id": "h-011",
+          "cat": "incomplete",
+          "ok": true
+        },
+        {
+          "id": "h-012",
+          "cat": "conversational",
+          "ok": true
+        },
+        {
+          "id": "h-013",
+          "cat": "repeat_mention",
+          "ok": true
+        },
+        {
+          "id": "h-014",
+          "cat": "long_distance",
+          "ok": true
+        },
+        {
+          "id": "h-015",
+          "cat": "conversational",
+          "ok": true
+        }
+      ]
+    },
+    "diff_vs_baselines": [
+      {
+        "vs": "b1",
+        "diff": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "vs": "b2",
+        "diff": 0.19999999999999996,
+        "ci95": [
+          0.0,
+          0.4
+        ]
+      },
+      {
+        "vs": "b3",
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "hidden_t2": {
+    "rasm": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-016",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-017",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-018",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-019",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-020",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-021",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-022",
+          "cat": "ambiguous_pair",
+          "ok": true
+        },
+        {
+          "id": "h-023",
+          "cat": "ambiguous_pair",
+          "ok": true
+        },
+        {
+          "id": "h-024",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-025",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-026",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-027",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-028",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-029",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-030",
+          "cat": "ambiguous_pair",
+          "ok": true
+        }
+      ]
+    },
+    "b1": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-016",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-017",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-018",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-019",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-020",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-021",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-022",
+          "cat": "ambiguous_pair",
+          "ok": true
+        },
+        {
+          "id": "h-023",
+          "cat": "ambiguous_pair",
+          "ok": true
+        },
+        {
+          "id": "h-024",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-025",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-026",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-027",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-028",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-029",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-030",
+          "cat": "ambiguous_pair",
+          "ok": true
+        }
+      ]
+    },
+    "b2": {
+      "summary": {
+        "successes": 6,
+        "total": 15,
+        "rate": 0.4,
+        "ci95": [
+          0.1982449614134158,
+          0.6425316987937539
+        ]
+      },
+      "items": [
+        {
+          "id": "h-016",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-017",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-018",
+          "cat": "gender_mismatch",
+          "ok": false
+        },
+        {
+          "id": "h-019",
+          "cat": "gender_mismatch",
+          "ok": false
+        },
+        {
+          "id": "h-020",
+          "cat": "group",
+          "ok": false
+        },
+        {
+          "id": "h-021",
+          "cat": "group",
+          "ok": false
+        },
+        {
+          "id": "h-022",
+          "cat": "ambiguous_pair",
+          "ok": false
+        },
+        {
+          "id": "h-023",
+          "cat": "ambiguous_pair",
+          "ok": false
+        },
+        {
+          "id": "h-024",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-025",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-026",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-027",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-028",
+          "cat": "gender_mismatch",
+          "ok": false
+        },
+        {
+          "id": "h-029",
+          "cat": "group",
+          "ok": false
+        },
+        {
+          "id": "h-030",
+          "cat": "ambiguous_pair",
+          "ok": false
+        }
+      ]
+    },
+    "b3": {
+      "summary": {
+        "successes": 13,
+        "total": 15,
+        "rate": 0.8666666666666667,
+        "ci95": [
+          0.6211801716767764,
+          0.9626387408969346
+        ]
+      },
+      "items": [
+        {
+          "id": "h-016",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-017",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-018",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-019",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-020",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-021",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-022",
+          "cat": "ambiguous_pair",
+          "ok": false
+        },
+        {
+          "id": "h-023",
+          "cat": "ambiguous_pair",
+          "ok": true
+        },
+        {
+          "id": "h-024",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-025",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-026",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-027",
+          "cat": "no_antecedent",
+          "ok": true
+        },
+        {
+          "id": "h-028",
+          "cat": "gender_mismatch",
+          "ok": true
+        },
+        {
+          "id": "h-029",
+          "cat": "group",
+          "ok": true
+        },
+        {
+          "id": "h-030",
+          "cat": "ambiguous_pair",
+          "ok": false
+        }
+      ]
+    },
+    "diff_vs_baselines": [
+      {
+        "vs": "b1",
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "vs": "b2",
+        "diff": 0.6,
+        "ci95": [
+          0.33333333333333337,
+          0.8
+        ]
+      },
+      {
+        "vs": "b3",
+        "diff": 0.1333333333333333,
+        "ci95": [
+          0.0,
+          0.33333333333333337
+        ]
+      }
+    ]
+  },
+  "hidden_t3": {
+    "rasm": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t3-001",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-002",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-003",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-004",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-005",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-006",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-007",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-008",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-009",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-010",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-011",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-012",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-013",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-014",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-015",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        }
+      ]
+    },
+    "b1": {
+      "summary": {
+        "successes": 8,
+        "total": 15,
+        "rate": 0.5333333333333333,
+        "ci95": [
+          0.30116980025498397,
+          0.7519046463426261
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t3-001",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-002",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-003",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-004",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-005",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-006",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-007",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-008",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-009",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-010",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-011",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-012",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-013",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-014",
+          "cat": "answerable",
+          "ok": false,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-015",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        }
+      ]
+    },
+    "b2": {
+      "summary": {
+        "successes": 14,
+        "total": 15,
+        "rate": 0.9333333333333333,
+        "ci95": [
+          0.7018347012621998,
+          0.9881331045067315
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t3-001",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-002",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-003",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-004",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-005",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-006",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-007",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-008",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-009",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-010",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-011",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-012",
+          "cat": "unanswerable",
+          "ok": true,
+          "correct": false,
+          "refused": true
+        },
+        {
+          "id": "h-t3-013",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-014",
+          "cat": "answerable",
+          "ok": true,
+          "correct": true,
+          "refused": false
+        },
+        {
+          "id": "h-t3-015",
+          "cat": "unanswerable",
+          "ok": false,
+          "correct": true,
+          "refused": false
+        }
+      ]
+    },
+    "diff_vs_baselines": [
+      {
+        "vs": "b1",
+        "diff": 0.4666666666666667,
+        "ci95": [
+          0.19999999999999996,
+          0.7333333333333334
+        ]
+      },
+      {
+        "vs": "b2",
+        "diff": 0.06666666666666665,
+        "ci95": [
+          0.0,
+          0.19999999999999996
+        ]
+      }
+    ]
+  },
+  "hidden_t4": {
+    "rasm": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t4-001",
+          "ok": true
+        },
+        {
+          "id": "h-t4-002",
+          "ok": true
+        },
+        {
+          "id": "h-t4-003",
+          "ok": true
+        },
+        {
+          "id": "h-t4-004",
+          "ok": true
+        },
+        {
+          "id": "h-t4-005",
+          "ok": true
+        },
+        {
+          "id": "h-t4-006",
+          "ok": true
+        },
+        {
+          "id": "h-t4-007",
+          "ok": true
+        },
+        {
+          "id": "h-t4-008",
+          "ok": true
+        },
+        {
+          "id": "h-t4-009",
+          "ok": true
+        },
+        {
+          "id": "h-t4-010",
+          "ok": true
+        },
+        {
+          "id": "h-t4-011",
+          "ok": true
+        },
+        {
+          "id": "h-t4-012",
+          "ok": true
+        },
+        {
+          "id": "h-t4-013",
+          "ok": true
+        },
+        {
+          "id": "h-t4-014",
+          "ok": true
+        },
+        {
+          "id": "h-t4-015",
+          "ok": true
+        }
+      ]
+    },
+    "b1": {
+      "summary": {
+        "successes": 3,
+        "total": 15,
+        "rate": 0.2,
+        "ci95": [
+          0.07047549346981563,
+          0.45185448715169363
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t4-001",
+          "ok": false
+        },
+        {
+          "id": "h-t4-002",
+          "ok": false
+        },
+        {
+          "id": "h-t4-003",
+          "ok": false
+        },
+        {
+          "id": "h-t4-004",
+          "ok": true
+        },
+        {
+          "id": "h-t4-005",
+          "ok": false
+        },
+        {
+          "id": "h-t4-006",
+          "ok": false
+        },
+        {
+          "id": "h-t4-007",
+          "ok": false
+        },
+        {
+          "id": "h-t4-008",
+          "ok": true
+        },
+        {
+          "id": "h-t4-009",
+          "ok": false
+        },
+        {
+          "id": "h-t4-010",
+          "ok": false
+        },
+        {
+          "id": "h-t4-011",
+          "ok": true
+        },
+        {
+          "id": "h-t4-012",
+          "ok": false
+        },
+        {
+          "id": "h-t4-013",
+          "ok": false
+        },
+        {
+          "id": "h-t4-014",
+          "ok": false
+        },
+        {
+          "id": "h-t4-015",
+          "ok": false
+        }
+      ]
+    },
+    "b2": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t4-001",
+          "ok": true
+        },
+        {
+          "id": "h-t4-002",
+          "ok": true
+        },
+        {
+          "id": "h-t4-003",
+          "ok": true
+        },
+        {
+          "id": "h-t4-004",
+          "ok": true
+        },
+        {
+          "id": "h-t4-005",
+          "ok": true
+        },
+        {
+          "id": "h-t4-006",
+          "ok": true
+        },
+        {
+          "id": "h-t4-007",
+          "ok": true
+        },
+        {
+          "id": "h-t4-008",
+          "ok": true
+        },
+        {
+          "id": "h-t4-009",
+          "ok": true
+        },
+        {
+          "id": "h-t4-010",
+          "ok": true
+        },
+        {
+          "id": "h-t4-011",
+          "ok": true
+        },
+        {
+          "id": "h-t4-012",
+          "ok": true
+        },
+        {
+          "id": "h-t4-013",
+          "ok": true
+        },
+        {
+          "id": "h-t4-014",
+          "ok": true
+        },
+        {
+          "id": "h-t4-015",
+          "ok": true
+        }
+      ]
+    },
+    "diff_vs_baselines": [
+      {
+        "vs": "b1",
+        "diff": 0.8,
+        "ci95": [
+          0.6,
+          1.0
+        ]
+      },
+      {
+        "vs": "b2",
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "hidden_t5": {
+    "rasm": {
+      "summary": {
+        "successes": 15,
+        "total": 15,
+        "rate": 1.0,
+        "ci95": [
+          0.7961166989641515,
+          1.0
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t5-001",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-002",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-003",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-004",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-005",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-006",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-007",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-008",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-009",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-010",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-011",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-012",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-013",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-014",
+          "cat": "hidden",
+          "ok": true
+        },
+        {
+          "id": "h-t5-015",
+          "cat": "hidden",
+          "ok": true
+        }
+      ]
+    },
+    "b1": {
+      "summary": {
+        "successes": 0,
+        "total": 15,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.20388330103584862
+        ]
+      },
+      "items": [
+        {
+          "id": "h-t5-001",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-002",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-003",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-004",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-005",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-006",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-007",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-008",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-009",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-010",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-011",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-012",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-013",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-014",
+          "cat": "hidden",
+          "ok": false
+        },
+        {
+          "id": "h-t5-015",
+          "cat": "hidden",
+          "ok": false
+        }
+      ]
+    },
+    "diff_vs_baselines": [
+      {
+        "vs": "b1",
+        "diff": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  }
+}
