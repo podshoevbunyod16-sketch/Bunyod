@@ -257,6 +257,25 @@ def cmd_coref(a) -> int:
     return 0
 
 
+def cmd_learn(a) -> int:
+    """Apply a curriculum and measure what survived."""
+    from rasm_cim_v17.learning import (DEFAULT_CURRICULUM, evaluate_learning,
+                                       load_curriculum, render_learning)
+    from rasm_cim_v17.learning.forgetting import GUARD_QUESTIONS
+    curriculum = load_curriculum(a.curriculum or DEFAULT_CURRICULUM)
+    guards = tuple(a.guard) if a.guard else GUARD_QUESTIONS
+    report = evaluate_learning(curriculum, build_demo, guards=guards)
+    report["pipeline"] = {"semantic": True, "version": __version__}
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_learning(report))
+        for gauge in report["guards"]:
+            print(f"  контроль «{gauge['text']}»: {gauge['verdict']}")
+    failed = len(report["lesson_failures"])
+    return 0 if failed == 0 else 3
+
+
 def cmd_plan(a) -> int:
     """ResponseIR of an answer: the plan, not the sentence."""
     from rasm_cim_v17.generation import plan as make_plan, render
@@ -514,6 +533,12 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--json", action="store_true")
 
     sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
+    lp = add("learn", cmd_learn, "обучение без забывания: план уроков и метрики")
+    lp.add_argument("--curriculum", default=None)
+    lp.add_argument("--guard", action="append", default=None,
+                    help="контрольный вопрос (можно повторять)")
+    lp.add_argument("--json", action="store_true")
+
     pp = add("plan", cmd_plan, "ResponseIR ответа: план, а не строка")
     pp.add_argument("text")
     pp.add_argument("--register", default="normal")

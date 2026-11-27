@@ -58,6 +58,19 @@ jobs:
           PY
       - name: Plan roundtrip smoke (Plan E)
         run: python -m rasm_cim plan "Кто президент Марса?" --json > plan.json
+      - name: Learning guard (Plan F)
+        run: |
+          python -m rasm_cim learn --json > learning.json
+          python - <<'PY'
+          import json
+          r = json.load(open("learning.json"))
+          assert r["retention"] == 1.0, r["retention"]
+          assert r["new_conflicts"] == [], r["new_conflicts"]
+          assert r["answer_drift"] == 0.0, r["answer_drift"]
+          assert r["rollback"]["rollback_exact"] is True, r["rollback"]
+          print("learning ok:", r["lessons_ok"], "lessons,",
+                "retention", r["retention"])
+          PY
       - name: Store / bench suites
         run: python -m pytest tests_v9 tests_v10 -q
       - name: Historical suites
