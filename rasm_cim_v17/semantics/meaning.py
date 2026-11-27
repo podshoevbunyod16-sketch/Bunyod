@@ -154,6 +154,7 @@ class MeaningIR:
     focus: list[Focus] = field(default_factory=list)
     presuppositions: list[Presupposition] = field(default_factory=list)
     unknowns: list[str] = field(default_factory=list)
+    clarification: str = ""        # question to ask when the meaning is open
     notes: list[str] = field(default_factory=list)
     confidence: float = 0.0
     query: QueryIR | None = None
@@ -205,7 +206,9 @@ class MeaningIR:
                 "relation": self.relation, "negation": self.negation,
                 "focus": [f.as_dict() for f in self.focus],
                 "presuppositions": [p.as_dict() for p in self.presuppositions],
-                "unknowns": list(self.unknowns), "notes": list(self.notes),
+                "unknowns": list(self.unknowns),
+                "clarification": self.clarification,
+                "notes": list(self.notes),
                 "confidence": round(self.confidence, 3),
                 "parser_intent": self.parser_intent,
                 "interpretable": self.interpretable}
@@ -362,20 +365,29 @@ def build_meaning(ir: QueryIR, resolver=None, schema=None,
             m.notes.append(note)
 
     # -- focus -------------------------------------------------------------
+    # The parser treats a leading pronoun as an extra subject ("А он физик?"
+    # -> subject_mention='физик', subject_pronoun='он').  Semantically the
+    # pronoun IS the subject and the mention is the complement, so the roles
+    # are corrected here — otherwise the yes/no check compares the wrong pair.
+    subj_pronoun_is_subject = bool(ir.subject_pronoun and m.subject_mention)
     if m.subject_mention:
-        m.focus.append(_focus_for(m.subject_mention, "subject", resolver,
-                                  teaching))
+        role = "object" if subj_pronoun_is_subject else "subject"
+        m.focus.append(_focus_for(m.subject_mention, role, resolver, teaching))
     if ir.subject_pronoun:
         m.focus.append(Focus(surface=ir.subject_pronoun, role="subject",
                              status=FOCUS_PRONOUN))
         m.unknowns.append(f"местоимение {ir.subject_pronoun!r} без контекста "
                           f"не разрешается")
+        m.notes.append("role fix: leading pronoun is the subject, the "
+                       "remaining mention is its complement")
     if m.object_mention:
         m.focus.append(_focus_for(m.object_mention, "object", resolver,
                                   teaching))
     if ir.object_pronoun:
         m.focus.append(Focus(surface=ir.object_pronoun, role="object",
                              status=FOCUS_PRONOUN))
+        m.unknowns.append(f"местоимение {ir.object_pronoun!r} без контекста "
+                          f"не разрешается")
 
     repairs: list[str] = []
     for f in m.focus:

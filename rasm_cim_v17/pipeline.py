@@ -30,9 +30,11 @@ from dataclasses import replace as _dc_replace
 
 from rasm_cim_v16.language_parser import INT_RETRACT, INT_TEACH
 
+from .discourse.binding import apply_context, record_turn
 from .semantics.meaning import (AS_ASK_DEFINITION, AS_ASK_LIST, AS_ASK_WH,
                                 AS_ASK_YESNO, AS_RETRACT, AS_TELL, AS_UNKNOWN,
-                                MeaningIR, meanings_for)
+                                FOCUS_AMBIGUOUS, FOCUS_PRONOUN, MeaningIR,
+                                meanings_for)
 
 MAX_LIST_ITEMS = 12
 
@@ -57,12 +59,16 @@ class SemanticPipeline:
             self.last_delegated = True
             return self.dm.say(text, mode)
         m = meanings[0]
+        if any(f.status == FOCUS_PRONOUN for f in m.focus):
+            apply_context(m, self.dm)          # Plan C: bind «он/она/оно»
         self.last_meaning = m
         if not m.repaired:
             self.last_delegated = True
             return self.dm.say(text, mode)
         self.last_delegated = False
-        return self._respond_repaired(m, mode)
+        answer = self._respond_repaired(m, mode)
+        record_turn(self.dm, text, m, answer)
+        return answer
 
     # -- repaired acts -----------------------------------------------------
     def _respond_repaired(self, m: MeaningIR, mode: str) -> Answer:
@@ -74,17 +80,7 @@ class SemanticPipeline:
         if m.speech_act == AS_ASK_WH:
             return self._answer_wh_with_focus(m, mode)
         if m.speech_act == AS_ASK_YESNO:
-            # a question the parser did not recognise as one: the honest move
-            # is to say so and ask for a reformulation, never to teach
-            return Answer(text="Не понял вопрос. Переформулируй, пожалуйста: "
-                               "например «Кто такой Исаак Ньютон?» или "
-                               "«Что открыл Исаак Ньютон?».",
-                          status=A_UNKNOWN, confidence=0.2, mode=mode,
-                          short="Не понял вопрос.",
-                          normal="Не понял вопрос.",
-                          detailed="Не понял вопрос. " + "; ".join(m.unknowns)
-                          if m.unknowns else "Не понял вопрос.",
-                          notes=list(m.notes) + ["semantic:unresolved"])
+            return self._answer_yesno_with_focus(m, mode)
         if m.speech_act in (AS_TELL, AS_RETRACT):
             return self._execute_teach(m, mode)
         self.last_delegated = True
@@ -135,6 +131,54 @@ class SemanticPipeline:
         answer = self.dm.answers.answer_wh(bind, mode, used_context=False)
         answer.notes = list(answer.notes) + list(m.notes) + \
             ["semantic:ask_wh"]
+        return answer
+
+    # -- ASK_YESNO with a repaired or context-bound focus -------------------
+    def _answer_yesno_with_focus(self, m: MeaningIR, mode: str) -> Answer:
+        subject = next((f for f in m.focus if f.status != FOCUS_PRONOUN
+                        and f.entity_id is not None and f.role == "subject"),
+                       None)
+        obj = next((f for f in m.focus if f.status != FOCUS_PRONOUN
+                    and f.entity_id is not None and f.role == "object"), None)
+        if subject is None or obj is None:
+            # a pronoun we could not bind: ask, never guess
+            if m.clarification:
+                return Answer(text=m.clarification, status=A_UNKNOWN,
+                              confidence=0.3, mode=mode,
+                              short=m.clarification, normal=m.clarification,
+                              detailed=m.clarification,
+                              clarification=m.clarification,
+                              notes=list(m.notes) + ["semantic:clarification"])
+            return self._unknown(m, mode,
+                                 "непонятно, о какой сущности идёт речь")
+        predicate = m.relation
+        if not predicate:
+            # the parser recognised no relation: use the one that actually
+            # holds between the two resolved entities, or admit there is none
+            between = self.dm.kg.find(subject=subject.entity_id,
+                                      obj=obj.entity_id)
+            if not between:
+                reverse = self.dm.kg.find(subject=obj.entity_id,
+                                          obj=subject.entity_id)
+                if reverse:
+                    st = reverse[0]
+                    subject, obj = obj, subject
+                    subject_id, obj_id = obj.entity_id, subject.entity_id
+                else:
+                    return self._unknown(m, mode,
+                                         "в базе нет связи между этими "
+                                         "сущностями")
+            else:
+                predicate = between[0].predicate
+        bind = AskResult(ok=True, subject_id=subject.entity_id,
+                         object_id=obj.entity_id, predicate=predicate,
+                         wants="none",
+                         polarity="false" if m.negation else "true",
+                         confidence=max(m.confidence, 0.5),
+                         notes=list(m.notes))
+        answer = self.dm.answers.answer_yesno(bind, mode, used_context=False)
+        answer.notes = list(answer.notes) + list(m.notes) + \
+            ["semantic:ask_yesno"]
         return answer
 
     # -- ASK_LIST ----------------------------------------------------------

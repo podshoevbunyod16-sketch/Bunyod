@@ -56,7 +56,8 @@ python -m rasm_cim import path/to/learned/     --dry-run   # rasm-cim-learned/1
 ## Метрики качества (План B)
 
 ```bash
-python -m rasm_cim metrics        # таблица
+python -m rasm_cim metrics        # качество семантики
+python -m rasm_cim coref          # качество кореференции
 python -m rasm_cim meaning "Кем был Исаак Ньютон?"   # как понят вопрос
 ```
 
@@ -64,15 +65,16 @@ python -m rasm_cim meaning "Кем был Исаак Ньютон?"   # как �
 sha256 печатается вместе с числами): речевой акт — 97.4 %, сущности
 P/R/F1 = 0.975, точность ответов — 96.4 %, фактов без источника в ответах —
 0.0 %. Полный список промахов и их причины — `docs_v17/BENCHMARK_REPORT.md`.
-Корпус маленький и написан авторами кода; это регрессионный ориентир, а не
-независимая оценка качества.
+Кореференция (7 диалогов, 5 отсылок): верно 80 %, ошибочных связок — **0**,
+один честный отказ вместо догадки; ответы в диалогах 100 %. Корпуса маленькие и
+написаны авторами кода: это регрессионные ориентиры, а не независимая оценка.
 
 ## Тесты
 
 ```bash
 python -m pytest tests_v16 -q      # 348 passed
 python -m pytest tests_v9 tests_v10 -q                       # 54 passed
-python -m pytest tests_v17 -q                                # 154 passed
+python -m pytest tests_v17 -q                                # 172 passed
 python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (без test_rasm_v5: нужен sklearn)
 ```
 

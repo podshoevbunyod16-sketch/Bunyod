@@ -28,7 +28,9 @@ jobs:
       - name: Integration suite v0.17
         run: python -m pytest tests_v17 -q
       - name: Semantic metrics (Plan B baseline)
-        run: python -m rasm_cim metrics --json > metrics.json && python -m pytest tests_v17/test_plan_b_metrics.py -q
+        run: python -m rasm_cim metrics --json > metrics.json
+      - name: Coreference metrics (Plan C baseline)
+        run: python -m rasm_cim coref --json > coref.json
       - name: Store / bench suites
         run: python -m pytest tests_v9 tests_v10 -q
       - name: Historical suites

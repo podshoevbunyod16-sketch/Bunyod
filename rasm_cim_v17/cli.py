@@ -239,6 +239,24 @@ def cmd_metrics(a) -> int:
     return 0
 
 
+def cmd_coref(a) -> int:
+    from rasm_cim_v17.discourse import evaluate_coreference, load_dialogues
+    from rasm_cim_v17.discourse.dialogue_corpus import DIALOGUE_SCHEMA
+    from rasm_cim_v17.discourse.dialogue_metrics import render_coreference
+    from rasm_cim_v17.semantics.harness import DEFAULT_DIALOGUES
+    path = a.corpus or DEFAULT_DIALOGUES
+    corpus = load_dialogues(path)
+    report = evaluate_coreference(corpus, build_demo,
+                                  lambda dm: SemanticPipeline(dm).respond)
+    report["schema"] = DIALOGUE_SCHEMA
+    report["corpus"] = corpus.summary()
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_coreference(report))
+    return 0
+
+
 def cmd_meaning(a) -> int:
     dm, _ = _build(a.home)
     from rasm_cim_v17.semantics import meanings_for
@@ -391,6 +409,10 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--seed", default=DEFAULT_SEED)
     sp.add_argument("--no-v11", action="store_true",
                     help="не подмешивать корпус v0.11")
+    sp.add_argument("--json", action="store_true")
+
+    sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
+    sp.add_argument("--corpus", default=None)
     sp.add_argument("--json", action="store_true")
 
     sp = add("meaning", cmd_meaning, "показать MeaningIR разбора")

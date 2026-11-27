@@ -24,6 +24,8 @@ DEFAULT_CORPUS = os.path.join(HERE, "tests_v17", "corpus",
                               "semantic_cases.jsonl")
 DEFAULT_V11 = os.path.join(HERE, "tests_v17", "fixtures",
                            "v11_demo_facts.jsonl")
+DEFAULT_DIALOGUES = os.path.join(HERE, "tests_v17", "corpus",
+                                 "dialogue_cases.jsonl")
 
 
 def build_demo(seed_path: str | None = None,
