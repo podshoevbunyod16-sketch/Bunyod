@@ -13,13 +13,15 @@ Missing files: 0
 - **pyproject.toml**
   reason: spec Phase D: version 0.15.0, packages v8…v15 + rasm_cim, rasm-cim entry script, numpy (frozen v0.1 import reality) + scikit-learn (frozen v0.5 test infra) declared.
   old md5 3f017453ba617cd1909fb07eea97b3fa
-  new md5 a66a96c9a184b3fb8050fda8ebd52bf0
+  new md5 a66a96c9a184b3fb8050fda8ebd52bf0 (v0.15 packaging)
+  new md5 18048e5fc1724e7db75c8b9e6579652e (verification cycle: SPDX license string,
+          data dirs as explicit namespace packages — build warnings eliminated)
 - **requirements-dev.txt**
   reason: fresh-environment reproducibility discovered: frozen v0.5 tests require scikit-learn
                       (rasm_cim_v5/learn5.py) — missing from the original extras list. Recorded as dev
                       infra; v0.1/v0.5 semantics untouched. Exact cause: fresh sandbox pip lacked it,
                       collection error "No module named 'sklearn'".
-  reason: UNDOCUMENTED — INVESTIGATE
+  (this entry IS documented; the UNDOCUMENTED tag below was a report-generator artifact)
   old md5 d429bfc7cf830984aa939ed9289384f2
   new md5 3d2f3e46a07f6bfab76ab2589a15d8f8
 
@@ -39,3 +41,16 @@ Missing files: 0
 
 ## Rust v0.7
 sha256-of-sorted-md5s of rasm_cim_rust/*.rs = 451bbfa52e67a72b04c0046d9df4e9d5 — unchanged across v0.11…v0.15.
+
+## Appendix — verification cycle amendments (2026-11-27)
+- pyproject.toml md5 evolved: 3f017453… (frozen baseline) → a66a96c9… (v0.15 packaging)
+  → 18048e5f… (verification fixes: license=SPDX string, explicit namespace data packages).
+  Still the same single spec-mandated meta-file exception; re-baselined, not silent.
+- requirements-dev.txt unchanged since v0.15 packaging (3d2f3e46…).
+- rasm_cim/cli.py, rasm_cim/__main__.py, tests_phase_c/, rasm_cim_rust/tests/conftest.py,
+  tests_v15 regression test — NEW files (additive), not part of the v0.10 baseline set.
+- rasm_cim_v15/learned/current.json — pointer stayed on lv_000 (md5 5a2c518a49f2559a84ad1aadf63c94da);
+  an accidental in-repo train during a flawed PYTHONPATH experiment created lv_001.json,
+  which was moved out of the repo (preserved at /tmp/verify_smoke/lv_001_accidental_repo_train.json),
+  never committed. Rollback re-verified in an isolated package copy (see stage_e_rollback_v2.log).
+- Verification artifacts live in results_verify/ (stage logs A–J).
