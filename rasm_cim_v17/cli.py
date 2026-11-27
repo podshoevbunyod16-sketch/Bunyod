@@ -257,6 +257,62 @@ def cmd_coref(a) -> int:
     return 0
 
 
+def cmd_plan(a) -> int:
+    """ResponseIR of an answer: the plan, not the sentence."""
+    from rasm_cim_v17.generation import plan as make_plan, render
+    from rasm_cim_v17.pipeline import SemanticPipeline
+    dm, _ = _build(a.home)
+    pipeline = SemanticPipeline(dm)
+    answer, ir = make_plan(pipeline, a.text, a.register)
+    if a.json:
+        _print_json(ir.as_dict())
+    else:
+        print(f"акт {ir.speech_act}, статус {ir.status}, регистр {ir.register}")
+        for seg in ir.segments:
+            src = f" [{', '.join(seg.statement_ids) or 'без id'}]"
+            print(f"  {seg.kind}: {seg.text}{src}")
+        for note in ir.plan_notes:
+            print(f"  · {note}")
+        print()
+        print("short:   ", render(ir, "short"))
+        print("normal:  ", render(ir, "normal"))
+        print("detailed:", render(ir, "detailed"))
+        if answer.status != ir.status:
+            print(f"внимание: статус ядра {answer.status} != статуса плана {ir.status}")
+    return 0
+
+
+def cmd_generation(a) -> int:
+    """Metrics of the generation layer over a fixed dialogue set."""
+    from rasm_cim_v17.generation.metrics import (evaluate_plans,
+                                                 render_generation)
+    from rasm_cim_v17.generation import plan as make_plan
+    from rasm_cim_v17.pipeline import SemanticPipeline
+    from rasm_cim_v17.semantics.harness import DEFAULT_DIALOGUES
+    from rasm_cim_v17.discourse import load_dialogues
+    if a.home:
+        dm, _ = _build(a.home)
+    else:
+        dm = build_demo(seed_path=a.seed,
+                        v11_path=None if a.no_v11 else DEFAULT_V11)
+    pipeline = SemanticPipeline(dm)
+    corpus = load_dialogues(a.corpus or DEFAULT_DIALOGUES)
+    plans = []
+    prev = None
+    for case in corpus.cases:
+        for turn in case.turns:
+            _, ir = make_plan(pipeline, turn, a.register, prev)
+            plans.append(ir)
+            prev = ir
+    report = evaluate_plans(plans, a.register)
+    report["corpus"] = corpus.summary()
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_generation(report))
+    return 0
+
+
 def cmd_explain(a) -> int:
     """Proof chain of an answer, with the source of every premise."""
     from rasm_cim_v17.pipeline import SemanticPipeline
@@ -458,6 +514,18 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--json", action="store_true")
 
     sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
+    pp = add("plan", cmd_plan, "ResponseIR ответа: план, а не строка")
+    pp.add_argument("text")
+    pp.add_argument("--register", default="normal")
+    pp.add_argument("--json", action="store_true")
+
+    gp = add("generation", cmd_generation, "связность: метрики по корпусу диалогов")
+    gp.add_argument("--corpus", default=None)
+    gp.add_argument("--register", default="normal")
+    gp.add_argument("--seed", default=None)
+    gp.add_argument("--no-v11", action="store_true")
+    gp.add_argument("--json", action="store_true")
+
     ep = add("explain", cmd_explain, "доказательство ответа: цепочка и источники")
     ep.add_argument("text")
     ep.add_argument("--json", action="store_true")

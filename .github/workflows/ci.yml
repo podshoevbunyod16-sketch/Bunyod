@@ -45,6 +45,19 @@ jobs:
           PY
       - name: Explain smoke (Plan D)
         run: python -m rasm_cim explain "Кто президент Марса?" --json > explain.json
+      - name: Generation guard (Plan E)
+        run: |
+          python -m rasm_cim generation --json > generation.json
+          python - <<'PY'
+          import json
+          g = json.load(open("generation.json"))
+          assert g["deterministic"] is True, g
+          assert g["sourced_claim_rate"] == 1.0, g
+          assert g["empty"] == 0, g
+          print("generation ok:", g["claims"], "claims,", g["avg_sentences"], "sents")
+          PY
+      - name: Plan roundtrip smoke (Plan E)
+        run: python -m rasm_cim plan "Кто президент Марса?" --json > plan.json
       - name: Store / bench suites
         run: python -m pytest tests_v9 tests_v10 -q
       - name: Historical suites
