@@ -37,6 +37,7 @@ from rasm_cim_v17 import __version__                            # noqa: E402
 from rasm_cim_v17.interop import build_plan, apply_plan         # noqa: E402
 from rasm_cim_v17.interop.importer import ImportLedger, restore  # noqa: E402
 from rasm_cim_v17.interop.learned import LearnedSnapshot        # noqa: E402
+from rasm_cim_v17.agent.session import AgentSession            # noqa: E402
 from rasm_cim_v17.discourse.persistence import load_state, save_state  # noqa: E402
 from rasm_cim_v17.pipeline import SemanticPipeline              # noqa: E402
 from rasm_cim_v17.semantics import (DEFAULT_CORPUS, DEFAULT_SEED,  # noqa: E402
@@ -86,8 +87,62 @@ def cmd_version(a) -> int:
     return 0
 
 
+HELP_AGENT = """Команды: :vocab — словарный запас, :online — включить/выключить сеть,
+:help — эта справка, :quit — выход.
+Просто пиши: «Кто такой Иван?», «Иван — это физик», «поищи про Кулибина»."""
+
+
+def _agent(a, dm=None, store=None) -> AgentSession:
+    if dm is None or store is None:
+        dm, store = _build(a.home, getattr(a, "answer", "normal"))
+    online = bool(getattr(a, "online", False))
+    endpoint = getattr(a, "endpoint", None)
+    session = AgentSession(dm, store.home, online=online, endpoint=endpoint,
+                           mode=dm.default_mode)
+    return session
+
+
 def cmd_chat(a) -> int:
     dm, store = _build(a.home, a.answer)
+    if getattr(a, "classic", False):
+        return _chat_classic(a, dm, store)
+    session = _agent(a, dm, store)
+    net = "сеть включена" if session.online else "сеть выключена (--online)"
+    print(f"RASM-CIM v{__version__} — агентный режим, {net}, база: {store.home}")
+    print(HELP_AGENT)
+    while True:
+        try:
+            line = input("ты> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            break
+        if not line:
+            continue
+        if line.lower() in (":quit", ":exit", "exit", "quit"):
+            break
+        if line.lower() == ":help":
+            print(HELP_AGENT)
+            continue
+        if line.lower() == ":vocab":
+            print(session.vocabulary().text)
+            continue
+        if line.lower().startswith(":online"):
+            arg = line.lower().split(maxsplit=1)
+            session.set_online(arg[1] in ("on", "1", "да", "вкл") if len(arg) > 1
+                               else not session.online)
+            print("[сеть " + ("включена]" if session.online else "выключена]"))
+            continue
+        reply = session.step(line)
+        print(f"система> {reply.text}")
+    if store.exists() or dm.kg.all_statements():
+        store.save(dm)
+        save_state(dm, store.home)
+        session.memory.save()
+        print(f"[сохранено] {store.kb_path}")
+    return 0
+
+
+def _chat_classic(a, dm, store) -> int:
     respond, _ = _responder(dm, not getattr(a, "core", False))
     print(f"RASM-CIM v{__version__} — режим {dm.default_mode}, база: {store.home}")
     print("Команды: :help   Выход: :quit / Ctrl-D")
@@ -106,6 +161,31 @@ def cmd_chat(a) -> int:
     if store.exists() or dm.kg.all_statements():
         store.save(dm)
         print(f"[сохранено] {store.kb_path}")
+    return 0
+
+
+def cmd_agent(a) -> int:
+    """Одна реплика в агентном режиме: ответ, источник, предложение запомнить."""
+    dm, store = _build(a.home, a.answer)
+    session = _agent(a, dm, store)
+    reply = session.step(a.text)
+    if getattr(a, "json", False):
+        _print_json({"text": reply.text, "kind": reply.kind,
+                     "source": reply.source, "proposed": reply.proposed,
+                     "learned": reply.learned, "meta": reply.meta})
+    else:
+        print(reply.text)
+    if store.exists() or dm.kg.all_statements():
+        store.save(dm)
+        save_state(dm, store.home)
+    session.memory.save()
+    return 0
+
+
+def cmd_vocab(a) -> int:
+    dm, store = _build(a.home, a.answer)
+    session = _agent(a, dm, store)
+    print(session.vocabulary().text)
     return 0
 
 
@@ -557,9 +637,26 @@ def build_parser() -> argparse.ArgumentParser:
 
     add("version", cmd_version, "версии и окружение")
 
-    sp = add("chat", cmd_chat, "интерактивный диалог")
+    sp = add("chat", cmd_chat, "интерактивный диалог (по умолчанию агентный)")
     sp.add_argument("--answer", default="normal")
     sp.add_argument("--core", action="store_true")
+    sp.add_argument("--classic", action="store_true",
+                    help="старый режим: только ответы по базе, без агентного слоя")
+    sp.add_argument("--online", action="store_true",
+                    help="разрешить сетевой инструмент (по умолчанию выключен)")
+    sp.add_argument("--endpoint", default=None,
+                    help="поисковый бэкенд: URL с {query}, 'github' или пусто "
+                         "(Википедия)")
+
+    sp = add("agent", cmd_agent, "одна реплика агентного диалога")
+    sp.add_argument("text")
+    sp.add_argument("--answer", default="normal")
+    sp.add_argument("--json", action="store_true")
+    sp.add_argument("--online", action="store_true")
+    sp.add_argument("--endpoint", default=None)
+
+    sp = add("vocab", cmd_vocab, "словарный запас агента")
+    sp.add_argument("--answer", default="normal")
 
     sp = add("ask", cmd_ask, "задать вопрос")
     sp.add_argument("text")
