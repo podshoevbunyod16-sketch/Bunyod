@@ -1,0 +1,731 @@
+{
+  "n": 60,
+  "binding_accuracy": {
+    "successes": 37,
+    "total": 37,
+    "rate": 1.0,
+    "ci95": [
+      0.9059,
+      1.0
+    ]
+  },
+  "recency_accuracy": {
+    "successes": 7,
+    "total": 7,
+    "rate": 1.0,
+    "ci95": [
+      0.6457,
+      1.0
+    ]
+  },
+  "refusal_accuracy": {
+    "successes": 16,
+    "total": 16,
+    "rate": 1.0,
+    "ci95": [
+      0.8064,
+      1.0
+    ]
+  },
+  "ungrounded_rate": {
+    "successes": 0,
+    "total": 16,
+    "rate": 0.0,
+    "ci95": [
+      0.0,
+      0.1936
+    ]
+  },
+  "wrong_bindings": 0,
+  "refusals_on_unique": 0,
+  "safe_accuracy": {
+    "successes": 60,
+    "total": 60,
+    "rate": 1.0,
+    "ci95": [
+      0.9398,
+      1.0
+    ]
+  },
+  "by_category": {
+    "pronoun_simple": {
+      "successes": 7,
+      "total": 7,
+      "rate": 1.0,
+      "ci95": [
+        0.6457,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 7,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "repeat_mention": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "topic_shift": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "correction": {
+      "successes": 7,
+      "total": 7,
+      "rate": 1.0,
+      "ci95": [
+        0.6457,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 7,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "gender_select": {
+      "successes": 7,
+      "total": 7,
+      "rate": 1.0,
+      "ci95": [
+        0.6457,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 7,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "no_antecedent": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "gender_mismatch": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "ambiguous_pair": {
+      "successes": 7,
+      "total": 7,
+      "rate": 1.0,
+      "ci95": [
+        0.6457,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 7,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    }
+  },
+  "split": {
+    "name": "hidden",
+    "path": "tests_v17/corpus/coref/hidden.jsonl",
+    "sha256": "b97b470c97ca559b43c2c64878559bbddcf37cbe03184c15b2b23f6547173bfc",
+    "size": 60,
+    "categories": {
+      "repeat_mention": 8,
+      "topic_shift": 8,
+      "gender_mismatch": 8,
+      "no_antecedent": 8,
+      "gender_select": 7,
+      "correction": 7,
+      "ambiguous_pair": 7,
+      "pronoun_simple": 7
+    }
+  },
+  "observations": [
+    {
+      "case_id": "hidden-r000",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t001",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Цветаева",
+      "bound_to": "Цветаева",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m002",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n003",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g004",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Гагарин",
+      "bound_to": "Гагарин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c005",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a006",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Мария",
+      "bound_to": "Мария",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p007",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Ломоносов",
+      "bound_to": "Ломоносов",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r008",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Кеплер",
+      "bound_to": "Кеплер",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t009",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Кеплер",
+      "bound_to": "Кеплер",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m010",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n011",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g012",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Цветаева",
+      "bound_to": "Цветаева",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c013",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Гагарин",
+      "bound_to": "Гагарин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a014",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Анна",
+      "bound_to": "Анна",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p015",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Ирина",
+      "bound_to": "Ирина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r016",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Цветаева",
+      "bound_to": "Цветаева",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t017",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m018",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n019",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g020",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c021",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Гагарин",
+      "bound_to": "Гагарин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a022",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p023",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r024",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t025",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Кеплер",
+      "bound_to": "Кеплер",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m026",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n027",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g028",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Иван",
+      "bound_to": "Иван",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c029",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Мария",
+      "bound_to": "Мария",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a030",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p031",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r032",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t033",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Цветаева",
+      "bound_to": "Цветаева",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m034",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n035",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g036",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Ольга",
+      "bound_to": "Ольга",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c037",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a038",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Ирина",
+      "bound_to": "Ирина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p039",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Толстой",
+      "bound_to": "Толстой",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r040",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Толстой",
+      "bound_to": "Толстой",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t041",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Терешкова",
+      "bound_to": "Терешкова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m042",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n043",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g044",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c045",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a046",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p047",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Ирина",
+      "bound_to": "Ирина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r048",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t049",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m050",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n051",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-g052",
+      "category": "gender_select",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-c053",
+      "category": "correction",
+      "expected": "REFERENT",
+      "entity": "Ломоносов",
+      "bound_to": "Ломоносов",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-a054",
+      "category": "ambiguous_pair",
+      "expected": "RECENCY",
+      "entity": "Иван",
+      "bound_to": "Иван",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-p055",
+      "category": "pronoun_simple",
+      "expected": "REFERENT",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-r056",
+      "category": "repeat_mention",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-t057",
+      "category": "topic_shift",
+      "expected": "REFERENT",
+      "entity": "Елена",
+      "bound_to": "Елена",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-m058",
+      "category": "gender_mismatch",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "hidden-n059",
+      "category": "no_antecedent",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    }
+  ],
+  "sealed": "b97b470c97ca559b43c2c64878559bbddcf37cbe03184c15b2b23f6547173bfc"
+}
