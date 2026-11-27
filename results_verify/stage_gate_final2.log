@@ -1,0 +1,14 @@
+=== FINAL GATE (post-verification, pre-archive) 2026-11-27T01:04:33Z ===
+3e40d0ce48d0ee4c0f49a2c695a3955f4e7852ef
+362 passed in 10.30s
+=== freeze v0.8 mismatches ===
+0
+=== baseline-272 exceptions ===
+README.md: FAILED
+pyproject.toml: FAILED
+requirements-dev.txt: FAILED
+md5sum: WARNING: 3 computed checksums did NOT match
+=== rust set ===
+451bbfa52e67a72b04c0046d9df4e9d5  -
+=== v0.1 frozen __init__ ===
+9c19f403e3e5f9d2f1d18739373b6233  rasm_cim/__init__.py
