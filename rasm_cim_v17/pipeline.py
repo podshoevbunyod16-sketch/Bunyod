@@ -115,6 +115,13 @@ class SemanticPipeline:
                                 facts=[], evidence=[])
                 record_turn(self.dm, text, meaning, answer)
                 return answer
+        # «Иван — физик, а Мария — врач»: несколько смыслов в одной реплике —
+        # это не повод отдавать её ядру, если каждая часть — простой факт
+        compound = self._compound_teach(text, mode)
+        if compound is not None:
+            self.last_meaning = None
+            self.last_delegated = False
+            return compound
         meanings = meanings_for(parsed_text, resolver=self.dm.kg.resolver,
                                 schema=self.dm.kg.schema, parser=self.dm.parser)
         if not self.semantic or len(meanings) != 1:
@@ -122,11 +129,6 @@ class SemanticPipeline:
             self.last_delegated = True
             return self.dm.say(parsed_text, mode)
         m = meanings[0]
-        compound = self._compound_teach(text, mode)
-        if compound is not None:
-            self.last_meaning = m
-            self.last_delegated = False
-            return compound
         if any(f.status == FOCUS_PRONOUN for f in m.focus):
             apply_context(m, self.dm)          # Plan C: bind «он/она/оно»
         self.last_meaning = m
@@ -159,15 +161,32 @@ class SemanticPipeline:
         """
         import re
 
-        if "?" in text or "!" in text:
+        from .semantics.lexicon import normalize
+
+        if "!" in text:
             return None
-        parts = [p.strip() for p in re.split(r"[;,]\s*", text) if p.strip()]
-        if len(parts) != 2:
+        norm = normalize(text)
+        # разделители: запятая, точка с запятой, двоеточие после вводного
+        # «значит так», союз «а» между однородными фактами
+        parts = [p.strip(" .…") for p in
+                 re.split(r"[;,:]|\s+а\s+", norm) if p.strip(" .…")]
+        if len(parts) < 2:
+            return None
+        # хвостовые вопросы («..., понял?», «..., Мария тоже?») отбрасываются:
+        # они не факты, но и не мешают извлечь утверждение перед ними
+        tail_questions = 0
+        while parts and "?" in parts[-1]:
+            parts.pop()
+            tail_questions += 1
+        # часть из одного слова фактом быть не может («Так», «Ну») — это
+        # остаток вводного оборота
+        parts = [p for p in parts if len(p.split()) >= 2]
+        if not parts or (len(parts) < 2 and not tail_questions):
             return None
         copula = re.compile(r"^[^—–-]+\s+[—–-]\s+(?:это\s+)?[^—–-]+$")
         if not all(copula.match(part) for part in parts):
             return None
-        answers = []
+        pieces = []
         for part in parts:
             meanings = meanings_for(part, resolver=self.dm.kg.resolver,
                                     schema=self.dm.kg.schema,
@@ -177,7 +196,8 @@ class SemanticPipeline:
             piece = meanings[0]
             if piece.speech_act not in (AS_TELL, AS_RETRACT):
                 return None
-            answers.append(self._respond_repaired(piece, mode))
+            pieces.append(piece)
+        answers = [self._respond_repaired(piece, mode) for piece in pieces]
         last = answers[-1]
         last.notes = list(last.notes) + ["semantic:compound-teach"]
         return last

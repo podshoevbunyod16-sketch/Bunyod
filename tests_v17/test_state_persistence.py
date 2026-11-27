@@ -65,3 +65,46 @@ def test_mention_memory_survives_in_cli():
         _run(home, "say", "Кто такой Рустам?")
         answer = _run(home, "say", "Он геолог?")
         assert "Рустам" in answer
+
+
+# --- извлечение фактов из разговорной реплики ---------------------------------
+def _graph_names(text: str) -> set[tuple[str, str]]:
+    from rasm_cim_v16.dialogue_manager import DialogueManager as DM
+    from rasm_cim_v16.persistence import Store
+    from rasm_cim_v17.pipeline import SemanticPipeline
+
+    home = tempfile.mkdtemp()
+    dm = DM()
+    Store(home=home, autosave=False).attach(dm)
+    SemanticPipeline(dm).respond(text, "normal")
+    return {(dm.kg.name_of(st.subject), dm.kg.name_of(st.object))
+            for st in dm.kg.all_statements()}
+
+
+def test_trailing_hedges_do_not_break_fact():
+    for text in ("Пётр — это инженер, как я слышал.",
+                 "Анна — это учитель, если не ошибаюсь.",
+                 "Рустам — это геолог, это точно."):
+        names = {(s.replace("ё", "е"), o) for s, o in _graph_names(text)}
+        assert len(names) == 1, text
+
+
+def test_two_facts_with_lead_in_and_trailing_question():
+    names = {(s.replace("ё", "е"), o) for s, o in
+             _graph_names("Слушай, Иван — это физик, а Мария — врач, понял?")}
+    assert names == {("Иван", "физик"), ("Мария", "врач")}
+    names = {(s.replace("ё", "е"), o) for s, o in
+             _graph_names("Значит так: Пётр — это инженер, Анна — это учитель.")}
+    assert names == {("Петр", "инженер"), ("Анна", "учитель")}
+
+
+def test_broken_compound_does_not_half_teach():
+    # если вторая часть не факт, первая тоже не должна попасть в базу:
+    # иначе реплика, признанная неразобранной, всё равно меняет знания
+    assert _graph_names("Иван — это физик, Мария читает книгу.") == set()
+
+
+def test_fact_before_trailing_question_is_kept():
+    # «..., Мария тоже?» — утверждение перед вопросом остаётся фактом
+    names = {(s.replace("ё", "е"), o) for s, o in _graph_names("Иван — это физик, Мария тоже?")}
+    assert names == {("Иван", "физик")}
