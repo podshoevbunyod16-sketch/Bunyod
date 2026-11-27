@@ -18,7 +18,18 @@ numpy = ["numpy>=1.26"]
 rasm-cim = "rasm_cim_v17.cli:main"
 rasm-cim-demo = "rasm_cim_v9.cli:main"
 
-[tool.setuptools]
-packages = ["rasm_cim_v9", "rasm_cim_v9.storage", "rasm_cim_v9.memory",
-            "rasm_cim_v8", "rasm_cim_v8.storage", "rasm_cim_v8.memory", "rasm_cim_v8.hv",
-            "rasm_cim_v16", "rasm_cim_v17", "rasm_cim_v17.interop"]
+# Explicit allow-list with recursive discovery: ship the unified entry point
+# and all v17 cognitive subpackages, without packaging tests or experiments.
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "rasm_cim",
+    "rasm_cim_v8",
+    "rasm_cim_v8.*",
+    "rasm_cim_v9",
+    "rasm_cim_v9.*",
+    "rasm_cim_v16",
+    "rasm_cim_v16.*",
+    "rasm_cim_v17",
+    "rasm_cim_v17.*",
+]
