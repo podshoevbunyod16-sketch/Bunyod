@@ -1,0 +1,50 @@
+{
+  "generator": "rasm_cim_v17.discourse.coref_bench",
+  "note": "hidden запечатан до первого запуска: sha256 зафиксирован здесь; изменение hidden ломает verify_sealed и тест целостности",
+  "schema": "rasm-cim-coref-manifest/1",
+  "seed": 20261127,
+  "splits": {
+    "dev": {
+      "categories": {
+        "ambiguous_pair": 19,
+        "correction": 19,
+        "gender_mismatch": 19,
+        "gender_select": 18,
+        "no_antecedent": 19,
+        "pronoun_simple": 19,
+        "repeat_mention": 18,
+        "topic_shift": 19
+      },
+      "sha256": "1ae06dff54c3f73bdcd78c5dc3189a86a0c3e6d0ec7263e71c9162c6d63e9e84",
+      "size": 150
+    },
+    "hidden": {
+      "categories": {
+        "ambiguous_pair": 7,
+        "correction": 7,
+        "gender_mismatch": 8,
+        "gender_select": 7,
+        "no_antecedent": 8,
+        "pronoun_simple": 7,
+        "repeat_mention": 8,
+        "topic_shift": 8
+      },
+      "sha256": "b97b470c97ca559b43c2c64878559bbddcf37cbe03184c15b2b23f6547173bfc",
+      "size": 60
+    },
+    "validation": {
+      "categories": {
+        "ambiguous_pair": 12,
+        "correction": 13,
+        "gender_mismatch": 12,
+        "gender_select": 13,
+        "no_antecedent": 12,
+        "pronoun_simple": 13,
+        "repeat_mention": 12,
+        "topic_shift": 13
+      },
+      "sha256": "910e78b45e94cb6fa8d378272cf32f8c81c52ffccf1ab40b7253c99d94047e78",
+      "size": 100
+    }
+  }
+}

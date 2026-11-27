@@ -1,0 +1,14 @@
+# schema: rasm-cim-curriculum/1
+# Учебный план: каждая строка — урок с ожидаемым ответом.
+{"id": "l01", "kind": "teach", "text": "Пушкин написал Евгений Онегин", "expect_status": "DIRECT", "note": "опорный факт для контрольных вопросов"}
+{"id": "l02", "kind": "teach", "text": "Париж находится в Франция", "expect_status": "DIRECT"}
+{"id": "l03", "kind": "teach", "text": "Франция находится в Европа", "expect_status": "DIRECT"}
+{"id": "l04", "kind": "question", "text": "Кто написал Евгений Онегин?", "expect_status": "DIRECT", "expect_contains": ["Пушкин"]}
+{"id": "l05", "kind": "question", "text": "Где находится Париж?", "expect_status": "DIRECT", "expect_contains": ["Франция"]}
+{"id": "l06", "kind": "question", "text": "Париж находится в Европе?", "expect_status": "INFERRED", "expect_contains": ["Париж"]}
+{"id": "l07", "kind": "teach", "text": "Кит — это млекопитающее", "expect_status": "DIRECT"}
+{"id": "l08", "kind": "question", "text": "Кто такой Кит?", "expect_status": "DIRECT", "expect_contains": ["млекопитающее"]}
+{"id": "l09", "kind": "retract", "text": "Забудь, что Кит — это млекопитающее", "expect_status": "DIRECT"}
+{"id": "l10", "kind": "question", "text": "Кто такой Кит?", "expect_status": "UNKNOWN"}
+{"id": "l11", "kind": "teach", "text": "Кит — это млекопитающее", "expect_status": "DIRECT", "note": "повторное обучение после отката"}
+{"id": "l12", "kind": "question", "text": "Кто такой Кит?", "expect_status": "DIRECT", "expect_contains": ["млекопитающее"]}

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rasm-cim"
-version = "0.16.0"
-description = "RASM-CIM: residue-addressable associative memory over streaming storage (experimental, offline, stdlib-first)"
+version = "0.17.0"
+description = "RASM-CIM: offline Russian-language cognitive stack — typed KB with provenance, evidence-bound reasoning, dialogue, legacy-data integration (experimental, stdlib-only)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -15,9 +15,21 @@ dev = ["pytest", "hypothesis", "atheris"]
 numpy = ["numpy>=1.26"]
 
 [project.scripts]
+rasm-cim = "rasm_cim_v17.cli:main"
 rasm-cim-demo = "rasm_cim_v9.cli:main"
 
-[tool.setuptools]
-packages = ["rasm_cim_v9", "rasm_cim_v9.storage", "rasm_cim_v9.memory",
-            "rasm_cim_v8", "rasm_cim_v8.storage", "rasm_cim_v8.memory", "rasm_cim_v8.hv",
-            "rasm_cim_v16"]
+# Explicit allow-list with recursive discovery: ship the unified entry point
+# and all v17 cognitive subpackages, without packaging tests or experiments.
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "rasm_cim",
+    "rasm_cim_v8",
+    "rasm_cim_v8.*",
+    "rasm_cim_v9",
+    "rasm_cim_v9.*",
+    "rasm_cim_v16",
+    "rasm_cim_v16.*",
+    "rasm_cim_v17",
+    "rasm_cim_v17.*",
+]

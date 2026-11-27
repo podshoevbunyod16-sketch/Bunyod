@@ -1,0 +1,503 @@
+{
+  "n": 40,
+  "binding_accuracy": {
+    "successes": 32,
+    "total": 32,
+    "rate": 1.0,
+    "ci95": [
+      0.8928,
+      1.0
+    ]
+  },
+  "recency_accuracy": {
+    "successes": 0,
+    "total": 0,
+    "rate": null,
+    "ci95": [
+      0.0,
+      1.0
+    ]
+  },
+  "refusal_accuracy": {
+    "successes": 8,
+    "total": 8,
+    "rate": 1.0,
+    "ci95": [
+      0.6756,
+      1.0
+    ]
+  },
+  "ungrounded_rate": {
+    "successes": 0,
+    "total": 8,
+    "rate": 0.0,
+    "ci95": [
+      0.0,
+      0.3244
+    ]
+  },
+  "wrong_bindings": 0,
+  "refusals_on_unique": 0,
+  "safe_accuracy": {
+    "successes": 40,
+    "total": 40,
+    "rate": 1.0,
+    "ci95": [
+      0.9124,
+      1.0
+    ]
+  },
+  "by_category": {
+    "distractor_class": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "correction_then_shift": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "negation_correction": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "plural_ambiguous": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    },
+    "long_distance": {
+      "successes": 8,
+      "total": 8,
+      "rate": 1.0,
+      "ci95": [
+        0.6756,
+        1.0
+      ],
+      "verdicts": {
+        "correct": 8,
+        "wrong": 0,
+        "refused": 0,
+        "ungrounded": 0
+      }
+    }
+  },
+  "split": {
+    "name": "validation",
+    "path": "tests_v17/corpus/coref2/validation.jsonl",
+    "sha256": "67c69c8dd57d79d5529f3285336a73a5e2b7d5250156c7d0f6f56bc226c9984c",
+    "size": 40,
+    "categories": {
+      "long_distance": 8,
+      "correction_then_shift": 8,
+      "negation_correction": 8,
+      "plural_ambiguous": 8,
+      "distractor_class": 8
+    }
+  },
+  "observations": [
+    {
+      "case_id": "validation-ld000",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs001",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Анна",
+      "bound_to": "Анна",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc002",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Софья",
+      "bound_to": "Софья",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl003",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc004",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld005",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs006",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Иван",
+      "bound_to": "Иван",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc007",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl008",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc009",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Екатерина",
+      "bound_to": "Екатерина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld010",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs011",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Иван",
+      "bound_to": "Иван",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc012",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl013",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc014",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Ахматова",
+      "bound_to": "Ахматова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld015",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs016",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Мария",
+      "bound_to": "Мария",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc017",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Толстой",
+      "bound_to": "Толстой",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl018",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc019",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Менделеев",
+      "bound_to": "Менделеев",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld020",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Ломоносов",
+      "bound_to": "Ломоносов",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs021",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Ирина",
+      "bound_to": "Ирина",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc022",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Ольга",
+      "bound_to": "Ольга",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl023",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc024",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld025",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Галилей",
+      "bound_to": "Галилей",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs026",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Цветаева",
+      "bound_to": "Цветаева",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc027",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Пётр",
+      "bound_to": "Петр",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl028",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc029",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Софья",
+      "bound_to": "Софья",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld030",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Гагарин",
+      "bound_to": "Гагарин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs031",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Терешкова",
+      "bound_to": "Терешкова",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc032",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Пётр",
+      "bound_to": "Петр",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl033",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc034",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Пушкин",
+      "bound_to": "Пушкин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-ld035",
+      "category": "long_distance",
+      "expected": "REFERENT",
+      "entity": "Кеплер",
+      "bound_to": "Кеплер",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-cs036",
+      "category": "correction_then_shift",
+      "expected": "REFERENT",
+      "entity": "Гагарин",
+      "bound_to": "Гагарин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-nc037",
+      "category": "negation_correction",
+      "expected": "REFERENT",
+      "entity": "Дарвин",
+      "bound_to": "Дарвин",
+      "refused": false,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-pl038",
+      "category": "plural_ambiguous",
+      "expected": "REFUSE",
+      "entity": "",
+      "bound_to": "",
+      "refused": true,
+      "verdict": "correct"
+    },
+    {
+      "case_id": "validation-dc039",
+      "category": "distractor_class",
+      "expected": "REFERENT",
+      "entity": "Терешкова",
+      "bound_to": "Терешкова",
+      "refused": false,
+      "verdict": "correct"
+    }
+  ],
+  "sealed": "67c69c8dd57d79d5529f3285336a73a5e2b7d5250156c7d0f6f56bc226c9984c"
+}
