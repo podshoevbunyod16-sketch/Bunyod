@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  python-ci:
+    name: Python Core & E2E (${{ matrix.os }} / py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install ModelForge Core & test dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -e ".[full,dev]"
+      - name: Bytecode & syntax lint check
+        run: python -m compileall -q modelforge scripts tests plugins
+      - name: Run full unit, security, API & CLI test suite
+        run: python -m pytest -v
+      - name: Run end-to-end training & generation smoke test
+        run: python scripts/smoke_e2e.py
+
+  flutter-ci:
+    name: Flutter Material 3 Analyze & Widget Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+          channel: stable
+          cache: true
+      - name: Bootstrap platform runners & fetch pub packages
+        run: python3 scripts/prepare_flutter_platforms.py
+      - name: Flutter static analysis
+        working-directory: apps/flutter_app
+        run: flutter analyze
+      - name: Flutter widget & localization tests
+        working-directory: apps/flutter_app
+        run: flutter test

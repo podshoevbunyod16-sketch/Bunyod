@@ -1,0 +1,55 @@
+name: Android ARM64 Build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  android-arm64:
+    name: Build ModelForge-Android-ARM64 (APK & AAB)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+          channel: stable
+          cache: true
+      - name: Build Android ARM64 APK and AAB
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: bash platform/android/build_android.sh
+      - name: Verify ARM64 native ABI inside APK
+        run: |
+          python3 - <<'PY'
+          import zipfile, pathlib
+          apk = pathlib.Path("release_artifacts/ModelForge-Android-ARM64.apk")
+          aab = pathlib.Path("release_artifacts/ModelForge-Android-ARM64.aab")
+          assert apk.exists() and apk.stat().st_size > 1_000_000, "APK missing or too small"
+          assert aab.exists() and aab.stat().st_size > 1_000_000, "AAB missing or too small"
+          with zipfile.ZipFile(apk) as zf:
+              names = zf.namelist()
+              arm64_libs = [n for n in names if n.startswith("lib/arm64-v8a/")]
+              assert arm64_libs, f"No arm64-v8a libraries found in APK! Entries sample: {names[:20]}"
+              print("Verified Android ARM64 libs:", arm64_libs)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ModelForge-Android-ARM64
+          path: |
+            release_artifacts/ModelForge-Android-ARM64.apk
+            release_artifacts/ModelForge-Android-ARM64.aab
+            release_artifacts/ModelForge-Android-ARM64.SIGNING_STATUS.txt

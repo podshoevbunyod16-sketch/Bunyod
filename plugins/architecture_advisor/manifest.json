@@ -1,0 +1,27 @@
+{
+  "id": "architecture_advisor",
+  "name": "Multi-Objective Architecture Advisor",
+  "version": "1.0.0",
+  "description": "Recommends compact neural architectures given RAM budget, sequence length, and target task.",
+  "entrypoint": "plugin.py:run",
+  "requirements": [],
+  "permissions": ["workspace:read"],
+  "allow_full_filesystem": false,
+  "input_schema": {
+    "type": "object",
+    "required": ["ram_mb", "context_length"],
+    "properties": {
+      "ram_mb": {"type": "integer"},
+      "context_length": {"type": "integer"}
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "required": ["recommended_architecture", "low_memory_safe", "rationale"],
+    "properties": {
+      "recommended_architecture": {"type": "string"},
+      "low_memory_safe": {"type": "boolean"},
+      "rationale": {"type": "string"}
+    }
+  }
+}
