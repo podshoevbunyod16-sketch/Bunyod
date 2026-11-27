@@ -1,0 +1,10 @@
+{
+  "facts": 500,
+  "build_s": 0.41,
+  "export_bytes": 457104,
+  "import_s": 0.443,
+  "import_imported": 1017,
+  "query_predicate_us": 238.1,
+  "replay_events_per_s": 1129.3,
+  "note": "host tmpfs; not a device measurement"
+}

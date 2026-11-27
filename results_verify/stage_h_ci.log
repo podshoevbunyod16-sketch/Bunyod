@@ -1,0 +1,91 @@
+=== Stage H — CI/CD verification (2026-11-27) ===
+Workflow: .github/workflows/ci.yml (added in this cycle; not present at 56d275c)
+
+--- Run 45919794065 (commit 7162869, FIRST CI iteration) ---
+push: completed failure — rust job FAILED (python test deps missing: pyo3 build/cross-language need libpython/pytest/numpy)
+package/python(3.10-3.13): success. Failure fixed in 105fe83.
+
+--- Run 45919888140 (commit 105fe83, PR #1) — ALL JOBS SUCCESS ---
+
+job: python (3.10) -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Install dev dependencies -> success
+    Full Python suite (single command, incl. cross-language) -> success
+    Freeze v0.8 manifest must be clean -> success
+    Freeze baseline-272 must show EXACTLY the 3 documented exceptions -> success
+    Rust v0.7 source set unchanged -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+job: python (3.11) -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Install dev dependencies -> success
+    Full Python suite (single command, incl. cross-language) -> success
+    Freeze v0.8 manifest must be clean -> success
+    Freeze baseline-272 must show EXACTLY the 3 documented exceptions -> success
+    Rust v0.7 source set unchanged -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+job: python (3.13) -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Install dev dependencies -> success
+    atheris on 3.13 (visible if missing; not imported by pytest suite) -> success
+    Full Python suite (single command, incl. cross-language) -> success
+    Freeze v0.8 manifest must be clean -> success
+    Freeze baseline-272 must show EXACTLY the 3 documented exceptions -> success
+    Rust v0.7 source set unchanged -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+job: python (3.12) -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Install dev dependencies -> success
+    Full Python suite (single command, incl. cross-language) -> success
+    Freeze v0.8 manifest must be clean -> success
+    Freeze baseline-272 must show EXACTLY the 3 documented exceptions -> success
+    Rust v0.7 source set unchanged -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+job: package -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Build sdist and wheel -> success
+    Wheel contains data files, no local paths -> success
+    Install wheel into a clean environment and smoke test from a foreign cwd -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+job: rust -> success
+    Set up job -> success
+    Run actions/checkout@v4 -> success
+    Run actions/setup-python@v5 -> success
+    Python test deps (cross-language suite needs pytest + numpy) -> success
+    Rust toolchain (repo pins rust-toolchain.toml) -> success
+    cargo test -> success
+    cargo test --release -> success
+    cargo clippy (informational — legacy lints; NOT gate-failing) -> success
+    Build PyO3 extension (cdylib) -> success
+    Cross-language equivalence against CI-built .so -> success
+    Post Run actions/setup-python@v5 -> success
+    Post Run actions/checkout@v4 -> success
+    Complete job -> success
+
+Raw job logs could NOT be downloaded from the verification sandbox
+(GitHub log CDN hosts — results-receiver.actions.githubusercontent.com, *.blob.core.windows.net —
+ are outside the sandbox network allowlist). Job/step conclusions were read via the
+actions jobs API (api.github.com). Run URL:
+https://github.com/podshoevbunyod16-sketch/Bunyod/actions/runs/45919888140
+
+Rust test COUNTS are not visible offline; conclusions are success for: cargo test,
+cargo test --release, cargo clippy (informational), cdylib build, cross-language (28).

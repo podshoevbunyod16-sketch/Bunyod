@@ -1,0 +1,335 @@
+{
+  "schema": "rasm-cim-learned/1",
+  "version": "lv_000",
+  "parent": null,
+  "created_at": "2026-11-26T16:22:27Z",
+  "seed": 0,
+  "corpus_sha256": "391dbb1acf9f9891902911e90cea9a64832fd0f2dccad3dfd8ca0d35c3256232",
+  "config": {
+    "alpha": 0.5,
+    "tau": 0.6,
+    "min_margin": 1.0,
+    "use_fallback_on_unknown": true
+  },
+  "intent_fallback": {
+    "tokens": {
+      "какая": {
+        "ask_fact": 33
+      },
+      "столица": {
+        "ask_fact": 55
+      },
+      "у": {
+        "ask_fact": 44
+      },
+      "франция": {
+        "ask_fact": 9,
+        "compare": 6
+      },
+      "германия": {
+        "ask_fact": 9,
+        "compare": 6
+      },
+      "япония": {
+        "ask_fact": 9
+      },
+      "италия": {
+        "ask_fact": 9
+      },
+      "испания": {
+        "ask_fact": 9
+      },
+      "канада": {
+        "ask_fact": 9
+      },
+      "австралия": {
+        "ask_fact": 9
+      },
+      "бразилия": {
+        "ask_fact": 9
+      },
+      "казахстан": {
+        "ask_fact": 9
+      },
+      "узбекистан": {
+        "ask_fact": 9
+      },
+      "таджикистан": {
+        "ask_fact": 9
+      },
+      "это": {
+        "ask_fact": 11,
+        "ask_definition": 13
+      },
+      "что": {
+        "ask_fact": 11,
+        "ask_definition": 78,
+        "yes_no": 6
+      },
+      "скажите": {
+        "ask_fact": 11
+      },
+      "а": {
+        "ask_fact": 11
+      },
+      "напомни": {
+        "ask_fact": 11
+      },
+      "столицу": {
+        "ask_fact": 11
+      },
+      "столицей": {
+        "ask_fact": 11
+      },
+      "является": {
+        "ask_fact": 14,
+        "ask_definition": 13
+      },
+      "какой": {
+        "ask_fact": 11
+      },
+      "главный": {
+        "ask_fact": 11
+      },
+      "город": {
+        "ask_fact": 11
+      },
+      "такое": {
+        "ask_definition": 39
+      },
+      "поэт": {
+        "ask_definition": 8
+      },
+      "писатель": {
+        "ask_definition": 8
+      },
+      "учёный": {
+        "ask_definition": 8
+      },
+      "космонавт": {
+        "ask_definition": 8
+      },
+      "млекопитающие": {
+        "ask_definition": 8
+      },
+      "млекопитающее": {
+        "ask_definition": 16
+      },
+      "птица": {
+        "ask_definition": 8
+      },
+      "рыба": {
+        "ask_definition": 8
+      },
+      "планета": {
+        "ask_definition": 16
+      },
+      "звезда": {
+        "ask_definition": 8
+      },
+      "спутник": {
+        "ask_definition": 8
+      },
+      "кто": {
+        "ask_definition": 26,
+        "ask_fact": 6
+      },
+      "такой": {
+        "ask_definition": 13
+      },
+      "означает": {
+        "ask_definition": 13
+      },
+      "представляет": {
+        "ask_definition": 13
+      },
+      "собой": {
+        "ask_definition": 13
+      },
+      "расскажи": {
+        "ask_definition": 13
+      },
+      "объясни": {
+        "ask_definition": 13
+      },
+      "кем": {
+        "ask_definition": 13
+      },
+      "или": {
+        "ask_definition": 13
+      },
+      "чем": {
+        "ask_definition": 13,
+        "compare": 8
+      },
+      "знаешь": {
+        "ask_definition": 13
+      },
+      "про": {
+        "ask_definition": 13
+      },
+      "написал": {
+        "ask_fact": 3
+      },
+      "война": {
+        "ask_fact": 4
+      },
+      "и": {
+        "ask_fact": 8,
+        "compare": 16
+      },
+      "мир": {
+        "ask_fact": 4
+      },
+      "евгений": {
+        "ask_fact": 4
+      },
+      "онегин": {
+        "ask_fact": 4
+      },
+      "преступление": {
+        "ask_fact": 4
+      },
+      "наказание": {
+        "ask_fact": 4
+      },
+      "автор": {
+        "ask_fact": 6
+      },
+      "автором": {
+        "ask_fact": 3
+      },
+      "умеет": {
+        "yes_no": 2
+      },
+      "ли": {
+        "yes_no": 10
+      },
+      "пингвин": {
+        "yes_no": 4
+      },
+      "летать": {
+        "yes_no": 6
+      },
+      "страус": {
+        "yes_no": 4
+      },
+      "может": {
+        "yes_no": 2
+      },
+      "правда": {
+        "yes_no": 4
+      },
+      "летает": {
+        "yes_no": 2
+      },
+      "способен": {
+        "yes_no": 2
+      },
+      "дракон": {
+        "yes_no": 4
+      },
+      "существует": {
+        "yes_no": 4
+      },
+      "верно": {
+        "yes_no": 2
+      },
+      "численность": {
+        "ask_fact": 11
+      },
+      "населения": {
+        "ask_fact": 11
+      },
+      "привет": {
+        "greeting": 1
+      },
+      "здравствуйте": {
+        "greeting": 1
+      },
+      "хай": {
+        "greeting": 1
+      },
+      "добрый": {
+        "greeting": 1
+      },
+      "вечер": {
+        "greeting": 1
+      },
+      "сравни": {
+        "compare": 8
+      },
+      "киты": {
+        "compare": 6
+      },
+      "акула": {
+        "compare": 6
+      },
+      "пушкин": {
+        "compare": 6
+      },
+      "толстой": {
+        "compare": 6
+      },
+      "марс": {
+        "compare": 6
+      },
+      "земля": {
+        "compare": 6
+      },
+      "отличается": {
+        "compare": 8
+      },
+      "от": {
+        "compare": 8
+      },
+      "сравнение": {
+        "compare": 8
+      },
+      "перечисли": {
+        "list": 8
+      },
+      "известные": {
+        "list": 8
+      },
+      "тебе": {
+        "list": 8
+      },
+      "планеты": {
+        "list": 2
+      },
+      "поэты": {
+        "list": 2
+      },
+      "животные": {
+        "list": 2
+      },
+      "страны": {
+        "list": 2
+      }
+    },
+    "intent_totals": {
+      "ask_fact": 111,
+      "ask_definition": 104,
+      "yes_no": 12,
+      "greeting": 4,
+      "compare": 24,
+      "list": 8
+    }
+  },
+  "predicate_hints": {},
+  "alias_delta": {},
+  "corrections": [],
+  "metrics": {
+    "dev_intent_acc": {
+      "n": 84,
+      "acc": 0.8571,
+      "fallback_used": 2
+    },
+    "dev_intent_acc_baseline": {
+      "n": 84,
+      "acc": 0.8333,
+      "fallback_used": 0
+    }
+  }
+}

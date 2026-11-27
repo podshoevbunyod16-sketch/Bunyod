@@ -1,0 +1,10 @@
+=== FULL SUITE FINAL (2026-11-26T18:57:13Z) ===
+............................................                             [100%]
+332 passed in 11.00s
+=== freeze v0.8 mismatches ===
+0
+=== freeze baseline-272: documented exceptions ===
+README.md: FAILED
+pyproject.toml: FAILED
+requirements-dev.txt: FAILED
+md5sum: WARNING: 3 computed checksums did NOT match

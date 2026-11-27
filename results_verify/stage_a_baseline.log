@@ -1,0 +1,106 @@
+# RASM-CIM v0.15.0 verification — Stage A ( исходное состояние )
+date_utc: 2026-11-27T00:44:30Z
+branch: arena/aa17ff3d-bunyod
+HEAD: 56d275ce690e78562c14b7c40b9afbd3e4b9e424
+origin: 56d275ce690e78562c14b7c40b9afbd3e4b9e424
+expected target: 56d275ce690e78562c14b7c40b9afbd3e4b9e424
+platform: Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+python3: Python 3.11.2 (/usr/bin/python3)
+wc: 389 files tracked
+
+=== git log main..HEAD ===
+56d275c chore: ignore tar.gz archive artifacts (Phase D)
+2030f34 docs: FINAL_REPORT + sync TEST_REPORT/CHANGELOG with v0.15 packaging state
+ee81645 v0.15 packaging: unified CLI, honest README, documented freeze exceptions
+5b7f651 v0.15: managed improvement — corpus, learned artifacts, corrections, offline eval
+e572322 v0.14: evidence-bound reasoning pipeline
+25c764a v0.13: dialogue layer — context store, pronouns, multi-question messages
+a72721f v0.12: knowledge layer — entities/relations/concepts + full provenance
+ada4dff v0.11: Russian language layer (normalize/tokenize/morphology/intent) + tests + docs
+
+=== freeze v0.8 (results_v9/v08_freeze_manifest.md5) ===
+0
+(count of NON-OK lines above; 0 = clean)
+
+=== freeze baseline-272 (results_v11/freeze_manifest_baseline_v0.10.md5) ===
+README.md: FAILED
+pyproject.toml: FAILED
+requirements-dev.txt: FAILED
+md5sum: WARNING: 3 computed checksums did NOT match
+
+=== Rust v0.7 sha256-set ===
+451bbfa52e67a72b04c0046d9df4e9d5  -
+
+=== git status ===
+1
+
+=== top-level structure ===
+     51 rasm_cim_rust
+     31 rasm_cim_v8
+     23 rasm_cim_v6_v2
+     17 rasm_cim_v9
+     13 rasm_cim_v15
+     12 rasm_cim_v11
+     12 rasm_cim
+     11 results_v8
+     11 rasm_cim_v2
+     10 results_v9
+     10 rasm_cim_v1_snapshot
+      9 rasm_cim_v3
+      8 rasm_cim_v5
+      8 rasm_cim_v4
+      8 rasm_cim_v13
+      8 rasm_cim_v12
+      8 docs_v15
+      7 rasm_cim_v6
+      7 plots_v8
+      7 docs_v14
+      7 docs_v13
+      7 docs_v12
+      7 docs_v11
+      6 results_v15
+      6 docs_v9
+      6 docs_v10
+      5 results_v11
+      5 rasm_cim_v14
+      5 docs_v8
+      4 tests_v9
+      4 plots_v7
+      3 tests_v13
+      3 tests_v12
+      3 results_v10
+      3 bench_v9
+      2 tests_v11
+      2 results_v14
+      2 results_v13
+      2 results_v12
+      2 plots_v6_v2
+      2 plots_v2
+      2 plots
+      2 docs_v6_v2
+      2 docs_v2
+      2 bench_v11
+      1 tests_v15
+      1 tests_v14
+      1 tests_v10
+      1 tests_phase_c
+      1 test_rasm_v6_v2.py
+      1 test_rasm_v6.py
+      1 test_rasm_v5.py
+      1 test_rasm_v4.py
+      1 test_rasm_v3.py
+      1 test_rasm_v2.py
+      1 test_rasm.py
+      1 requirements-dev.txt
+      1 pyproject.toml
+      1 plots_v6
+      1 plots_v5
+      1 plots_v4
+      1 plots_v3
+      1 docs_v6
+      1 docs_v3
+      1 bench_v14
+      1 bench_v10
+      1 README.md
+      1 PROGRESS.md
+      1 .gitignore

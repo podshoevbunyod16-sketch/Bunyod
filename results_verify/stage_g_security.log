@@ -1,0 +1,74 @@
+=== G1 dangerous patterns (tracked package code) ===
+rasm_cim/demo.py:55:        fn = eval(code)
+rasm_cim/demo.py:56:        print(f"  ({op},{arg}) -> decoded ({pop},{parg}) -> code: {code} -> f(10)={fn(10)} (expect {eval(generate_code(op,arg))(10)})")
+rasm_cim/experiments.py:324:        fn = eval(code)
+rasm_cim/logic.py:127:    fn = eval(generate_code(op, arg))
+rasm_cim/cli.py:54:    subprocess.run([sys.executable, "-m", "rasm_cim_v12.cli", "seed-demo", kb.path],
+rasm_cim/cli.py:281:        out = subprocess.run(["md5sum", "-c", base], capture_output=True,
+rasm_cim_v12/cli.py:47:                      added_at=__import__("time").strftime("%Y-%m-%dT%H:%M:%SZ",
+rasm_cim_v12/cli.py:48:                                                           __import__("time").gmtime()))
+rasm_cim_v15/cli.py:54:def _cmd_eval(a):
+rasm_cim_v1_snapshot/demo.py:55:        fn = eval(code)
+rasm_cim_v1_snapshot/demo.py:56:        print(f"  ({op},{arg}) -> decoded ({pop},{parg}) -> code: {code} -> f(10)={fn(10)} (expect {eval(generate_code(op,arg))(10)})")
+rasm_cim_v1_snapshot/experiments.py:324:        fn = eval(code)
+rasm_cim_v1_snapshot/logic.py:127:    fn = eval(generate_code(op, arg))
+rasm_cim_v2/demo2.py:45:        parse_program_string("__import__('os').system('echo hi')")
+rasm_cim_v2/experiments2.py:208:    malicious = ["__import__('os').system('echo hi')", "add(3); import os", "eval('1+1')", "add(x)"]
+rasm_cim_v2/experiments2.py:343:    # AST-based check: no actual Call nodes to eval/exec/compile/__import__ in v2 code
+rasm_cim_v2/experiments2.py:350:                if node.func.id in ("eval", "exec", "compile", "__import__"):
+rasm_cim_v2/program2.py:5:- v0.1: single-op only, brute-force decode over op x arg, eval() for execution.
+rasm_cim_v2/program2.py:102:    This demonstrates safe parsing without eval().
+rasm_cim_v8/bench/m2_hv_refactor.py:107:    p = subprocess.run([sys.executable, "-c", code], capture_output=True,
+rasm_cim_v8/bench/m3_m7_concurrency.py:14:  S5 ipc_serial   — ProcessPool roundtrip of a 1M-int list: pickles/s, bytes
+rasm_cim_v8/bench/m3_m7_concurrency.py:27:import pickle
+rasm_cim_v8/bench/m3_m7_concurrency.py:172:    blob = pickle.dumps(payload)
+rasm_cim_v8/bench/m3_m7_concurrency.py:175:    back = pickle.loads(blob)
+rasm_cim_v8/bench/m3_m7_concurrency.py:179:    return {"pickle_bytes": len(blob), "dumps_s": round(ser, 4), "loads_s": round(deser, 4),
+rasm_cim_v8/bench/m3_m7_concurrency.py:196:        "S4_stream_fanout": s4, "S5_ipc_pickle": s5, "S6_proc_scaling": s6}
+rasm_cim_v8/bench/m3_m7_concurrency.py:211:    p = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True,
+rasm_cim_v8/bench/m6_scaling.py:162:            p = subprocess.run([sys.executable, "-c", code], capture_output=True,
+rasm_cim_v8/bench/m6_scaling.py:201:        p = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, timeout=900)
+rasm_cim_v8/bench/util.py:34:    p = subprocess.run([sys.executable, "-c", code], capture_output=True,
+rasm_cim_v9/cli.py:78:        r = subprocess.run([sys.executable, "-c", CRASH_CHILD, p, str(stage)],
+rasm_cim_v9/mobile/mobile_bench9.py:171:        r = subprocess.run([sys.executable, os.path.abspath(__file__), "--arm", a,
+(end list; empty = none)
+
+=== bare except ===
+
+=== G2 secrets scan (tracked files) ===
+(end secrets scan)
+
+=== .env / pem / key files tracked? ===
+(end)
+
+=== G6 rmtree/remove on user paths in package code ===
+rasm_cim_v8/bench/m6_scaling.py:100:            os.remove(path + ".upd")
+rasm_cim_v8/cli.py:32:    os.remove(path)
+rasm_cim_v9/mobile/mobile_bench9.py:108:            os.remove(p3u)
+(end)
+
+=== ssh-type history grep (best effort) ===
+ada4dff v0.11: Russian language layer (normalize/tokenize/morphology/intent) + tests + docs
+(end)
+=== pip-audit (verification venv deps) ===
+/tmp/venvB/bin/python: No module named pip_audit
+=== pip-audit on /tmp/venvB (runtime+dev deps) ===
+
+=== audit installed runtime wheel venv (venvInst2) ===
+No known vulnerabilities found
+Name     Skip Reason
+-------- ------------------------------------------------------------------------
+rasm-cim Dependency not found on PyPI and could not be audited: rasm-cim (0.15.0)
+=== pip-audit venvB full ===
+No known vulnerabilities found
+
+=== pip check venvInst2 ===
+No broken requirements found.
+=== pip check venvB ===
+No broken requirements found.
+=== G7: historical files changed vs baseline-272 (must be exactly the 3 documented) ===
+README.md: FAILED
+pyproject.toml: FAILED
+requirements-dev.txt: FAILED
+md5sum: WARNING: 3 computed checksums did NOT match
+=== eval() in v0.1 generates only internal lambdas from fixed op table — not user input (logic.py:110-121 verified). v0.2 uses AST-safe parser (program2.py:102 comment) + embeds a static audit (experiments2.py:343). ===

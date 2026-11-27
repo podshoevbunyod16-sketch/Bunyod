@@ -1,0 +1,12 @@
+=== FULL GATE after verification fixes ===
+........................................................................ [100%]
+360 passed in 9.85s
+=== freeze v0.8 mismatches ===
+0
+=== baseline-272 documented exceptions ===
+README.md: FAILED
+pyproject.toml: FAILED
+requirements-dev.txt: FAILED
+md5sum: WARNING: 3 computed checksums did NOT match
+=== Rust v0.7 set ===
+451bbfa52e67a72b04c0046d9df4e9d5  -

@@ -1,0 +1,25 @@
+# FINAL VERIFICATION — v0.15.0 (2026-11-27)
+target commit: 56d275ce690e78562c14b7c40b9afbd3e4b9e424
+HEAD at archive time: 856c7d5337d110722f9dbf62a37f19e7bbfb9e25
+archive: rasm-cim-v0.15.0.tar.gz (git archive 856c7d5337d110722f9dbf62a37f19e7bbfb9e25)
+archive files: 532 (no .git, no __pycache__, no .pyc)
+archive sha256: 1e9fe809c53bc248c37b055244aa7203841c4ddf50e11c7fba1c98d220734de5
+archive is NOT committed to git (6.4 MB binary; see .gitignore '*.tar.gz')
+
+=== gate (final, 2026-11-27T01:04:33Z) ===
+python: 362 passed / 0 failed / 0 skipped (single command; see results_verify/stage_gate_final2.log)
+freeze v0.8: 0 mismatch
+freeze baseline-272: exactly 3 documented exceptions (README.md, pyproject.toml, requirements-dev.txt)
+rust v0.7 source-set md5: 451bbfa52e67a72b04c0046d9df4e9d5 (unchanged)
+frozen v0.1 rasm_cim/__init__.py md5: 9c19f403e3e5f9d2f1d18739373b6233 (byte-identical)
+
+=== CI (authoritative job conclusions via api.github.com; raw logs outside sandbox allowlist) ===
+run 45919794065 (7162869, FIRST CI): FAILURE — job rust only (missing python test deps); fixed in 105fe83
+run 45919888140 (105fe83, PR #1): ALL 6 JOBS SUCCESS (python 3.10/3.11/3.12/3.13, rust, package)
+run 45919884224 (105fe83, push): SUCCESS
+report file + gate log commits: 3e40d0c, 856c7d5 — CI runs on these pushes: check gh run list (branch arena/aa17ff3d-bunyod)
+
+=== verdicts ===
+Android/Termux: NOT TESTED (no device; profile in results_verify/ANDROID_TERMUX_PROFILE.md)
+Local rust build: NOT EXECUTED (network allowlist); rust verified by CI job
+Report: FINAL_VERIFICATION_REPORT.md (repo root)

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+rasm_cim_v15/corrections.jsonl
+
+# Phase D archive artifact (not committed)
+*.tar.gz
+
+# Packaging artifacts (Phase D-verify)
+dist/
+build/
+*.egg-info/

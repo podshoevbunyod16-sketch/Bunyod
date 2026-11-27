@@ -1,0 +1,14 @@
+{
+  "date_utc": "2026-11-26T13:27:31.812898+00:00",
+  "python": "3.11.2 (main, Apr  8 2026, 01:58:00) [GCC 12.2.0]",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "machine": "x86_64",
+  "cpu_count": 2,
+  "numpy": "2.4.6",
+  "sklearn": "1.9.1",
+  "baseline_tests": "163 passed (57 root v0.1-v0.7 + 52 v0.8 + 40 v9 + 14 v10)",
+  "v08_freeze_md5": "0 mismatches (51/51 OK)",
+  "rust_v07_hash": "451bbfa52e67a72b04c0046d9df4e9d5",
+  "baseline_manifest": "results_v11/freeze_manifest_baseline_v0.10.md5 (272 files)",
+  "note": "pip packages do not persist between sandbox sessions; pytest/hypothesis/numpy/scikit-learn re-installed this session. Python here is 3.11.2, NOT the 3.13.18 of docs_v10 - recorded honestly."
+}

@@ -1,0 +1,15 @@
+# Stage B/C — cross-language with prebuilt .so on PYTHONPATH (manual, as in independent check)
+platform: x86_64, abi3 expected (PyO3 abi3-py38)
+import rasm_cim_ext OK, version: 0.7.0
+............................                                             [100%]
+28 passed in 0.28s
+
+=== without PYTHONPATH (expect ImportError/collection error) ===
+ERROR rasm_cim_rust/tests/test_cross_language.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.17s
+# forced skip path
+
+1 skipped in 0.17s
+# normal path (prebuilt)
+28 passed in 0.31s

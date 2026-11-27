@@ -1,0 +1,136 @@
+{
+  "split": "dev",
+  "artifact": null,
+  "intent_acc": {
+    "n": 84,
+    "acc": 0.8333,
+    "fallback_used": 0
+  },
+  "intent_acc_baseline": {
+    "n": 84,
+    "acc": 0.8333,
+    "fallback_used": 0
+  },
+  "verdict_acc": {
+    "n": 29,
+    "acc": 1.0
+  },
+  "unsupported": {
+    "answered": 27,
+    "unsupported": 0,
+    "rate": 0.0
+  },
+  "latency_p50_ms": {
+    "reps": 30,
+    "p50_ms": 0.67
+  },
+  "regression": {
+    "probes": 6,
+    "failed": 0,
+    "failed_questions": [],
+    "ok": true
+  },
+  "peak_rss_mb": 18.1
+}
+{
+  "split": "dev",
+  "artifact": "lv_000",
+  "intent_acc": {
+    "n": 84,
+    "acc": 0.8571,
+    "fallback_used": 2
+  },
+  "intent_acc_baseline": {
+    "n": 84,
+    "acc": 0.8333,
+    "fallback_used": 0
+  },
+  "verdict_acc": {
+    "n": 29,
+    "acc": 1.0
+  },
+  "unsupported": {
+    "answered": 27,
+    "unsupported": 0,
+    "rate": 0.0
+  },
+  "latency_p50_ms": {
+    "reps": 30,
+    "p50_ms": 0.67
+  },
+  "regression": {
+    "probes": 6,
+    "failed": 0,
+    "failed_questions": [],
+    "ok": true
+  },
+  "peak_rss_mb": 18.4
+}
+{
+  "split": "test",
+  "artifact": null,
+  "intent_acc": {
+    "n": 88,
+    "acc": 0.7614,
+    "fallback_used": 0
+  },
+  "intent_acc_baseline": {
+    "n": 88,
+    "acc": 0.7614,
+    "fallback_used": 0
+  },
+  "verdict_acc": {
+    "n": 32,
+    "acc": 1.0
+  },
+  "unsupported": {
+    "answered": 30,
+    "unsupported": 0,
+    "rate": 0.0
+  },
+  "latency_p50_ms": {
+    "reps": 30,
+    "p50_ms": 0.66
+  },
+  "regression": {
+    "probes": 6,
+    "failed": 0,
+    "failed_questions": [],
+    "ok": true
+  },
+  "peak_rss_mb": 18.1
+}
+{
+  "split": "test",
+  "artifact": "lv_000",
+  "intent_acc": {
+    "n": 88,
+    "acc": 0.7841,
+    "fallback_used": 4
+  },
+  "intent_acc_baseline": {
+    "n": 88,
+    "acc": 0.7614,
+    "fallback_used": 0
+  },
+  "verdict_acc": {
+    "n": 32,
+    "acc": 1.0
+  },
+  "unsupported": {
+    "answered": 30,
+    "unsupported": 0,
+    "rate": 0.0
+  },
+  "latency_p50_ms": {
+    "reps": 30,
+    "p50_ms": 0.65
+  },
+  "regression": {
+    "probes": 6,
+    "failed": 0,
+    "failed_questions": [],
+    "ok": true
+  },
+  "peak_rss_mb": 18.3
+}

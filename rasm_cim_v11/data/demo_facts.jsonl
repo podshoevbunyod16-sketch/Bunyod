@@ -1,0 +1,34 @@
+{"subject": "Франция", "relation": "capital_of", "object": "Париж", "polarity": "true"}
+{"subject": "Германия", "relation": "capital_of", "object": "Берлин", "polarity": "true"}
+{"subject": "Япония", "relation": "capital_of", "object": "Токио", "polarity": "true"}
+{"subject": "Италия", "relation": "capital_of", "object": "Рим", "polarity": "true"}
+{"subject": "Испания", "relation": "capital_of", "object": "Мадрид", "polarity": "true"}
+{"subject": "Канада", "relation": "capital_of", "object": "Оттава", "polarity": "true"}
+{"subject": "Австралия", "relation": "capital_of", "object": "Канберра", "polarity": "true"}
+{"subject": "Бразилия", "relation": "capital_of", "object": "Бразилиа", "polarity": "true"}
+{"subject": "Казахстан", "relation": "capital_of", "object": "Астана", "polarity": "true"}
+{"subject": "Узбекистан", "relation": "capital_of", "object": "Ташкент", "polarity": "true"}
+{"subject": "Таджикистан", "relation": "capital_of", "object": "Душанбе", "polarity": "true"}
+{"subject": "Пушкин", "relation": "is_a", "object": "поэт", "polarity": "true"}
+{"subject": "Толстой", "relation": "is_a", "object": "писатель", "polarity": "true"}
+{"subject": "Ломоносов", "relation": "is_a", "object": "учёный", "polarity": "true"}
+{"subject": "Гагарин", "relation": "is_a", "object": "космонавт", "polarity": "true"}
+{"subject": "Киты", "relation": "is_a", "object": "млекопитающие", "polarity": "true"}
+{"subject": "Собака", "relation": "is_a", "object": "млекопитающее", "polarity": "true"}
+{"subject": "Летучая мышь", "relation": "is_a", "object": "млекопитающее", "polarity": "true"}
+{"subject": "Пингвин", "relation": "is_a", "object": "птица", "polarity": "true"}
+{"subject": "Акула", "relation": "is_a", "object": "рыба", "polarity": "true"}
+{"subject": "Земля", "relation": "is_a", "object": "планета", "polarity": "true"}
+{"subject": "Марс", "relation": "is_a", "object": "планета", "polarity": "true"}
+{"subject": "Солнце", "relation": "is_a", "object": "звезда", "polarity": "true"}
+{"subject": "Луна", "relation": "is_a", "object": "спутник", "polarity": "true"}
+{"subject": "Земля", "relation": "имеет_спутник", "object": "Луна", "polarity": "true"}
+{"subject": "Вода", "relation": "кипит_при", "object": "100 цельсия", "polarity": "true"}
+{"subject": "Пингвин", "relation": "может_летать", "object": "да", "polarity": "false"}
+{"subject": "Страус", "relation": "может_летать", "object": "да", "polarity": "false"}
+{"subject": "Дракон", "relation": "существует", "object": "да", "polarity": "true"}
+{"subject": "Дракон", "relation": "существует", "object": "да", "polarity": "false"}
+{"subject": "Толстой", "relation": "написал", "object": "Война и мир", "polarity": "true"}
+{"subject": "Пушкин", "relation": "написал", "object": "Евгений Онегин", "polarity": "true"}
+{"subject": "Достоевский", "relation": "написал", "object": "Преступление и наказание", "polarity": "true"}
+{"subject": "Берлин", "relation": "является_столицей", "object": "Германия", "polarity": "true"}

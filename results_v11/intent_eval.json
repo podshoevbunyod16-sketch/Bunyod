@@ -1,0 +1,149 @@
+{
+  "corpus": "rasm_cim_v11/data/intent_corpus.jsonl",
+  "n_examples": 161,
+  "by_split": {
+    "train": {
+      "n": 86,
+      "correct": 86,
+      "accuracy": 1.0,
+      "per_class": {
+        "ask_definition": {
+          "n": 18,
+          "correct": 18,
+          "accuracy": 1.0
+        },
+        "ask_fact": {
+          "n": 26,
+          "correct": 26,
+          "accuracy": 1.0
+        },
+        "compare": {
+          "n": 11,
+          "correct": 11,
+          "accuracy": 1.0
+        },
+        "greeting": {
+          "n": 16,
+          "correct": 16,
+          "accuracy": 1.0
+        },
+        "list": {
+          "n": 7,
+          "correct": 7,
+          "accuracy": 1.0
+        },
+        "yes_no": {
+          "n": 8,
+          "correct": 8,
+          "accuracy": 1.0
+        }
+      },
+      "confusion": {
+        "ask_definition->ask_definition": 18,
+        "ask_fact->ask_fact": 26,
+        "compare->compare": 11,
+        "greeting->greeting": 16,
+        "list->list": 7,
+        "yes_no->yes_no": 8
+      }
+    },
+    "dev": {
+      "n": 27,
+      "correct": 26,
+      "accuracy": 0.963,
+      "per_class": {
+        "ask_fact": {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0
+        },
+        "compare": {
+          "n": 5,
+          "correct": 5,
+          "accuracy": 1.0
+        },
+        "greeting": {
+          "n": 4,
+          "correct": 3,
+          "accuracy": 0.75
+        },
+        "list": {
+          "n": 5,
+          "correct": 5,
+          "accuracy": 1.0
+        },
+        "yes_no": {
+          "n": 7,
+          "correct": 7,
+          "accuracy": 1.0
+        }
+      },
+      "confusion": {
+        "ask_fact->ask_fact": 6,
+        "compare->compare": 5,
+        "greeting->greeting": 3,
+        "greeting->unknown": 1,
+        "list->list": 5,
+        "yes_no->yes_no": 7
+      }
+    },
+    "test": {
+      "n": 48,
+      "correct": 48,
+      "accuracy": 1.0,
+      "per_class": {
+        "ask_definition": {
+          "n": 7,
+          "correct": 7,
+          "accuracy": 1.0
+        },
+        "ask_fact": {
+          "n": 7,
+          "correct": 7,
+          "accuracy": 1.0
+        },
+        "compare": {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0
+        },
+        "list": {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0
+        },
+        "unknown": {
+          "n": 16,
+          "correct": 16,
+          "accuracy": 1.0
+        },
+        "yes_no": {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0
+        }
+      },
+      "confusion": {
+        "ask_definition->ask_definition": 7,
+        "ask_fact->ask_fact": 7,
+        "compare->compare": 6,
+        "list->list": 6,
+        "unknown->unknown": 16,
+        "yes_no->yes_no": 6
+      }
+    }
+  },
+  "errors": [
+    {
+      "id": "v11_de_0112",
+      "text": "Добрый вечерок",
+      "expected": "greeting",
+      "predicted": "unknown"
+    }
+  ],
+  "overall": {
+    "n": 161,
+    "correct": 160,
+    "accuracy": 0.9938
+  }
+}
