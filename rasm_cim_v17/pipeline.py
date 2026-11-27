@@ -58,6 +58,13 @@ class SemanticPipeline:
     def respond(self, text: str, mode: str | None = None) -> Answer:
         mode = MODE_ALIASES.get(mode or self.dm.default_mode,
                                 mode or self.dm.default_mode)
+        if not (text or "").strip():
+            # пустой или пробельный ввод: v0.16 падает IndexError, поэтому
+            # отказ формируется здесь, до парсера
+            self.last_meaning = None
+            self.last_delegated = False
+            return Answer(text="Не знаю: пустой ввод.", status=A_UNKNOWN,
+                          confidence=0.0, mode=mode, facts=[], evidence=[])
         meanings = meanings_for(text, resolver=self.dm.kg.resolver,
                                 schema=self.dm.kg.schema, parser=self.dm.parser)
         if not self.semantic or len(meanings) != 1:

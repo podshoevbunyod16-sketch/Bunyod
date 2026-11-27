@@ -257,6 +257,45 @@ def cmd_coref(a) -> int:
     return 0
 
 
+def cmd_stress(a) -> int:
+    """Fuzz, offline scan, latency and memory — one report."""
+    from rasm_cim_v17.robustness import (benchmark, fuzz_pipeline,
+                                         render_benchmark, render_fuzz,
+                                         scale_test, scan_offline)
+
+    def make_dm():
+        return build_demo(seed_path=a.seed,
+                          v11_path=None if a.no_v11 else DEFAULT_V11)
+
+    fuzz = fuzz_pipeline(make_dm, n=a.n, seed=a.seed_number)
+    offline = scan_offline()
+    perf = benchmark(make_dm)
+    scale = scale_test(make_dm)
+    report = {"fuzz": fuzz, "offline": {"files": offline["files"],
+                                        "violations": offline["violations"],
+                                        "clean": offline["clean"]},
+              "perf": perf, "scale": scale}
+    if a.json:
+        _print_json(report)
+    else:
+        print(render_fuzz(fuzz))
+        print()
+        print(f"Сеть: проверено {offline['files']} файлов, нарушений "
+              f"{len(offline['violations'])}"
+              + ("" if offline["clean"] else " — ЕСТЬ НАРУШЕНИЯ"))
+        for violation in offline["violations"][:5]:
+            print(f"  - {violation['path']}:{violation['line']} "
+                  f"{violation['kind']} {violation['detail']}")
+        print()
+        print(render_benchmark(perf))
+        print()
+        rows = scale["rows"]
+        print("Рост стоимости: " + ", ".join(
+            f"{r['statements']}→{r['median_ms']} мс" for r in rows)
+            + f" (×{scale['growth_factor']} на краях)")
+    return 0 if fuzz["crash_count"] == 0 and offline["clean"] else 4
+
+
 def cmd_learn(a) -> int:
     """Apply a curriculum and measure what survived."""
     from rasm_cim_v17.learning import (DEFAULT_CURRICULUM, evaluate_learning,
@@ -533,6 +572,13 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--json", action="store_true")
 
     sp = add("coref", cmd_coref, "кореференция: метрика на корпусе диалогов")
+    st = add("stress", cmd_stress, "надёжность: фаззинг, офлайн-проверка, замеры")
+    st.add_argument("--n", type=int, default=100, help="сколько входов фаззить")
+    st.add_argument("--seed-number", type=int, default=20261127)
+    st.add_argument("--seed", default=None)
+    st.add_argument("--no-v11", action="store_true")
+    st.add_argument("--json", action="store_true")
+
     lp = add("learn", cmd_learn, "обучение без забывания: план уроков и метрики")
     lp.add_argument("--curriculum", default=None)
     lp.add_argument("--guard", action="append", default=None,

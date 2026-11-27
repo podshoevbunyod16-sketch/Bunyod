@@ -237,9 +237,12 @@ def _focus_for(mention: str, role: str, resolver, teaching: bool) -> Focus:
         return Focus(surface="", role=role, status=FOCUS_UNKNOWN)
     res = resolver.resolve(mention)
     if res.status == RES_AMBIGUOUS or len(res.candidates) > 1:
+        # ``Resolution.best`` is a property, not a method (v0.16 API); calling it
+        # crashed on the first genuinely ambiguous mention — found by the Plan G
+        # scale/fuzz run, kept as a regression test
+        best = res.best
         strong = [c for c in res.candidates
-                  if c.confidence >= (res.best().confidence - 0.05)] \
-            if res.best() else []
+                  if best is not None and c.confidence >= (best.confidence - 0.05)]
         if len(strong) > 1:
             return Focus(surface=mention, role=role, status=FOCUS_AMBIGUOUS,
                          confidence=0.0,

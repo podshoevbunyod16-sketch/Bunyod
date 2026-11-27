@@ -58,6 +58,18 @@ jobs:
           PY
       - name: Plan roundtrip smoke (Plan E)
         run: python -m rasm_cim plan "Кто президент Марса?" --json > plan.json
+      - name: Robustness guard (Plan G)
+        run: |
+          python -m rasm_cim stress --n 60 --json > stress.json
+          python - <<'PY'
+          import json
+          r = json.load(open("stress.json"))
+          assert r["fuzz"]["crash_count"] == 0, r["fuzz"]["crashes"][:3]
+          assert r["offline"]["clean"] is True, r["offline"]["violations"][:3]
+          assert r["perf"]["p50_ms"] < 50, r["perf"]["p50_ms"]
+          print("stress ok:", r["fuzz"]["n"], "inputs, p50",
+                r["perf"]["p50_ms"], "ms")
+          PY
       - name: Learning guard (Plan F)
         run: |
           python -m rasm_cim learn --json > learning.json
