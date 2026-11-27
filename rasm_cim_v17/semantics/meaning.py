@@ -155,6 +155,7 @@ class MeaningIR:
     presuppositions: list[Presupposition] = field(default_factory=list)
     unknowns: list[str] = field(default_factory=list)
     clarification: str = ""        # question to ask when the meaning is open
+    correction: str = ""           # кого пользователь поправил («я про Анну»)
     notes: list[str] = field(default_factory=list)
     confidence: float = 0.0
     query: QueryIR | None = None
@@ -208,6 +209,7 @@ class MeaningIR:
                 "presuppositions": [p.as_dict() for p in self.presuppositions],
                 "unknowns": list(self.unknowns),
                 "clarification": self.clarification,
+                "correction": self.correction,
                 "notes": list(self.notes),
                 "confidence": round(self.confidence, 3),
                 "parser_intent": self.parser_intent,
@@ -359,6 +361,17 @@ def build_meaning(ir: QueryIR, resolver=None, schema=None,
     elif act == AS_UNKNOWN:
         m.unknowns.append("речевой акт не распознан")
         m.notes.append("parser returned UNKNOWN and no refinement rule applied")
+
+    # -- user correction ----------------------------------------------------
+    # «Нет, я про Анну» — это акт о разговоре, а не вопрос о мире: парсер видит
+    # UNKNOWN, а смысл в том, что тема сменилась на названную сущность.
+    from ..discourse.correction import detect as _detect_correction
+    _target = _detect_correction(ir.raw or ir.norm)
+    if _target:
+        # акт парсера может быть любым («Нет, не Иван, а Мария» разбирается как
+        # утверждение), но смысл реплики — исправление, и он важнее акта
+        m.correction = _target
+        m.notes.append(f"correction: тема сменена на {_target!r}")
 
     # -- mentions (cleaned) -------------------------------------------------
     m.subject_mention, subj_note = clean_mention(ir.subject_mention)

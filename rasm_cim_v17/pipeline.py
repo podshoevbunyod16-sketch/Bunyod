@@ -65,6 +65,42 @@ class SemanticPipeline:
             self.last_delegated = False
             return Answer(text="Не знаю: пустой ввод.", status=A_UNKNOWN,
                           confidence=0.0, mode=mode, facts=[], evidence=[])
+        from .discourse.correction import (ACK_TEMPLATE, apply_correction,
+                                          detect as detect_correction)
+        from .discourse.correction import (apply_topic_switch,
+                                          detect_topic_switch)
+        if detect_topic_switch(text) and not detect_correction(text):
+            switched = apply_topic_switch(self.dm, text)
+            if switched is not None:
+                meaning = self._correction_meaning(text)
+                meaning.correction = switched["surface"]
+                self.last_meaning = meaning
+                self.last_delegated = False
+                self.last_audit = None
+                answer = Answer(text=ACK_TEMPLATE.format(name=switched["name"]),
+                                status=A_DIRECT, confidence=0.9, mode=mode,
+                                facts=[], evidence=[])
+                record_turn(self.dm, text, meaning, answer)
+                return answer
+        if detect_correction(text):
+            # «Нет, не Иван, а Мария» парсер режет на два смысла, поэтому
+            # исправление распознаётся по исходной реплике, а не по каждому
+            # фрагменту отдельно
+            applied = apply_correction(self.dm, text)
+            if applied is not None:
+                meanings = meanings_for(text, resolver=self.dm.kg.resolver,
+                                        schema=self.dm.kg.schema,
+                                        parser=self.dm.parser)
+                meaning = (meanings[0] if len(meanings) == 1
+                           else self._correction_meaning(text))
+                self.last_meaning = meaning
+                self.last_delegated = False
+                self.last_audit = None      # утверждения о мире нет
+                answer = Answer(text=ACK_TEMPLATE.format(name=applied["name"]),
+                                status=A_DIRECT, confidence=0.9, mode=mode,
+                                facts=[], evidence=[])
+                record_turn(self.dm, text, meaning, answer)
+                return answer
         meanings = meanings_for(text, resolver=self.dm.kg.resolver,
                                 schema=self.dm.kg.schema, parser=self.dm.parser)
         if not self.semantic or len(meanings) != 1:
@@ -91,6 +127,16 @@ class SemanticPipeline:
         self.last_audit = audit_answer(self.dm, answer)
         record_turn(self.dm, text, m, answer)
         return answer
+
+    def _correction_meaning(self, text: str) -> MeaningIR:
+        """A minimal MeaningIR for a correction the parser split into clauses."""
+        from .discourse.correction import detect as detect_correction
+
+        return MeaningIR(text=text, norm=(text or "").strip().casefold(),
+                         speech_act="CORRECTION",
+                         correction=detect_correction(text),
+                         notes=["correction: парсер разбил реплику, смысл "
+                                "собран на уровне pipeline"])
 
     # -- repaired acts -----------------------------------------------------
     def _respond_repaired(self, m: MeaningIR, mode: str) -> Answer:
