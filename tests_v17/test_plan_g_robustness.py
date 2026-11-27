@@ -175,3 +175,41 @@ def test_cli_stress_text_mentions_network_and_time():
                          cwd=REPO, capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
     assert "Сеть:" in out.stdout and "Производительность" in out.stdout
+
+
+# --------------------------------------------------------------------------
+# stdlib-only entry point (found in a clean environment, without numpy)
+# --------------------------------------------------------------------------
+def test_entry_point_does_not_import_numpy():
+    """`python -m rasm_cim` must work on a machine without numpy (Termux)."""
+    out = subprocess.run(
+        [sys.executable, "-c",
+         "import sys, rasm_cim; "
+         "print('numpy' in sys.modules, rasm_cim.__version__)"],
+        cwd=REPO, capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    imported, version = out.stdout.split()
+    assert imported == "False", "импорт rasm_cim тянет numpy"
+    assert version == "0.1.0"
+
+
+def test_cli_works_without_numpy():
+    out = subprocess.run([sys.executable, "-m", "rasm_cim", "version"],
+                         cwd=REPO, capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    assert "v0.17.0" in out.stdout
+
+
+def test_historical_names_are_lazy_and_still_present():
+    import rasm_cim
+    assert "RNS" in rasm_cim.__all__
+    assert "RNS" in dir(rasm_cim)
+    try:
+        rns = rasm_cim.RNS
+    except ModuleNotFoundError:
+        pass                       # numpy отсутствует — это ожидаемо
+    else:
+        assert rns is not None     # numpy есть — имя загрузилось
+    with pytest.raises(AttributeError):
+        rasm_cim.НетТакого
+

@@ -27,10 +27,10 @@ git diff --stat be5551ea -- rasm_cim_v16 tests_v16 docs_v16
 | Набор | Команда | Результат |
 |---|---|---|
 | ядро | `pytest tests_v16 -q` | **348 passed** |
-| слой v0.17 | `pytest tests_v17 -q` | **261 passed** |
+| слой v0.17 | `pytest tests_v17 -q` | **264 passed** |
 | v9/v10 | `pytest tests_v9 tests_v10 -q` | **54 passed** |
 | исторические | `pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py rasm_cim_v8/tests -q` | **102 passed** |
-| **Всего** | | **765 passed, 0 failed, 0 skipped** |
+| **Всего** | | **768 passed, 0 failed, 0 skipped** |
 
 `test_rasm_v5.py` не собирается без sklearn — ограничение существовало до v0.17,
 зафиксировано в `LIMITATIONS.md` и в CI.
@@ -90,6 +90,18 @@ git diff --stat be5551ea -- rasm_cim_v16 tests_v16 docs_v16
 | рост стоимости | `scale_test` | ×0,98–1,16 при 88→263 утверждениях | DONE |
 | ARM64 / Termux / ~3 ГБ RAM | `docs_v17/TERMUX.md` | замеров нет | **INCONCLUSIVE** |
 | **8. Финальная верификация** | этот документ | `metrics`, `coref`, `generation`, `learn`, `stress` | DONE |
+
+## 3a. Проверка в чистом окружении (без numpy/hypothesis)
+
+Повторная проверка на свежем клоне и голом Python 3.11 без `numpy` нашла дефект:
+`python -m rasm_cim` падал, потому что исторический `rasm_cim/__init__.py`
+импортировал numpy-модули прототипа до `__main__`. Исправлено ленивой загрузкой
+(PEP 562); CLI теперь запускается на одной стандартной библиотеке, что и было
+обещано для Termux. Регрессии: `test_entry_point_does_not_import_numpy`,
+`test_cli_works_without_numpy`, `test_historical_names_are_lazy_and_still_present`.
+
+`numpy` и `hypothesis` нужны только историческим слоям v8/v9 и property-тестам
+(`requirements-dev.txt`), для v0.17 — нет.
 
 ## 4. Воспроизводимость
 

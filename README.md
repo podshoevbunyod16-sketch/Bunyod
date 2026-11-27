@@ -90,9 +90,9 @@ sha256 указаны рядом с каждым числом.
 ```bash
 python -m pytest tests_v16 -q      # 348 passed
 python -m pytest tests_v9 tests_v10 -q                       # 54 passed
-python -m pytest tests_v17 -q                                # 261 passed
+python -m pytest tests_v17 -q                                # 264 passed
 python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (без test_rasm_v5: нужен sklearn)
-# итого 765 passed, 0 failed, 0 skipped
+# итого 768 passed, 0 failed, 0 skipped
 ```
 
 ## Документация
@@ -105,4 +105,6 @@ python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (бе�
 * `docs_v10/`, `docs_v9/`, … — история версий.
 
 Установка: `pip install -e .` (для тестов — `-r requirements-dev.txt`;
-numpy нужен только историческим слоям v8/v9).
+numpy нужен только историческим слоям v8/v9). CLI `python -m rasm_cim`
+работает на голой стандартной библиотеке: имена прототипа v0.1 в `rasm_cim/`
+загружаются лениво (проверяется тестом `test_entry_point_does_not_import_numpy`).

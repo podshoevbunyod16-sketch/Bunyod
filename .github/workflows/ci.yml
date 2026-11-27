@@ -58,6 +58,10 @@ jobs:
           PY
       - name: Plan roundtrip smoke (Plan E)
         run: python -m rasm_cim plan "Кто президент Марса?" --json > plan.json
+      - name: Stdlib-only entry point guard
+        run: |
+          python -c "import sys, rasm_cim; assert 'numpy' not in sys.modules, 'rasm_cim imports numpy'"
+          python -m rasm_cim version
       - name: Robustness guard (Plan G)
         run: |
           python -m rasm_cim stress --n 60 --json > stress.json

@@ -11,8 +11,8 @@
 | `pytest tests_v16 -q` | **348 passed** |
 | `pytest tests_v9 tests_v10 -q` | **54 passed** |
 | `pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py rasm_cim_v8/tests -q` | **102 passed** |
-| `pytest tests_v17 -q` | **261 passed** (91 A + 63 B + 18 C + 23 D + 25 E + 24 F + 17 G) |
-| **Итого** | **765 passed, 0 failed, 0 skipped** |
+| `pytest tests_v17 -q` | **264 passed** (91 A + 63 B + 18 C + 23 D + 25 E + 24 F + 20 G) |
+| **Итого** | **768 passed, 0 failed, 0 skipped** |
 
 `test_rasm_v5.py` не включён: `rasm_cim_v5/learn5.py` импортирует sklearn
 (не установлен, тяжёлая зависимость). Это ограничение существовало до v0.17 и
@@ -145,7 +145,7 @@
 | `pytest tests_v17 -q` | 261 passed |
 | `pytest tests_v9 tests_v10 -q` | 54 passed |
 | исторические наборы | 102 passed |
-| **итого** | **765 passed, 0 failed, 0 skipped** |
+| **итого** | **768 passed, 0 failed, 0 skipped** |
 
 Не включён `test_rasm_v5.py` (нужен sklearn, ограничение до v0.17).
 

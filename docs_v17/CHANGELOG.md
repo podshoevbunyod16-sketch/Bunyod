@@ -1,5 +1,22 @@
 # CHANGELOG v0.17
 
+## 0.17.0 — 2026-11-27 — исправление: CLI больше не требует numpy
+
+**Дефект, найденный в чистом окружении.** `python -m rasm_cim` (документированная
+точка входа) падал с `ModuleNotFoundError: numpy`: пакет `rasm_cim/` — это
+исторический прототип v0.1, и его `__init__.py` импортировал `fpe`/`cam`/`state`
+(все на numpy) ещё до `__main__`. В прежней песочнице numpy был установлен, из-за
+чего дефект не проявлялся, а на Termux он означал бы «CLI не запускается».
+
+Исправление: имена прототипа (`RNS`, `IntegerFPE`, `ResidueFPE`,
+`AssociativeMemory`, `DiagonalSSM`, `Resonator`, `RASMCIM`) загружаются по
+первому обращению (PEP 562 `__getattr__`). Публичный API не изменился:
+`from rasm_cim import RNS` работает как раньше, но numpy подтягивается только
+тогда, когда он действительно нужен.
+
+Регрессии: `test_entry_point_does_not_import_numpy`, `test_cli_works_without_numpy`,
+`test_historical_names_are_lazy_and_still_present`.
+
 ## 0.17.0 — 2026-11-27 — финальная верификация (Фаза 8)
 
 * `docs_v17/FINAL_VERIFICATION.md` — матрица «требование ТЗ → где реализовано →
