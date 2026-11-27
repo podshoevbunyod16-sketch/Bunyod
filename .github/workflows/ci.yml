@@ -89,22 +89,8 @@ jobs:
           PY
       - name: Store / bench suites
         run: python -m pytest tests_v9 tests_v10 -q
-      - name: Historical suites
-        run: |
-          python -m pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py \
-                           test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py \
-                           rasm_cim_v8/tests -q
-      - name: No-sklearn guard
-        run: |
-          # test_rasm_v5 imports sklearn via rasm_cim_v5/learn5.py; it is excluded
-          # on purpose. This step fails loudly if the exclusion ever hides more.
-          python - <<'PY'
-          import pathlib
-          excluded = {"test_rasm_v5.py"}
-          present = {p.name for p in pathlib.Path(".").glob("test_rasm*.py")}
-          assert excluded <= present, "excluded test file disappeared"
-          print("excluded:", sorted(excluded))
-          PY
+      - name: Cross-version suites (v8, v9)
+        run: python -m pytest rasm_cim_v8/tests -q
 
   cli:
     name: unified CLI smoke

@@ -8,15 +8,16 @@
 ```bash
 cd Bunyod
 python -m pytest tests_v16 -q            # 348 passed
-python -m pytest tests_v17 -q            # 261 passed
-python -m pytest tests_v9 tests_v10 -q   # 54 passed
-python -m pytest test_rasm.py test_rasm_v2.py test_rasm_v3.py \
-      test_rasm_v4.py test_rasm_v6.py test_rasm_v6_v2.py rasm_cim_v8/tests -q
-                                         # 102 passed
-# итого 765 passed, 0 failed, 0 skipped
+python -m pytest tests_v17 -q            # 332 passed
+python -m pytest tests_v9 tests_v10 -q   # 54 passed (40 + 14)
+python -m pytest rasm_cim_v8/tests -q    # 52 passed
+# итого 786 passed, 0 failed, 0 skipped
 ```
 
-`test_rasm_v5.py` требует sklearn и в прогон не входит (`LIMITATIONS.md`).
+Корневые `test_rasm*.py` и `rasm_cim_v1_snapshot` удалены из рабочего дерева
+2026-11-27 вместе с Rust-прототипом и отчётами v0.2–v0.10; восстановить их можно
+из git-истории (`git log --diff-filter=D -- test_rasm.py`). Остальные
+исторические деревья связаны зависимостями и оставлены (см. `README.md`).
 
 ## 2. CLI
 

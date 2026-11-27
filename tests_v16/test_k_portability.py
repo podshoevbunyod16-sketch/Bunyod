@@ -172,9 +172,12 @@ def _imported_roots(path):
 
 def test_frozen_versions_are_untouched():
     """v0.16 must be additive: it imports nothing from the frozen trees."""
-    frozen = {"rasm_cim", "rasm_cim_v1_snapshot", "rasm_cim_v2", "rasm_cim_v3",
-              "rasm_cim_v4", "rasm_cim_v5", "rasm_cim_v6", "rasm_cim_v6_v2",
-              "rasm_cim_rust"}
+    # Из архива удалён только v0.1 (rasm_cim_v1_snapshot) — на него не
+    # ссылался никто. Остальные деревья связаны зависимостями и удалить их
+    # нельзя, не сломав живые тесты: v2/v3/v5 → v4/v6_v2 → тесты v8;
+    # v8 → хранилище v9; v9 → оракул полярности v16.
+    frozen = {"rasm_cim", "rasm_cim_v2", "rasm_cim_v3", "rasm_cim_v4",
+              "rasm_cim_v5", "rasm_cim_v6", "rasm_cim_v6_v2"}
     offenders = {}
     for path in _modules():
         hit = _imported_roots(path) & frozen
