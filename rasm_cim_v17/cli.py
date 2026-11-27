@@ -37,6 +37,7 @@ from rasm_cim_v17 import __version__                            # noqa: E402
 from rasm_cim_v17.interop import build_plan, apply_plan         # noqa: E402
 from rasm_cim_v17.interop.importer import ImportLedger, restore  # noqa: E402
 from rasm_cim_v17.interop.learned import LearnedSnapshot        # noqa: E402
+from rasm_cim_v17.discourse.persistence import load_state, save_state  # noqa: E402
 from rasm_cim_v17.pipeline import SemanticPipeline              # noqa: E402
 from rasm_cim_v17.semantics import (DEFAULT_CORPUS, DEFAULT_SEED,  # noqa: E402
                                     DEFAULT_V11, build_demo, load_cases,
@@ -56,6 +57,9 @@ def _build(home: str | None, mode: str = "normal") -> tuple[DialogueManager, Sto
     if store.exists() or store.context_exists():
         dm.autosave = True
         store.load(dm)
+    # состояние v0.17 (исправление, память упоминаний) живёт в отдельном файле:
+    # без него каждый вызов CLI начинал диалог «с чистого листа»
+    load_state(dm, store.home)
     return dm, store
 
 
@@ -125,6 +129,8 @@ def cmd_ask(a) -> int:
         print(ans.render(dm.default_mode))
     if dm.kg.all_statements() and a.save:
         store.save(dm)
+    if a.save:
+        save_state(dm, store.home)
     return 0
 
 
@@ -139,6 +145,7 @@ def cmd_teach(a) -> int:
     print(ans.render(dm.default_mode))
     if a.save:
         store.save(dm)
+        save_state(dm, store.home)
         print(f"[сохранено] {store.kb_path}")
     return 0
 
