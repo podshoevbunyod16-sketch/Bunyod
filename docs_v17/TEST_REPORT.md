@@ -136,3 +136,24 @@
   не тестируется.
 * Качество языка (intent/entities/coreference) — нет размеченного корпуса в
   `main`; появится в Плане B на fixture-корпусе с явным указанием объёма.
+
+## Финальный прогон (Фаза 8)
+
+| команда | результат |
+|---|---|
+| `pytest tests_v16 -q` | 348 passed |
+| `pytest tests_v17 -q` | 261 passed |
+| `pytest tests_v9 tests_v10 -q` | 54 passed |
+| исторические наборы | 102 passed |
+| **итого** | **765 passed, 0 failed, 0 skipped** |
+
+Не включён `test_rasm_v5.py` (нужен sklearn, ограничение до v0.17).
+
+Проверки, которые не являются тестами, но входят в верификацию:
+
+* `git diff be5551ea -- rasm_cim_v16 tests_v16 docs_v16 | wc -l` → 0;
+* детерминизм: `metrics`, `coref`, `generation`, `learn` дважды подряд дают
+  идентичный JSON;
+* `python -m rasm_cim verify` → ПРОВЕРКА: OK;
+* `python -m rasm_cim stress --n 100 --json` → 0 падений, 0 нарушений сети.
+

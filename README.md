@@ -14,7 +14,7 @@
 | Пакет | Роль |
 |---|---|
 | `rasm_cim_v16/` | семантическое ядро (заморожено): типизированный граф, provenance, evidence, контекст, вывод, ответы |
-| `rasm_cim_v17/` | интеграция с данными v0.11–v0.15, единый CLI, проверка целостности |
+| `rasm_cim_v17/` | интеграция с данными v0.11–v0.15, единый CLI; семантика (`semantics`), контекст (`discourse`), вывод (`reasoning`), генерация (`generation`), обучение (`learning`), надёжность (`robustness`) |
 | `rasm_cim_v9/`, `rasm_cim_v8/`, `rasm_cim/`, `rasm_cim_v1_snapshot`…`v6` | исторические слои, сохранены как есть |
 
 ## Быстрый старт
@@ -53,7 +53,7 @@ python -m rasm_cim import path/to/learned/     --dry-run   # rasm-cim-learned/1
 * неизвестный предикат **не** подменяется «похожим»: запись пропускается с
   причиной, таблицу нужно расширить в `rasm_cim_v17/interop/mapping.py`.
 
-## Метрики качества (План B)
+## Метрики качества (Планы B–G)
 
 ```bash
 python -m rasm_cim metrics        # качество семантики
@@ -77,8 +77,13 @@ P/R/F1 = 0.975, точность ответов — 96.4 %, фактов без 
 12/12 уроков, удержание старых фактов 100 %, добавлено 0 противоречий, откат
 точный. Надёжность: 100 враждебных входов — 0 падений, 0 сетевых импортов,
 p50 0,54 мс; ARM64/Termux не проверялись (`docs_v17/TERMUX.md`). Всё это на
-маленьких собственных наборах, а не на независимой разметке. Корпуса маленькие и
-написаны авторами кода: это регрессионные ориентиры, а не независимая оценка.
+маленьких собственных наборах: 38 кейсов, 5 отсылок, 12 уроков, 14 реплик,
+100 фазз-входов. Это регрессионные ориентиры, а не независимая оценка; размеры и
+sha256 указаны рядом с каждым числом.
+
+Сводка «требование ТЗ → где реализовано → чем измерено → что не проверено» —
+`docs_v17/FINAL_VERIFICATION.md`. Не проверено: ARM64/Termux, Python 3.14,
+реальная пользовательская база, качество за пределами собственных корпусов.
 
 ## Тесты
 
@@ -87,14 +92,15 @@ python -m pytest tests_v16 -q      # 348 passed
 python -m pytest tests_v9 tests_v10 -q                       # 54 passed
 python -m pytest tests_v17 -q                                # 261 passed
 python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (без test_rasm_v5: нужен sklearn)
+# итого 765 passed, 0 failed, 0 skipped
 ```
 
 ## Документация
 
 * `AUDIT_REPORT.md` — фактическое состояние репозитория и найденные дефекты;
 * `PROGRESS.md` — фазы, точки продолжения;
-* `docs_v17/` — ARCHITECTURE, CHANGELOG, TEST_REPORT, BENCHMARK_REPORT,
-  LIMITATIONS, REPRODUCE, PLAN_NEXT;
+* `docs_v17/` — FINAL_VERIFICATION, ARCHITECTURE, CHANGELOG, TEST_REPORT,
+  BENCHMARK_REPORT, LIMITATIONS, TERMUX, REPRODUCE, PLAN_NEXT;
 * `docs_v16/` — аудит, архитектура и миграция ядра;
 * `docs_v10/`, `docs_v9/`, … — история версий.
 
