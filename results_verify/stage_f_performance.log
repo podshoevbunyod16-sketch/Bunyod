@@ -1,0 +1,49 @@
+== F1 startup: rasm-cim --version x15 (p50/min/max) ==
+p50=80.4ms min=76.7 max=103.5
+
+== F2 ask latency (in-process, N=300) ==
+trial 0: p50=646µs p95=700µs max=968µs
+trial 1: p50=647µs p95=697µs max=814µs
+trial 2: p50=650µs p95=687µs max=712µs
+
+== F2b ask via subprocess x10 ==
+p50=82.6ms min=80.5ms max=86.0ms
+
+== F3 peak RSS of 100 asks (ru_maxrss) ==
+ru_maxrss_mb=18.9
+
+== F4 artifact & KB sizes ==
+rasm_cim_v15/learned 8.5K
+rasm_cim_v15/corpus 136K
+results_verify 28K
+/tmp/verify_smoke/f_kb.json 60 bytes
+/tmp/verify_smoke/f_kb.json/events.jsonl 51481 bytes
+/tmp/verify_smoke/f_kb.json/meta.json 91 bytes
+
+== F5 scaling: KB open/replay + ask p50 at 0/1000/5000 extra facts ==
+facts=+0: seed=0.0s open=0.1ms ask_p50=223µs ask_max=311µs events=0
+facts=+1000: seed=1.2s open=23.7ms ask_p50=19344µs ask_max=21976µs events=3000
+facts=+5000: seed=5.9s open=111.8ms ask_p50=80998µs ask_max=88124µs events=15000
+
+== F6 evaluate determinism (x3, outputs modulo latency fields) ==
+deterministic verdict/metrics across 3 runs: True
+run0: intent=0.8333 verdict=1.0 unsupported=0.0 reg_ok=True latency_p50=0.81ms rss=79.8MB
+run1: intent=0.8333 verdict=1.0 unsupported=0.0 reg_ok=True latency_p50=0.61ms rss=79.8MB
+run2: intent=0.8333 verdict=1.0 unsupported=0.0 reg_ok=True latency_p50=0.68ms rss=79.8MB
+
+STAGE-F DONE
+
+== ADDENDUM (2026-11-27, after cd8cd6f) ==
+Root cause of scaling collapse: v0.14 _find_entities re-computed _stems(name) for every
+active entity/alias on EVERY ask (O(entities) × normalize+lemma morphology).
+Fix: @functools.lru_cache(maxsize=32768) on the pure _stems (first attempt maxsize=8192
+thrashed at +5000 facts — 10000 entities + queries exceed 8192 entries, evicted before reuse;
+measured 87ms, no better than before -> sized to ~30k keys).
+Post-fix measured (repo code, x86_64 host, Python 3.11.2):
+  +1000 facts: open 21ms -> ask p50 = 599 us (was 19,344 us)   [~32x]
+  +5000 facts: open 103ms -> ask p50 = 7,915 us (was 80,998 us) [~10x]
+Residual: O(#active entities) set comparisons per query (~8 ms @ 10k entities) — inherent to
+the current design without changing frozen v0.12 retrieval; documented, not hidden.
+Regression coverage: tests_v14/test_stems_cache.py (cache identity, no timing asserts).
+Note on measurement caveat: benchmark imported the REPO package (cwd on sys.path), which is
+the code being committed; installed wheel is rebuilt after the final commit anyway.
