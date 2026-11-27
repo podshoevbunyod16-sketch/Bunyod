@@ -1,7 +1,0 @@
-S1_cpu_python -> {"jobs": 4, "same_results": true, "seq_s": 2.413, "threads4_s": 2.364, "asyncio_to_thread_s": 2.297, "proc2_s": 1.201, "threads_speedup": 1.02, "proc_speedup": 2.01, "peak_rss_mib": 35.3}
-S2_cpu_numpy -> {"seq_s": 0.402, "threads4_s": 0.376, "proc2_s": 0.615, "threads_speedup": 1.07, "proc_speedup": 0.65, "note": "GIL released inside BLAS; threads legitimately help here", "peak_rss_mib": 123.2}
-S3_io_files -> {"seq_s": 1.632, "threads4_s": 1.825, "proc2_s": 0.957, "asyncio_to_thread_s": 1.816, "threads_speedup": 0.89, "proc_speedup": 1.71, "asyncio_speedup": 0.9, "peak_rss_mib": 43.9}
-S4_stream_fanout -> {"skipped": "m6 100k file not present yet", "peak_rss_mib": 34.0}
-S5_ipc_pickle -> {"pickle_bytes": 4871352, "dumps_s": 0.0146, "loads_s": 0.0308, "mb_per_s": 102.4, "tiny_result_roundtrip_s": 0.021, "note": "IPC = result-size-bound; tiny results cheap, 1M-int lists cost ~ms", "peak
-S6_proc_scaling -> {"seq2_s": 1.15, "proc1_s": 1.15, "proc2_s": 0.78, "proc1_speedup": 1.0, "proc2_speedup": 1.47, "pool_startup_tax_included": true, "peak_rss_mib": 35.1}
-VERDICT: {"S1_cpu_python": "best=proc2 (2.01\u00d7 vs seq)", "S2_cpu_numpy": "best=threads (1.07\u00d7 vs seq)", "S3_io_files": "best=proc2 (1.71\u00d7 vs seq)", "S4_stream_fanout": "seq (no method beat it)", "S5_ipc_pickle": "seq (no method beat it)", "S6_proc_scaling": "seq (no method beat it)"}
