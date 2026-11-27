@@ -53,6 +53,10 @@ class SemanticPipeline:
         self.last_meaning: MeaningIR | None = None
         self.last_delegated: bool = False
         self.last_audit = None
+        #: расширенная память диалога: кто и когда упоминался (не затухает)
+        if getattr(dm, "v17_memory", None) is None:
+            from .discourse.memory import DialogueMemory
+            dm.v17_memory = DialogueMemory()
 
     # -- public ------------------------------------------------------------
     def respond(self, text: str, mode: str | None = None) -> Answer:
@@ -65,6 +69,15 @@ class SemanticPipeline:
             self.last_delegated = False
             return Answer(text="Не знаю: пустой ввод.", status=A_UNKNOWN,
                           confidence=0.0, mode=mode, facts=[], evidence=[])
+        from .semantics.lexicon import normalize
+        from .discourse.binding import note_mention
+
+        # 1) память диалога пополняется по исходному тексту: даже если разбор
+        #    ниже не поймёт реплику, названные сущности остаются известными
+        self._note_mentions(text, note_mention)
+        # 2) к разбору идёт каноническая форма (частицы, рамки вопроса,
+        #    творительный падеж), исходный текст остаётся для исправлений
+        parsed_text = normalize(text)
         from .discourse.correction import (ACK_TEMPLATE, apply_correction,
                                           detect as detect_correction)
         from .discourse.correction import (apply_topic_switch,
@@ -88,7 +101,8 @@ class SemanticPipeline:
             # фрагменту отдельно
             applied = apply_correction(self.dm, text)
             if applied is not None:
-                meanings = meanings_for(text, resolver=self.dm.kg.resolver,
+                meanings = meanings_for(parsed_text,
+                                        resolver=self.dm.kg.resolver,
                                         schema=self.dm.kg.schema,
                                         parser=self.dm.parser)
                 meaning = (meanings[0] if len(meanings) == 1
@@ -101,19 +115,24 @@ class SemanticPipeline:
                                 facts=[], evidence=[])
                 record_turn(self.dm, text, meaning, answer)
                 return answer
-        meanings = meanings_for(text, resolver=self.dm.kg.resolver,
+        meanings = meanings_for(parsed_text, resolver=self.dm.kg.resolver,
                                 schema=self.dm.kg.schema, parser=self.dm.parser)
         if not self.semantic or len(meanings) != 1:
             self.last_meaning = meanings[0] if meanings else None
             self.last_delegated = True
-            return self.dm.say(text, mode)
+            return self.dm.say(parsed_text, mode)
         m = meanings[0]
+        compound = self._compound_teach(text, mode)
+        if compound is not None:
+            self.last_meaning = m
+            self.last_delegated = False
+            return compound
         if any(f.status == FOCUS_PRONOUN for f in m.focus):
             apply_context(m, self.dm)          # Plan C: bind «он/она/оно»
         self.last_meaning = m
         if not m.repaired:
             self.last_delegated = True
-            answer = self.dm.say(text, mode)
+            answer = self.dm.say(parsed_text, mode)
             if self.use_inference and answer.status == A_UNKNOWN:
                 better = answer_with_inference(self.dm, m, mode)
                 if better is not None:
@@ -127,6 +146,57 @@ class SemanticPipeline:
         self.last_audit = audit_answer(self.dm, answer)
         record_turn(self.dm, text, m, answer)
         return answer
+
+    COMPOUND = None   # заполняется ниже, см. _compound_teach
+
+    def _compound_teach(self, text: str, mode: str):
+        """«Иван — физик, Пётр — инженер»: два факта в одной реплике.
+
+        Парсер v0.16 видит здесь одно предложение и не находит ни субъекта, ни
+        предиката, поэтому вторая половина терялась.  Правило общее: если
+        реплика состоит ровно из двух частей, и каждая — «X — это/— Y», обе
+        части исполняются как обычные TEACH-реплики ядра.
+        """
+        import re
+
+        if "?" in text or "!" in text:
+            return None
+        parts = [p.strip() for p in re.split(r"[;,]\s*", text) if p.strip()]
+        if len(parts) != 2:
+            return None
+        copula = re.compile(r"^[^—–-]+\s+[—–-]\s+(?:это\s+)?[^—–-]+$")
+        if not all(copula.match(part) for part in parts):
+            return None
+        answers = []
+        for part in parts:
+            meanings = meanings_for(part, resolver=self.dm.kg.resolver,
+                                    schema=self.dm.kg.schema,
+                                    parser=self.dm.parser)
+            if len(meanings) != 1:
+                return None
+            piece = meanings[0]
+            if piece.speech_act not in (AS_TELL, AS_RETRACT):
+                return None
+            answers.append(self._respond_repaired(piece, mode))
+        last = answers[-1]
+        last.notes = list(last.notes) + ["semantic:compound-teach"]
+        return last
+
+    def _note_mentions(self, text: str, note) -> None:
+        """Отметить в памяти диалога все известные имена из реплики.
+
+        Работает по исходному тексту — до и независимо от разбора акта: имя,
+        названное в реплике, которую парсер не понял, всё равно прозвучало, и
+        следующее «он» имеет право на него ссылаться.
+        """
+        import re
+
+        from .semantics.morphology import resolve_form
+
+        for word in re.findall(r"[А-ЯЁ][а-яё\-]{2,}", text or ""):
+            entity_id, matched = resolve_form(word, self.dm.kg.resolver)
+            if entity_id is not None:
+                note(self.dm, entity_id, matched)
 
     def _correction_meaning(self, text: str) -> MeaningIR:
         """A minimal MeaningIR for a correction the parser split into clauses."""

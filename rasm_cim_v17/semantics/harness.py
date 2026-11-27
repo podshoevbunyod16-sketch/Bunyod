@@ -30,8 +30,13 @@ DEFAULT_DIALOGUES = os.path.join(HERE, "tests_v17", "corpus",
 
 def build_demo(seed_path: str | None = None,
                v11_path: str | None = DEFAULT_V11,
-               clock=None) -> DialogueManager:
-    """A dialogue manager seeded with the v0.11 corpus + the demo teaches."""
+               clock=None, expanded: bool = False) -> DialogueManager:
+    """A dialogue manager seeded with the v0.11 corpus + the demo teaches.
+
+    ``expanded=True`` дополнительно применяет `knowledge/catalog.py`: около
+    сотни людей с профессиями, города и организации.  По умолчанию база та же,
+    что измеряли авторы, — чтобы их числа оставались воспроизводимыми.
+    """
     dm = DialogueManager(clock=clock)
     if v11_path and os.path.exists(v11_path):
         store = Store(home=os.path.join(os.path.dirname(v11_path), "unused"))
@@ -41,6 +46,10 @@ def build_demo(seed_path: str | None = None,
     seed = seed_path or DEFAULT_SEED
     if os.path.exists(seed):
         for line in load_seed(seed):
+            dm.say(line)
+    if expanded:
+        from ..knowledge.catalog import facts as catalog_facts
+        for line in catalog_facts():
             dm.say(line)
     return dm
 

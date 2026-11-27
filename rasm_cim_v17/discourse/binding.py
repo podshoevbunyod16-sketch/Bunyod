@@ -281,6 +281,9 @@ def mentioned_in_dialogue(dm) -> set[int]:
     single mention of «Тютчев» must not quietly become «Англия».
     """
     said = set(getattr(dm, "v17_mentioned", ()) or ())
+    memory = getattr(dm, "v17_memory", None)
+    if memory is not None:
+        said |= memory.ids()
     for turn in getattr(dm.context, "history", ()) or ():
         for entity_id in getattr(turn, "entity_ids", ()) or ():
             if entity_id:
@@ -288,12 +291,16 @@ def mentioned_in_dialogue(dm) -> set[int]:
     return said
 
 
-def note_mention(dm, entity_id: int) -> None:
+def note_mention(dm, entity_id: int, surface: str = "") -> None:
     if not entity_id:
         return
     mentioned = set(getattr(dm, "v17_mentioned", ()) or ())
     mentioned.add(int(entity_id))
     dm.v17_mentioned = mentioned
+    memory = getattr(dm, "v17_memory", None)
+    if memory is not None:
+        memory.note(entity_id, surface,
+                    turn=int(getattr(dm.context, "turn_no", 0)))
 
 
 def _salience_of(dm, entity_id: int) -> float:
