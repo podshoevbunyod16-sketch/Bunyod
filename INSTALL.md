@@ -37,13 +37,13 @@ modelforge server --host 0.0.0.0 --port 8765
 
 ## 3. Android ARM64 и Termux ARM64 (без root)
 
-> **Важно**: Flutter APK не запускает CPython внутри Dart VM напрямую. Для локальных вычислений на смартфоне используется безопасная связка с локальным сервисом Termux (`127.0.0.1:8765`) либо подключение к настольному серверу в `Remote / Hybrid Mode`.
+> **Быстрый старт**: APK включает экспериментальный обучающий движок для небольших моделей и не требует Termux или сети для этого экрана. Остальные разделы используют полное ядро через Termux или сервер. Ограничения описаны в [Android README](platform/android/README_ANDROID.md).
 
 ### Шаг 1 — Установка Android GUI
 Установите `ModelForge-Android-ARM64.apk` на смартфон с архитектурой `arm64-v8a` (Android 10+).  
 *Примечание по подписи*: если в репозитории не заданы секреты релизного ключа (`ANDROID_KEYSTORE_*`), APK в артефактах CI подписан тестовым отладочным ключом (см. `ModelForge-Android-ARM64.SIGNING_STATUS.txt`); при установке разрешите установку из вашего файлового менеджера.
 
-### Шаг 2 — Локальное ядро и CLI в Termux ARM64 (без root)
+### Шаг 2 — Необязательное полное ядро и CLI в Termux ARM64 (без root)
 Установите Termux (из F-Droid) и выполните:
 ```bash
 git clone https://github.com/podshoevbunyod16-sketch/Bunyod.git ModelForge-AI

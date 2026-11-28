@@ -525,7 +525,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
             ),
           ),
           Text(Platform.isAndroid
-              ? 'Используйте свои данные. Обучение проходит на устройстве без сети. Не закрывайте приложение.'
+              ? 'Обучение на устройстве без сети. Новая модель заменит предыдущую. Назначение — только описание. Не закрывайте приложение.'
               : 'Используйте данные, на которые у вас есть права. Текст отправляется подключённому ядру.',
               style: theme.textTheme.bodySmall),
           const SizedBox(height: 14),
@@ -535,7 +535,9 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
             label: '${_targetWeightMb.toStringAsFixed(1)} МиБ',
             onChanged: _busy ? null : (v) => setState(() => _targetWeightMb = v),
           ),
-          Text('Вес модели не равен потреблению памяти при обучении.',
+          Text(Platform.isAndroid
+              ? 'Мобильная модель экспериментальная и может быть значительно меньше выбранного размера.'
+              : 'Вес модели не равен потреблению памяти при обучении.',
               style: theme.textTheme.bodySmall),
           const SizedBox(height: 12),
           DropdownButtonFormField<int>(
