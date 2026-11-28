@@ -58,16 +58,21 @@ class Tensor:
         topo: List[Tensor] = []
         visited: Set[int] = set()
 
-        def _build(v: Tensor) -> None:
-            vid = id(v)
-            if vid not in visited:
-                visited.add(vid)
-                for child in v._prev:
-                    if child.requires_grad:
-                        _build(child)
-                topo.append(v)
-
-        _build(self)
+        # Iterative post-order traversal avoids Python's recursion limit for
+        # deep graphs, including multiple passes through shared blocks.
+        stack: list[tuple[Tensor, bool]] = [(self, False)]
+        while stack:
+            node, expanded = stack.pop()
+            if expanded:
+                topo.append(node)
+                continue
+            if id(node) in visited:
+                continue
+            visited.add(id(node))
+            stack.append((node, True))
+            for child in reversed(node._prev):
+                if child.requires_grad and id(child) not in visited:
+                    stack.append((child, False))
         self.grad = np.ones_like(self.data, dtype=self.data.dtype)
         for node in reversed(topo):
             node._backward()

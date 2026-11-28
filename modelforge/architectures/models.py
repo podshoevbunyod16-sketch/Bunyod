@@ -99,6 +99,11 @@ class NeuralSequenceModel:
     def __init__(self, spec: Dict[str, Any], seed: int = 42) -> None:
         self.spec = dict(spec)
         self.architecture: str = str(spec.get("architecture", "decoder_transformer")).lower()
+        self.loop_passes = spec.get("loop_passes", 1)
+        if isinstance(self.loop_passes, bool) or not isinstance(self.loop_passes, int) or not 1 <= self.loop_passes <= 8:
+            raise ValueError("loop_passes must be an integer between 1 and 8.")
+        if self.loop_passes > 1 and self.architecture not in ("decoder_transformer", "tiny_transformer"):
+            raise ValueError("loop_passes > 1 is supported only for decoder transformers.")
         if self.architecture not in SUPPORTED_ARCHITECTURES:
             raise ValueError(f"Unsupported architecture '{self.architecture}'. Supported: {SUPPORTED_ARCHITECTURES}")
 
@@ -415,59 +420,62 @@ class NeuralSequenceModel:
         if training and self.dropout > 0.0:
             x = x.dropout(self.dropout, self.rng, training=True)
 
-        for i, btype in enumerate(self._block_plan):
-            pfx = f"blocks.{i}"
-            normed = self._norm(x, f"{pfx}.norm1")
-            if btype in ("causal_attn", "bi_attn"):
-                sub = self._mha(
-                    normed,
-                    normed,
-                    self.params[f"{pfx}.wq"],
-                    self.params[f"{pfx}.wk"],
-                    self.params[f"{pfx}.wv"],
-                    self.params[f"{pfx}.wo"],
-                    causal=(btype == "causal_attn"),
-                )
-                x = x + (sub.dropout(self.dropout, self.rng, training) if training else sub)
-            elif btype == "seq2seq_block":
-                enc_in = self._norm(x, f"{pfx}.enc_norm")
-                enc_repr = x + self._mha(
-                    enc_in,
-                    enc_in,
-                    self.params[f"{pfx}.enc_wq"],
-                    self.params[f"{pfx}.enc_wk"],
-                    self.params[f"{pfx}.enc_wv"],
-                    self.params[f"{pfx}.enc_wo"],
-                    causal=False,
-                )
-                dec_self = x + self._mha(
-                    normed,
-                    normed,
-                    self.params[f"{pfx}.wq"],
-                    self.params[f"{pfx}.wk"],
-                    self.params[f"{pfx}.wv"],
-                    self.params[f"{pfx}.wo"],
-                    causal=True,
-                )
-                cross_in = self._norm(dec_self, f"{pfx}.cross_norm")
-                x = dec_self + self._mha(
-                    cross_in,
-                    enc_repr,
-                    self.params[f"{pfx}.cwq"],
-                    self.params[f"{pfx}.cwk"],
-                    self.params[f"{pfx}.cwv"],
-                    self.params[f"{pfx}.cwo"],
-                    causal=True,
-                )
-            elif btype in ("rnn", "gru", "lstm", "ssm"):
-                sub = self._run_recurrent_or_ssm(normed, pfx, btype)
-                x = x + (sub.dropout(self.dropout, self.rng, training) if training else sub)
+        # Reuse the same block parameters on each pass; gradients accumulate
+        # through every pass during training. This increases compute, not weights.
+        for _ in range(self.loop_passes):
+            for i, btype in enumerate(self._block_plan):
+                pfx = f"blocks.{i}"
+                normed = self._norm(x, f"{pfx}.norm1")
+                if btype in ("causal_attn", "bi_attn"):
+                    sub = self._mha(
+                        normed,
+                        normed,
+                        self.params[f"{pfx}.wq"],
+                        self.params[f"{pfx}.wk"],
+                        self.params[f"{pfx}.wv"],
+                        self.params[f"{pfx}.wo"],
+                        causal=(btype == "causal_attn"),
+                    )
+                    x = x + (sub.dropout(self.dropout, self.rng, training) if training else sub)
+                elif btype == "seq2seq_block":
+                    enc_in = self._norm(x, f"{pfx}.enc_norm")
+                    enc_repr = x + self._mha(
+                        enc_in,
+                        enc_in,
+                        self.params[f"{pfx}.enc_wq"],
+                        self.params[f"{pfx}.enc_wk"],
+                        self.params[f"{pfx}.enc_wv"],
+                        self.params[f"{pfx}.enc_wo"],
+                        causal=False,
+                    )
+                    dec_self = x + self._mha(
+                        normed,
+                        normed,
+                        self.params[f"{pfx}.wq"],
+                        self.params[f"{pfx}.wk"],
+                        self.params[f"{pfx}.wv"],
+                        self.params[f"{pfx}.wo"],
+                        causal=True,
+                    )
+                    cross_in = self._norm(dec_self, f"{pfx}.cross_norm")
+                    x = dec_self + self._mha(
+                        cross_in,
+                        enc_repr,
+                        self.params[f"{pfx}.cwq"],
+                        self.params[f"{pfx}.cwk"],
+                        self.params[f"{pfx}.cwv"],
+                        self.params[f"{pfx}.cwo"],
+                        causal=True,
+                    )
+                elif btype in ("rnn", "gru", "lstm", "ssm"):
+                    sub = self._run_recurrent_or_ssm(normed, pfx, btype)
+                    x = x + (sub.dropout(self.dropout, self.rng, training) if training else sub)
 
-            # Feed-forward network
-            ff_in = self._norm(x, f"{pfx}.norm2")
-            h = _apply_activation((ff_in @ self.params[f"{pfx}.ff_w1"]) + self.params[f"{pfx}.ff_b1"], self.activation)
-            ff_out = (h @ self.params[f"{pfx}.ff_w2"]) + self.params[f"{pfx}.ff_b2"]
-            x = x + (ff_out.dropout(self.dropout, self.rng, training) if training else ff_out)
+                # Feed-forward network
+                ff_in = self._norm(x, f"{pfx}.norm2")
+                h = _apply_activation((ff_in @ self.params[f"{pfx}.ff_w1"]) + self.params[f"{pfx}.ff_b1"], self.activation)
+                ff_out = (h @ self.params[f"{pfx}.ff_w2"]) + self.params[f"{pfx}.ff_b2"]
+                x = x + (ff_out.dropout(self.dropout, self.rng, training) if training else ff_out)
 
         x = self._norm(x, "final_norm")
         logits = x @ self.params["lm_head"]

@@ -113,3 +113,62 @@ def test_cli_commands_and_persistence_across_restart(tmp_path: Path, capsys):
     assert doc_out["counts"]["projects"] == 1
     assert doc_out["counts"]["models"] == 1
     assert doc_out["counts"]["agents"] == 1
+
+
+def test_loop_model_api_checkpoint_and_export_guard(tmp_path: Path):
+    core = ModelForgeCore(home_dir=tmp_path / "loop")
+    try:
+        with TestClient(create_app(core=core)) as client:
+            pid = client.post('/api/v1/projects', json={'name': 'Loops'}).json()['id']
+            response = client.post('/api/v1/models/from-prompt', json={
+                'project_id': pid, 'prompt': 'compact Russian model', 'loop_passes': 3,
+            })
+            assert response.status_code == 200, response.text
+            model = response.json()
+            assert model['spec']['loop_passes'] == 3
+            from modelforge.training.checkpoints import load_checkpoint
+            assert load_checkpoint(model['latest_checkpoint'])['manifest']['spec']['loop_passes'] == 3
+            result = client.post('/api/v1/training/run', json={
+                'model_id': model['id'], 'epochs': 1, 'wait': True,
+            }).json()
+            assert result['status'] == 'completed'
+            assert result['result']['metrics']['weights_changed']
+            gen = client.post('/api/v1/inference/generate', json={
+                'model_id': model['id'], 'prompt': 'Привет', 'max_tokens': 4,
+            })
+            assert gen.status_code == 200 and gen.json()['tokens_generated'] > 0
+            response = client.post(f"/api/v1/models/{model['id']}/export", json={'format': 'gguf'})
+            assert response.status_code == 400
+            assert 'loop' in response.json()['detail'].lower()
+            invalid = client.post('/api/v1/models/from-prompt', json={
+                'project_id': pid, 'prompt': 'rnn', 'loop_passes': 3,
+            })
+            assert invalid.status_code == 422
+    finally:
+        core.shutdown()
+
+
+def test_automatic_model_uses_user_data_and_trains(tmp_path: Path):
+    core = ModelForgeCore(home_dir=tmp_path / 'automatic')
+    try:
+        with TestClient(create_app(core=core)) as client:
+            pid = client.post('/api/v1/projects', json={'name': 'Авто'}).json()['id']
+            payload = {'project_id': pid, 'purpose': 'Помощник', 'target_weight_mb': 1,
+                       'loop_passes': 3,
+                       'text': 'Салом ҷаҳон\nПривет мир\nХуҷанд шаҳр\nМодель учится на тексте'}
+            response = client.post('/api/v1/models/automatic', json=payload)
+            assert response.status_code == 200, response.text
+            created = response.json()
+            assert created['model']['spec']['loop_passes'] == 3
+            assert created['dataset']['validation']['clean_records'] == 4
+            assert created['plan']['estimated_weight_mb'] <= 1
+            run = client.post('/api/v1/training/run', json={
+                'model_id': created['model']['id'], 'dataset_id': created['dataset']['id'],
+                'epochs': 1, 'batch_size': 1, 'max_seq_len': 32, 'wait': True,
+            })
+            assert run.status_code == 200
+            assert run.json()['result']['metrics']['weights_changed']
+            payload['text'] = '   '
+            assert client.post('/api/v1/models/automatic', json=payload).status_code == 422
+    finally:
+        core.shutdown()

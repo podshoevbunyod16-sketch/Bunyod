@@ -44,8 +44,17 @@ class ChatReq(BaseModel):
 class ModelPromptReq(BaseModel):
     project_id: str
     prompt: str
+    loop_passes: int = Field(default=1, ge=1, le=8, strict=True)
     name: Optional[str] = None
     corpus_texts: Optional[List[str]] = None
+
+
+class AutomaticModelReq(BaseModel):
+    project_id: str
+    purpose: str = Field(min_length=1, max_length=500)
+    text: str = Field(min_length=1, max_length=100000)
+    target_weight_mb: float = Field(default=1.0, ge=0.1, le=10, allow_inf_nan=False)
+    loop_passes: int = Field(default=1, ge=1, le=8, strict=True)
 
 
 class CreateModelSpecReq(BaseModel):
@@ -305,14 +314,45 @@ def create_app(core: Optional[ModelForgeCore] = None, home_dir: Optional[Path] =
     async def get_model(model_id: str) -> Dict[str, Any]:
         return mf.models.get_model(model_id)
 
+    @app.post("/api/v1/models/automatic")
+    async def create_automatic_model(req: AutomaticModelReq) -> Dict[str, Any]:
+        from dataclasses import asdict
+        from modelforge.model_builder.automatic import plan_model
+        from modelforge.tokenizers.tokenizer import train_tokenizer
+
+        if not req.text.strip() or not req.purpose.strip():
+            raise HTTPException(status_code=422, detail="Purpose and training text must not be empty.")
+        # Ingest first, then train the tokenizer only on the training split.
+        try:
+            dataset = mf.datasets.ingest_dataset(
+                project_id=req.project_id, name="Данные модели", raw_content=req.text,
+                fmt="txt", license_name="user-provided",
+            )
+            train_texts = mf.datasets.load_splits(dataset["id"])["train"]
+            tokenizer = train_tokenizer(train_texts, tokenizer_type="char", vocab_size=320)
+            plan = plan_model(req.target_weight_mb, req.loop_passes, tokenizer.vocab_size, mf.platform_info)
+            model = mf.models.create_model(
+                req.project_id, plan.spec, corpus_texts=train_texts,
+                provenance={"source": "automatic", "purpose": req.purpose},
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        result = asdict(plan)
+        result["spec"] = plan.spec.model_dump()
+        return {"model": model, "dataset": dataset, "plan": result}
+
     @app.post("/api/v1/models/from-prompt")
     async def create_model_from_prompt(req: ModelPromptReq) -> Dict[str, Any]:
-        return mf.models.create_from_prompt(
-            project_id=req.project_id,
-            prompt=req.prompt,
-            name=req.name,
-            corpus_texts=req.corpus_texts,
-        )
+        try:
+            return mf.models.create_from_prompt(
+                project_id=req.project_id,
+                prompt=req.prompt,
+                name=req.name,
+                corpus_texts=req.corpus_texts,
+                loop_passes=req.loop_passes,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.post("/api/v1/models")
     async def create_model_spec(req: CreateModelSpecReq) -> Dict[str, Any]:

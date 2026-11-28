@@ -122,6 +122,7 @@ def export_safetensors(checkpoint_path: str | Path, output_file: Path) -> Dict[s
         "architecture": str(loaded["manifest"]["spec"].get("architecture", "")),
         "weights_sha256": str(loaded["manifest"].get("weights_sha256", "")),
         "format_producer": "modelforge-ai-1.0",
+        "loop_passes": str(loaded["manifest"]["spec"].get("loop_passes", 1)),
     }
     save_file(loaded["weights"], str(output_file), metadata=metadata)
     sha = hashlib.sha256(output_file.read_bytes()).hexdigest()

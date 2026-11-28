@@ -3,6 +3,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -209,7 +210,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
       text: 'Салом! Привет! Оцени ресурсы для компактной модели.');
   final TextEditingController _modelPromptCtrl = TextEditingController(
       text:
-          'Создай компактную языковую модель для русского и таджикского текста с экспериментальной архитектурой');
+          'Создай компактную языковую модель для русского и таджикского текста');
   final TextEditingController _inferModelIdCtrl = TextEditingController();
   final TextEditingController _inferPromptCtrl =
       TextEditingController(text: 'Салом ҷаҳон! Привет');
@@ -221,6 +222,11 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
   final TextEditingController _trainEpochsCtrl = TextEditingController(text: '4');
   final TextEditingController _trainLrCtrl = TextEditingController(text: '0.004');
   String _trainMode = 'scratch';
+  int _loopPasses = 1;
+  double _targetWeightMb = 1.0;
+  final _purposeCtrl = TextEditingController();
+  final _dataCtrl = TextEditingController();
+  String _quickStatus = '';
   final TextEditingController _researchQuestionCtrl = TextEditingController(
       text: 'Сравнение decoder_transformer и hybrid_attention_ssm на RU-TJ корпусе');
   final TextEditingController _promptEditCtrl =
@@ -255,6 +261,8 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
     _agentTaskCtrl.dispose();
     _trainEpochsCtrl.dispose();
     _trainLrCtrl.dispose();
+    _purposeCtrl.dispose();
+    _dataCtrl.dispose();
     _researchQuestionCtrl.dispose();
     _promptEditCtrl.dispose();
     _registryQueryCtrl.dispose();
@@ -262,14 +270,10 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
   }
 
   Future<void> _bootstrapConnection() async {
-    try {
-      await _refreshAll();
-    } catch (_) {
-      final started = await _backendProc.ensureDesktopLocalBackend();
-      if (started) {
-        await _refreshAll();
-      }
-    }
+    await _refreshAll();
+    if (!mounted || _backendConnected) return;
+    final started = await _backendProc.ensureDesktopLocalBackend();
+    if (started && mounted) await _refreshAll();
   }
 
   void _connectWs() {
@@ -304,7 +308,15 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _statusBanner = 'Ошибка: $e';
+          if (e is ModelForgeApiException && e.statusCode == null) {
+            _backendConnected = false;
+            _statusBanner = Platform.isAndroid
+                ? 'Не удалось подключиться к вычислительному ядру. '
+                    'В этой версии Android обучение внутри приложения ещё не поддерживается.'
+                : 'Не удалось подключиться к вычислительному ядру. Проверьте, запущено ли оно.';
+          } else {
+            _statusBanner = 'Ошибка: $e';
+          }
           _outputConsole = '[$label] Ошибка:\n$e';
         });
       }
@@ -390,6 +402,8 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        _buildQuickStart(),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -467,6 +481,111 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
           _buildJsonPanel('Поток событий WebSocket', _liveEvents.take(10).join('\n')),
       ],
     );
+  }
+
+  Widget _buildQuickStart() {
+    final theme = Theme.of(context);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Создайте свою модель', style: theme.textTheme.headlineSmall),
+          const SizedBox(height: 8),
+          Text('Расскажите, для чего она нужна, и добавьте текст. '
+              'Параметры небольшой модели подберутся автоматически.',
+              style: theme.textTheme.bodyMedium),
+          const SizedBox(height: 16),
+          if (!_backendConnected) ...[
+            Text('Вычислительное ядро не подключено. На Android этой версии '
+                'обучение внутри приложения пока недоступно.',
+                style: TextStyle(color: theme.colorScheme.error)),
+            const SizedBox(height: 12),
+          ],
+          TextField(
+            controller: _purposeCtrl, maxLength: 500, maxLines: 2,
+            decoration: const InputDecoration(
+              labelText: 'Для чего нужна модель?',
+              hintText: 'Например, помощник по изучению языков',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _dataCtrl, maxLength: 100000, minLines: 4, maxLines: 8,
+            decoration: const InputDecoration(
+              labelText: 'Текст для обучения',
+              hintText: 'Вставьте свои тексты, по одной записи на строку',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Text('Используйте данные, на которые у вас есть права. '
+              'Текст отправляется подключённому ядру.', style: theme.textTheme.bodySmall),
+          const SizedBox(height: 14),
+          Text('Примерный размер весов: ${_targetWeightMb.toStringAsFixed(1)} МиБ'),
+          Slider(
+            min: 0.1, max: 10, divisions: 99, value: _targetWeightMb,
+            label: '${_targetWeightMb.toStringAsFixed(1)} МиБ',
+            onChanged: _busy ? null : (v) => setState(() => _targetWeightMb = v),
+          ),
+          Text('Вес модели не равен потреблению памяти при обучении.',
+              style: theme.textTheme.bodySmall),
+          const SizedBox(height: 12),
+          DropdownButtonFormField<int>(
+            value: _loopPasses,
+            decoration: const InputDecoration(
+              labelText: 'Проходы трансформера', border: OutlineInputBorder(),
+              helperText: 'Больше проходов требуют больше времени и памяти.',
+              helperMaxLines: 2,
+            ),
+            items: List.generate(8, (i) => DropdownMenuItem(value: i + 1, child: Text('${i + 1}'))),
+            onChanged: _busy ? null : (v) => setState(() => _loopPasses = v ?? 1),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(width: double.infinity, child: FilledButton.icon(
+            icon: const Icon(Icons.auto_awesome),
+            label: const Text('Создать и обучить'),
+            onPressed: _busy || !_backendConnected ? null : _startQuickTraining,
+          )),
+          if (_quickStatus.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            SelectableText(_quickStatus, style: theme.textTheme.bodyMedium),
+            TextButton.icon(
+              onPressed: _busy ? null : _refreshAll,
+              icon: const Icon(Icons.refresh), label: const Text('Обновить задачи'),
+            ),
+          ],
+        ]),
+      ),
+    );
+  }
+
+  Future<void> _startQuickTraining() async {
+    if (_purposeCtrl.text.trim().isEmpty || _dataCtrl.text.trim().isEmpty) {
+      setState(() => _quickStatus = 'Заполните назначение модели и текст для обучения.');
+      return;
+    }
+    await _runGuarded('Подготовка обучения', () async {
+      final projectId = await _ensureProjectId();
+      final created = await _api.postJson('/api/v1/models/automatic', {
+        'project_id': projectId, 'purpose': _purposeCtrl.text.trim(),
+        'text': _dataCtrl.text, 'target_weight_mb': _targetWeightMb,
+        'loop_passes': _loopPasses,
+      });
+      final model = created['model'] as Map<String, dynamic>;
+      final dataset = created['dataset'] as Map<String, dynamic>;
+      final plan = created['plan'] as Map<String, dynamic>;
+      _inferModelIdCtrl.text = model['id'].toString();
+      // Expose the created model even if submitting the training task fails.
+      if (mounted) setState(() => _quickStatus = 'Модель ${model['id']} создана. Запускаем обучение…');
+      final task = await _api.postJson('/api/v1/training/run', {
+        'model_id': model['id'], 'dataset_id': dataset['id'],
+        'epochs': 4, 'batch_size': 1, 'max_seq_len': 64, 'wait': false,
+      });
+      if (mounted) setState(() => _quickStatus =
+          'Задача ${task['id']} запущена. Приблизительный размер весов: '
+          '${plan['estimated_weight_mb']} МиБ. Обновите задачи, чтобы увидеть результат.');
+    });
   }
 
   Widget _statCard(String label, String value, IconData icon) {
@@ -562,6 +681,20 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
                     border: OutlineInputBorder(),
                   ),
                 ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<int>(
+                  value: _loopPasses,
+                  decoration: const InputDecoration(
+                    labelText: 'Повторные проходы трансформера',
+                    border: OutlineInputBorder(),
+                    helperText: 'Больше проходов — больше времени и памяти, не гарантия лучшего ответа.',
+                    helperMaxLines: 2,
+                  ),
+                  items: List.generate(8, (i) => DropdownMenuItem(
+                    value: i + 1, child: Text('${i + 1}'),
+                  )),
+                  onChanged: _busy ? null : (value) => setState(() => _loopPasses = value ?? 1),
+                ),
                 const SizedBox(height: 10),
                 FilledButton.icon(
                   icon: const Icon(Icons.auto_fix_high),
@@ -573,6 +706,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
                             final mdl = await _api.postJson('/api/v1/models/from-prompt', {
                               'project_id': pid,
                               'prompt': _modelPromptCtrl.text,
+                              'loop_passes': _loopPasses,
                             });
                             _inferModelIdCtrl.text = mdl['id'].toString();
                             await _refreshAll();
@@ -1273,7 +1407,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Chip(
               label: Text(
-                '${_api.mode.toUpperCase()}${_backendConnected ? " • ONLINE" : " • LOCAL"}',
+                '${_api.mode.toUpperCase()}${_backendConnected ? " • ONLINE" : " • НЕТ СВЯЗИ"}',
               ),
             ),
           ),

@@ -45,6 +45,8 @@ def export_gguf_v3(checkpoint_path: str | Path, output_file: Path) -> Dict[str, 
     """Serialize a trained ModelForge checkpoint into a spec-compliant GGUF v3 binary file."""
     loaded = load_checkpoint(checkpoint_path)
     spec = loaded["manifest"]["spec"]
+    if spec.get("loop_passes", 1) != 1:
+        raise ValueError("GGUF export of loop transformers is not supported; use the ModelForge checkpoint.")
     weights: Dict[str, np.ndarray] = loaded["weights"]
 
     kv_pairs: List[tuple[str, int, Any]] = [

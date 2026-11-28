@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from modelforge.architectures.models import SUPPORTED_ARCHITECTURES, build_model_from_spec
 from modelforge.core.events import EventBus
@@ -33,6 +33,7 @@ class ModelSpec(BaseModel):
     name: str
     architecture: str = Field(default="decoder_transformer")
     n_layers: int = Field(default=2, ge=1, le=24)
+    loop_passes: int = Field(default=1, ge=1, le=8, strict=True)
     d_model: int = Field(default=64, ge=16, le=2048)
     n_heads: int = Field(default=4, ge=1, le=32)
     vocab_size: int = Field(default=320, ge=32, le=65536)
@@ -55,6 +56,12 @@ class ModelSpec(BaseModel):
     custom_blocks: List[str] = Field(default_factory=lambda: ["ssm", "attention"])
     seed: int = Field(default=42)
 
+    @model_validator(mode="after")
+    def validate_loop_architecture(self) -> "ModelSpec":
+        if self.loop_passes > 1 and self.architecture.lower() not in ("decoder_transformer", "tiny_transformer"):
+            raise ValueError("loop_passes > 1 requires a decoder transformer")
+        return self
+
 
 def estimate_training_resources(spec: ModelSpec, platform_info: PlatformInfo) -> Dict[str, Any]:
     """
@@ -68,12 +75,12 @@ def estimate_training_resources(spec: ModelSpec, platform_info: PlatformInfo) ->
     # Weights + grads + Adam moments (m, v) ~ 4x parameter bytes + activation workspace
     weights_grads_opt_mb = (params * bytes_per_param * 4) / (1024 * 1024)
     activations_mb = (
-        spec.batch_size * spec.context_length * spec.d_model * spec.n_layers * 16
+        spec.batch_size * spec.context_length * spec.d_model * spec.n_layers * spec.loop_passes * 16
     ) / (1024 * 1024)
     overhead_mb = 65.0
     approx_peak_ram_mb = round(weights_grads_opt_mb + activations_mb + overhead_mb, 2)
     approx_sec_per_epoch = round(
-        max(0.15, (params * spec.context_length) / max(1.0, platform_info.cpu_count * 4.5e7)),
+        max(0.15, (params * spec.context_length * spec.loop_passes) / max(1.0, platform_info.cpu_count * 4.5e7)),
         2,
     )
 
@@ -305,8 +312,10 @@ class ModelBuilder:
         prompt: str,
         name: Optional[str] = None,
         corpus_texts: Optional[List[str]] = None,
+        loop_passes: int = 1,
     ) -> Dict[str, Any]:
         spec = self.spec_from_prompt(prompt, name=name)
+        spec = ModelSpec.model_validate({**spec.model_dump(), "loop_passes": loop_passes})
         return self.create_model(
             project_id=project_id,
             spec=spec,

@@ -84,3 +84,45 @@ def test_all_supported_architectures_forward_and_backward(arch: str):
     grad_norms = [float(np.linalg.norm(p.grad)) for p in model.trainable_parameters() if p.grad is not None]
     assert len(grad_norms) > 0
     assert any(gn > 0.0 for gn in grad_norms)
+
+
+def test_loop_transformer_reuses_parameters_and_trains():
+    spec = {"architecture": "tiny_transformer", "vocab_size": 16, "d_model": 16,
+            "n_layers": 1, "n_heads": 4, "context_length": 16, "dropout": 0.0}
+    single = build_model_from_spec(spec, seed=123)
+    loop = build_model_from_spec({**spec, "loop_passes": 3}, seed=123)
+    assert single.parameter_count() == loop.parameter_count()
+    ids = np.array([[1, 2, 3, 4]], dtype=np.int64)
+    targets = np.array([[2, 3, 4, 5]], dtype=np.int64)
+    assert not np.allclose(single.forward(ids).data, loop.forward(ids).data)
+    loss = loop.compute_loss(ids, targets)
+    loss.backward()
+    param = loop.params["blocks.0.wq"]
+    assert param.grad is not None and np.isfinite(param.grad).all()
+    numeric = _numerical_grad(lambda: loop.compute_loss(ids, targets, training=False).data, param.data)
+    np.testing.assert_allclose(param.grad, numeric, rtol=4e-2, atol=2e-3)
+
+
+@pytest.mark.parametrize("passes", [0, 9, -1, 1.5, True])
+def test_loop_passes_rejects_invalid_values(passes):
+    with pytest.raises(ValueError):
+        build_model_from_spec({"loop_passes": passes})
+
+
+def test_loop_rejects_non_transformer_and_spec_roundtrip():
+    from modelforge.model_builder.builder import ModelSpec
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        ModelSpec(name="test", architecture="rnn", loop_passes=3)
+    spec = ModelSpec(name="test", architecture="tiny_transformer", loop_passes=3)
+    assert ModelSpec.model_validate_json(spec.model_dump_json()).loop_passes == 3
+    assert ModelSpec(name="legacy").loop_passes == 1
+
+
+def test_autograd_handles_deep_graph_without_recursion():
+    x = Tensor(np.array(1.0, dtype=np.float32), requires_grad=True)
+    y = x
+    for _ in range(2000):
+        y = y + 1.0
+    y.backward()
+    assert float(x.grad) == 1.0
