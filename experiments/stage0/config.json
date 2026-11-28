@@ -1,0 +1,12 @@
+{
+  "description": "Baseline of current embedded mobile trainer on a synthetic corpus, executed on CPU",
+  "split_seed": 20261128,
+  "model_seed": 42,
+  "target_weight_mb": 1.0,
+  "loop_passes": 1,
+  "available_mb_guard": 512,
+  "max_seconds": 600,
+  "generation_max_chars": 48,
+  "evaluation": "One next-character prediction per validation Unicode codepoint, reset context per record, BOS context, no EOS target, natural log loss and loss/ln(2) bits-per-character",
+  "threads": 1
+}

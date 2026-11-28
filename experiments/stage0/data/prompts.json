@@ -1,0 +1,12 @@
+[
+  {"id":"ru1","lang":"ru","prompt":"Сегодня утром"},
+  {"id":"ru2","lang":"ru","prompt":"Как приготовить"},
+  {"id":"ru3","lang":"ru","prompt":"В городе люди"},
+  {"id":"ru4","lang":"ru","prompt":"Почему важно"},
+  {"id":"ru5","lang":"ru","prompt":"Мой друг сказал"},
+  {"id":"tg1","lang":"tg","prompt":"Имрӯз мо"},
+  {"id":"tg2","lang":"tg","prompt":"Дар шаҳри мо"},
+  {"id":"tg3","lang":"tg","prompt":"Чаро муҳим аст"},
+  {"id":"tg4","lang":"tg","prompt":"Дӯсти ман гуфт"},
+  {"id":"tg5","lang":"tg","prompt":"Вақте ки борон"}
+]
