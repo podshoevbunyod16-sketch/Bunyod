@@ -75,7 +75,7 @@ def configure_android_offline() -> None:
     text = build.read_text(encoding="utf-8")
     if 'id "com.chaquo.python"' not in text:
         text = text.replace('    id "kotlin-android"', '    id "kotlin-android"\n    id "com.chaquo.python"', 1)
-        text = text.replace('minSdk = flutter.minSdkVersion', 'minSdk = 24', 1)
+        text = text.replace('minSdk = flutter.minSdkVersion', 'minSdk = 24\n        ndk { abiFilters \"armeabi-v7a\", \"arm64-v8a\", \"x86_64\" }', 1)
         text += "\nchaquopy {\n    defaultConfig {\n        version = \"3.11\"\n        pip { install \"numpy==1.26.2\" }\n    }\n}\n"
         build.write_text(text, encoding="utf-8")
     kotlin_dir = android / "app/src/main/kotlin/ai/modelforge/modelforge_app"
