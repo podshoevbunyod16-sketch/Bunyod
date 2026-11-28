@@ -67,8 +67,9 @@ def configure_android_offline() -> None:
         if not match:
             raise RuntimeError("Could not detect Android Gradle plugin version")
         version = match.group(1)
-        root_text = ("buildscript {\n    repositories { google(); mavenCentral() }\n"
-                     f"    dependencies {{ classpath 'com.android.tools.build:gradle:{version}' }}\n"
+        root_text = ("buildscript {\n    repositories { google(); mavenCentral(); maven { url 'https://chaquo.com/maven' } }\n"
+                     f"    dependencies {{ classpath 'com.android.tools.build:gradle:{version}'; "
+                     "classpath 'com.chaquo.python:gradle:16.1.0' }\n"
                      "}\n\n" + root_text)
         root_build.write_text(root_text, encoding="utf-8")
     text = build.read_text(encoding="utf-8")
