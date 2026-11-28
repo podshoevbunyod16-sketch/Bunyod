@@ -43,6 +43,40 @@ def patch_android_manifest(manifest_path: Path) -> None:
     print(f"Patched AndroidManifest.xml: {manifest_path}", flush=True)
 
 
+def configure_android_offline() -> None:
+    """Bundle the NumPy trainer and Android method channel into generated Flutter scaffolds."""
+    android = FLUTTER_DIR / "android"
+    if not android.exists():
+        return
+    settings = android / "settings.gradle"
+    build = android / "app" / "build.gradle"
+    if not settings.exists() or not build.exists():
+        raise RuntimeError("Unsupported Flutter Android scaffold: expected Groovy Gradle files")
+    text = settings.read_text(encoding="utf-8")
+    if 'id "com.chaquo.python"' not in text:
+        text = text.replace('    id "com.android.application"',
+                            '    id "com.chaquo.python" version "16.1.0" apply false\n    id "com.android.application"', 1)
+        settings.write_text(text, encoding="utf-8")
+    text = build.read_text(encoding="utf-8")
+    if 'id "com.chaquo.python"' not in text:
+        text = text.replace('    id "kotlin-android"', '    id "kotlin-android"\n    id "com.chaquo.python"', 1)
+        text = text.replace('minSdk = flutter.minSdkVersion', 'minSdk = 24', 1)
+        text += "\nchaquopy {\n    defaultConfig {\n        version = \"3.11\"\n        pip { install \"numpy==1.26.2\" }\n    }\n}\n"
+        build.write_text(text, encoding="utf-8")
+    kotlin_dir = android / "app/src/main/kotlin/ai/modelforge/modelforge_app"
+    kotlin_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(REPO_ROOT / "platform/android/runtime/MainActivity.kt", kotlin_dir / "MainActivity.kt")
+    python_dir = android / "app/src/main/python"
+    python_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(REPO_ROOT / "platform/android/runtime/mobile_bridge.py", python_dir / "mobile_bridge.py")
+    package = python_dir / "modelforge"
+    package.mkdir(exist_ok=True)
+    (package / "__init__.py").write_text("# Embedded offline runtime only.\n", encoding="utf-8")
+    for name in ("architectures", "tokenizers", "mobile"):
+        shutil.copytree(REPO_ROOT / "modelforge" / name, package / name, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+
+
 def patch_windows_cmake(cmake_path: Path) -> None:
     if not cmake_path.exists():
         return
@@ -116,6 +150,7 @@ def main() -> int:
     patch_android_manifest(
         FLUTTER_DIR / "android" / "app" / "src" / "main" / "AndroidManifest.xml"
     )
+    configure_android_offline()
     patch_windows_cmake(FLUTTER_DIR / "windows" / "CMakeLists.txt")
     run_cmd(["flutter", "pub", "get"], cwd=FLUTTER_DIR)
     return 0

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -227,6 +228,9 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
   final _purposeCtrl = TextEditingController();
   final _dataCtrl = TextEditingController();
   String _quickStatus = '';
+  final _localPromptCtrl = TextEditingController();
+  String _localAnswer = '';
+  static const _offlineChannel = MethodChannel('ai.modelforge/offline');
   final TextEditingController _researchQuestionCtrl = TextEditingController(
       text: 'Сравнение decoder_transformer и hybrid_attention_ssm на RU-TJ корпусе');
   final TextEditingController _promptEditCtrl =
@@ -239,7 +243,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
   void initState() {
     super.initState();
     _api = widget.injectedClient ?? ModelForgeApiClient();
-    if (widget.autoConnectOnStart) {
+    if (widget.autoConnectOnStart && !Platform.isAndroid) {
       _bootstrapConnection();
     }
   }
@@ -263,6 +267,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
     _trainLrCtrl.dispose();
     _purposeCtrl.dispose();
     _dataCtrl.dispose();
+    _localPromptCtrl.dispose();
     _researchQuestionCtrl.dispose();
     _promptEditCtrl.dispose();
     _registryQueryCtrl.dispose();
@@ -496,7 +501,7 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
               'Параметры небольшой модели подберутся автоматически.',
               style: theme.textTheme.bodyMedium),
           const SizedBox(height: 16),
-          if (!_backendConnected) ...[
+          if (!_backendConnected && !Platform.isAndroid) ...[
             Text('Вычислительное ядро не подключено. На Android этой версии '
                 'обучение внутри приложения пока недоступно.',
                 style: TextStyle(color: theme.colorScheme.error)),
@@ -512,15 +517,17 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
           ),
           const SizedBox(height: 8),
           TextField(
-            controller: _dataCtrl, maxLength: 100000, minLines: 4, maxLines: 8,
+            controller: _dataCtrl, maxLength: Platform.isAndroid ? 20000 : 100000, minLines: 4, maxLines: 8,
             decoration: const InputDecoration(
               labelText: 'Текст для обучения',
               hintText: 'Вставьте свои тексты, по одной записи на строку',
               border: OutlineInputBorder(),
             ),
           ),
-          Text('Используйте данные, на которые у вас есть права. '
-              'Текст отправляется подключённому ядру.', style: theme.textTheme.bodySmall),
+          Text(Platform.isAndroid
+              ? 'Используйте свои данные. Обучение проходит на устройстве без сети. Не закрывайте приложение.'
+              : 'Используйте данные, на которые у вас есть права. Текст отправляется подключённому ядру.',
+              style: theme.textTheme.bodySmall),
           const SizedBox(height: 14),
           Text('Примерный размер весов: ${_targetWeightMb.toStringAsFixed(1)} МиБ'),
           Slider(
@@ -545,19 +552,41 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
           SizedBox(width: double.infinity, child: FilledButton.icon(
             icon: const Icon(Icons.auto_awesome),
             label: const Text('Создать и обучить'),
-            onPressed: _busy || !_backendConnected ? null : _startQuickTraining,
+            onPressed: _busy || (!_backendConnected && !Platform.isAndroid) ? null : _startQuickTraining,
           )),
           if (_quickStatus.isNotEmpty) ...[
             const SizedBox(height: 12),
             SelectableText(_quickStatus, style: theme.textTheme.bodyMedium),
-            TextButton.icon(
-              onPressed: _busy ? null : _refreshAll,
+            if (!Platform.isAndroid) TextButton.icon(
+              onPressed: _busy || Platform.isAndroid ? null : _refreshAll,
               icon: const Icon(Icons.refresh), label: const Text('Обновить задачи'),
             ),
+          ],
+          if (Platform.isAndroid) ...[
+            const Divider(height: 32),
+            Text('Проверить локальную модель', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            TextField(controller: _localPromptCtrl, maxLength: 5000,
+              decoration: const InputDecoration(labelText: 'Начало текста', border: OutlineInputBorder())),
+            OutlinedButton.icon(
+              onPressed: _busy ? null : _generateLocal,
+              icon: const Icon(Icons.chat_bubble_outline), label: const Text('Продолжить текст'),
+            ),
+            if (_localAnswer.isNotEmpty) SelectableText(_localAnswer),
           ],
         ]),
       ),
     );
+  }
+
+  Future<void> _generateLocal() async {
+    await _runGuarded('Генерация на устройстве', () async {
+      final response = await _offlineChannel.invokeMethod<String>('generate', jsonEncode({
+        'prompt': _localPromptCtrl.text, 'max_chars': 64,
+      }));
+      final result = jsonDecode(response!) as Map<String, dynamic>;
+      if (mounted) setState(() => _localAnswer = result['text'].toString());
+    });
   }
 
   Future<void> _startQuickTraining() async {
@@ -566,6 +595,18 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
       return;
     }
     await _runGuarded('Подготовка обучения', () async {
+      if (Platform.isAndroid) {
+        setState(() => _quickStatus = 'Обучение на телефоне. Не закрывайте приложение; это может занять до нескольких минут.');
+        final response = await _offlineChannel.invokeMethod<String>('train', jsonEncode({
+          'purpose': _purposeCtrl.text.trim(), 'text': _dataCtrl.text,
+          'target_weight_mb': _targetWeightMb, 'loop_passes': _loopPasses,
+        }));
+        final metadata = jsonDecode(response!) as Map<String, dynamic>;
+        if (mounted) setState(() => _quickStatus =
+            'Обучение завершено на устройстве. Вес: ${metadata['weight_mb']} МиБ; '
+            'шагов: ${metadata['steps']}. Модель очень маленькая и экспериментальная.');
+        return;
+      }
       final projectId = await _ensureProjectId();
       final created = await _api.postJson('/api/v1/models/automatic', {
         'project_id': projectId, 'purpose': _purposeCtrl.text.trim(),
@@ -1407,7 +1448,8 @@ class _ModelForgeShellState extends State<ModelForgeShell> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Chip(
               label: Text(
-                '${_api.mode.toUpperCase()}${_backendConnected ? " • ONLINE" : " • НЕТ СВЯЗИ"}',
+                Platform.isAndroid && !_backendConnected ? 'НА УСТРОЙСТВЕ' :
+                    '${_api.mode.toUpperCase()}${_backendConnected ? " • ONLINE" : " • НЕТ СВЯЗИ"}',
               ),
             ),
           ),
