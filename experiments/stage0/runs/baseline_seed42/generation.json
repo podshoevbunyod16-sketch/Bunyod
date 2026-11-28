@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ru1",
+    "lang": "ru",
+    "prompt": "Сегодня утром",
+    "generated_text": "а                                               "
+  },
+  {
+    "id": "ru2",
+    "lang": "ru",
+    "prompt": "Как приготовить",
+    "generated_text": "                                                "
+  },
+  {
+    "id": "ru3",
+    "lang": "ru",
+    "prompt": "В городе люди",
+    "generated_text": "а                                               "
+  },
+  {
+    "id": "ru4",
+    "lang": "ru",
+    "prompt": "Почему важно",
+    "generated_text": "аа                                              "
+  },
+  {
+    "id": "ru5",
+    "lang": "ru",
+    "prompt": "Мой друг сказал",
+    "generated_text": "                                                "
+  },
+  {
+    "id": "tg1",
+    "lang": "tg",
+    "prompt": "Имрӯз мо",
+    "generated_text": "   ааа                                          "
+  },
+  {
+    "id": "tg2",
+    "lang": "tg",
+    "prompt": "Дар шаҳри мо",
+    "generated_text": "аа                                              "
+  },
+  {
+    "id": "tg3",
+    "lang": "tg",
+    "prompt": "Чаро муҳим аст",
+    "generated_text": "                                                "
+  },
+  {
+    "id": "tg4",
+    "lang": "tg",
+    "prompt": "Дӯсти ман гуфт",
+    "generated_text": "                                                "
+  },
+  {
+    "id": "tg5",
+    "lang": "tg",
+    "prompt": "Вақте ки борон",
+    "generated_text": "                                                "
+  }
+]
