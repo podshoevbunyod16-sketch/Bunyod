@@ -67,13 +67,21 @@ cat > "${APPDIR}/usr/share/metainfo/modelforge-ai.appdata.xml" <<'EOF'
   <project_license>MIT</project_license>
   <name>ModelForge AI</name>
   <summary>Cross-platform AI Model, Agent and Research Laboratory</summary>
+  <developer id="ai.modelforge">
+    <name>ModelForge AI</name>
+  </developer>
   <description>
     <p>ModelForge AI provides local and hybrid neural model creation, autonomous multi-agent orchestration, scientific experiment tracking, and prompt-driven project editing.</p>
   </description>
+  <url type="homepage">https://github.com/podshoevbunyod16-sketch/Bunyod</url>
   <launchable type="desktop-id">modelforge-ai.desktop</launchable>
   <provides>
     <binary>modelforge_app</binary>
   </provides>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.0.0" date="2026-11-27" />
+  </releases>
 </component>
 EOF
 
@@ -107,7 +115,7 @@ if [ ! -f "${APPIMAGETOOL}" ]; then
   chmod +x "${APPIMAGETOOL}"
 fi
 
-ARCH=x86_64 "${APPIMAGETOOL}" --appimage-extract-and-run "${APPDIR}" "${OUT_DIR}/ModelForge-Linux-x64.AppImage"
+ARCH=x86_64 "${APPIMAGETOOL}" --appimage-extract-and-run --no-appstream "${APPDIR}" "${OUT_DIR}/ModelForge-Linux-x64.AppImage"
 chmod +x "${OUT_DIR}/ModelForge-Linux-x64.AppImage"
 
 rm -rf "${DEB_ROOT}" "${APPDIR}" "${APPIMAGETOOL}"
