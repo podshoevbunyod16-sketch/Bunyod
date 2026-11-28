@@ -3,33 +3,66 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rasm-cim"
-version = "0.17.0"
-description = "RASM-CIM: offline Russian-language cognitive stack — typed KB with provenance, evidence-bound reasoning, dialogue, legacy-data integration (experimental, stdlib-only)"
+name = "modelforge-ai"
+version = "1.0.0"
+description = "ModelForge AI — Cross-platform AI Model, Autonomous Agent, Research & Prompt-to-Project Laboratory (Core, FastAPI Backend & CLI)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+authors = [
+    {name = "ModelForge AI Team"}
+]
+keywords = ["ai", "llm", "agents", "training", "mcp", "research", "flutter", "cross-platform"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "numpy>=1.26",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+]
 
 [project.optional-dependencies]
-dev = ["pytest", "hypothesis", "atheris"]
-numpy = ["numpy>=1.26"]
+server = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "httpx>=0.27",
+    "websockets>=12.0",
+    "psutil>=5.9",
+    "safetensors>=0.4",
+]
+full = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "httpx>=0.27",
+    "websockets>=12.0",
+    "psutil>=5.9",
+    "safetensors>=0.4",
+]
+torch = [
+    "torch>=2.2",
+]
+dev = [
+    "pytest>=8.0",
+    "hypothesis>=6.98",
+    "httpx>=0.27",
+]
 
 [project.scripts]
-rasm-cim = "rasm_cim_v17.cli:main"
-rasm-cim-demo = "rasm_cim_v9.cli:main"
+modelforge = "modelforge.cli.main:main"
 
-# Explicit allow-list with recursive discovery: ship the unified entry point
-# and all v17 cognitive subpackages, without packaging tests or experiments.
 [tool.setuptools.packages.find]
 where = ["."]
-include = [
-    "rasm_cim",
-    "rasm_cim_v8",
-    "rasm_cim_v8.*",
-    "rasm_cim_v9",
-    "rasm_cim_v9.*",
-    "rasm_cim_v16",
-    "rasm_cim_v16.*",
-    "rasm_cim_v17",
-    "rasm_cim_v17.*",
-]
+include = ["modelforge", "modelforge.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

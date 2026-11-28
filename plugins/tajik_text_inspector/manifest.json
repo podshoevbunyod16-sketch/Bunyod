@@ -1,0 +1,27 @@
+{
+  "id": "tajik_text_inspector",
+  "name": "Tajik & Russian Cyrillic Corpus Inspector",
+  "version": "1.0.0",
+  "description": "Analyzes multilingual Russian and Tajik Cyrillic text quality, script purity, and character distribution.",
+  "entrypoint": "plugin.py:run",
+  "requirements": [],
+  "permissions": ["memory:read"],
+  "allow_full_filesystem": false,
+  "input_schema": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": {"type": "string"}
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "required": ["char_count", "word_count", "tajik_specific_count", "detected_scripts"],
+    "properties": {
+      "char_count": {"type": "integer"},
+      "word_count": {"type": "integer"},
+      "tajik_specific_count": {"type": "integer"},
+      "detected_scripts": {"type": "array"}
+    }
+  }
+}

@@ -1,134 +1,49 @@
-# RASM-CIM — офлайн-система работы со смыслом (v0.17)
+# ModelForge AI
 
-Локальная, полностью офлайновая система: русскоязычный диалог, типизированная
-база знаний с происхождением каждого факта, ограниченный вывод с доказательствами
-и ответы, каждое предложение которых опирается на утверждение в базе.
-**Только стандартная библиотека Python, без сети, без LLM, без телеметрии.**
+**Кроссплатформенная лаборатория создания ИИ-моделей, автономных агентов, научных исследований и prompt-based разработки.**  
+**Android ARM64 • Termux ARM64 • Windows x64 • Linux x64 • macOS • Web Studio + CLI**
 
-Это исследовательская сборка. Она **не** заявляет «понимание языка» или AGI:
-качество измеряется конкретными метриками, а всё непроверенное честно помечено
-как INCONCLUSIVE в `docs_v17/LIMITATIONS.md`.
+---
 
-## Что где
+## Главные возможности (v1.0.0)
 
-| Пакет | Роль |
-|---|---|
-| `rasm_cim_v16/` | семантическое ядро (заморожено): типизированный граф, provenance, evidence, контекст, вывод, ответы |
-| `rasm_cim_v17/` | интеграция с данными v0.11–v0.15, единый CLI; семантика (`semantics`), контекст (`discourse`), вывод (`reasoning`), генерация (`generation`), обучение (`learning`), надёжность (`robustness`) |
-| `rasm_cim_v9/`, `rasm_cim_v8/`, `rasm_cim/`, `rasm_cim_v1_snapshot`…`v6` | исторические слои, сохранены как есть |
+- **Model Builder & 10 архитектур нейросетей**: создание по текстовому промпту компактных языковых моделей (`decoder_transformer`, `tiny_transformer`, `encoder_transformer`, `encoder_decoder_transformer`, `rnn`, `lstm`, `gru`, `ssm`, `hybrid_attention_ssm`, `custom_block`).
+- **Многоязычные токенизаторы (RU / TG / EN)**: реальное обучение `UnicodeBPETokenizer` и `CharTokenizer` с полной проверкой кириллицы и таджикских символов (`ғ, ӣ, қ, ӯ, ҳ, ҷ`).
+- **Training Engine**: реальное обучение с нуля (`scratch`), `fine-tuning` и `transfer learning` (заморозка эмбеддингов и нижних блоков) на собственном движке обратной автодифференциации (`modelforge.architectures.tensor_engine`) с проверкой изменения весов (`weight_l2_delta > 0`), градиентным накоплением, динамическим снижением `batch_size`, контролем RAM/времени, сохранением проверяемых чекпоинтов (`.mfckpt` с SHA-256), возобновлением (`resume`) и `early stopping`.
+- **Inference & Экспорт**: потоковая генерация с отменой, `temperature`, `top-k`, `top-p`, `repetition_penalty`, профилированием скорости и RAM, а также реальный экспорт в **GGUF v3** (`.gguf`), **Safetensors** (`.safetensors`), **PyTorch** (`.pt` при установленном `torch`), `JSON` и `YAML`.
+- **Agent Builder & Multi-Agent Runtime**: 10 типов агентов (`Research`, `Architecture`, `Data`, `Coding`, `Training`, `Evaluation`, `Debugging`, `Documentation`, `Supervisor`, `Custom`), `TaskRouter`, `MessageBus`, изолированная память, граф состояний (`StateGraph` DAG для последовательного и параллельного выполнения) и защита от зацикливания.
+- **Prompt-to-Project**: редактирование проекта текстовыми инструкциями с предварительным снимком, unified diff, запуском тестов в ограниченном подпроцессе (`restricted_subprocess`), историей промптов и точным откатом (`rollback`).
+- **Research Engine & Experiment Registry**: контролируемые сравнительные эксперименты архитектур с жёстким разделением фактов, гипотез и допущений и обязательным сохранением отрицательных результатов.
+- **MCP STDIO / Streamable HTTP & Плагины**: встроенный менеджер JSON-RPC 2.0 MCP-серверов, санитизация недоверенных внешних ответов, журнал вызовов и плагины с `manifest.json` и проверкой схем.
+- **4 режима работы**: `Local Mode`, `Remote Mode`, `Hybrid Mode` и `Offline Mode` (с блокировкой внешних сетевых вызовов) + автоматический **Low Memory Mode** для устройств с `<= 3.5 ГБ RAM`.
+- **Единое ядро для 3 интерфейсов**:
+  1. Нативное кроссплатформенное приложение **Flutter / Dart / Material 3** (`apps/flutter_app/`, 12 экранов, RU/TG/EN локализация, тёмная/светлая тема, масштабирование текста).
+  2. Встроенный **Web Studio** (`http://0.0.0.0:8765/`) + версионированный REST API (`/api/v1/*`) и WebSocket (`/ws/events`).
+  3. Полнофункциональный **CLI (`modelforge`)**.
 
-## Быстрый старт
+---
 
-```bash
-python -m rasm_cim version         # rasm-cim v0.17.0 (ядро v0.16.0, схема kb 2)
-python -m rasm_cim chat            # агентный диалог; :help — команды
-python -m rasm_cim chat --online   # то же + поиск в сети (инструмент включается явно)
-python -m rasm_cim agent "Кто такой Кулибин?" --online   # одна реплика агента
-python -m rasm_cim vocab           # словарный запас агента
-python -m rasm_cim teach "Исаак Ньютон — это физик"
-python -m rasm_cim ask "Кто такой Исаак Ньютон?" --answer detailed
-python -m rasm_cim verify          # проверка целостности базы
-python -m rasm_cim ask "Перечисли, что открыл Ньютон"   # семантический слой
-python -m rasm_cim ask "…" --core  # чистое поведение v0.16 для сравнения
-```
-
-`python -m rasm_cim`, `python -m rasm_cim_v17` и консольный скрипт `rasm-cim` —
-один и тот же CLI. База: `~/.rasm-cim/` (`$RASM_CIM_HOME` или `--home`).
-
-## Агентный режим: диалог, инструменты, память
-
-`chat` (и `agent` для одной реплики) — это диалог, а не запрос к базе:
-
-* **уточняет**, когда непонятно («О ком или о чём вопрос?»), и **отвечает по
-  своей базе**, включая вопросы о классе и числе («Кто такие физики?»);
-* **ищет в сети** только если сеть включена (`--online`); без сети честно
-  говорит «сеть выключена» и ничего не выдумывает;
-* **пересказывает найденное своими словами** — из предложений источника, со
-  ссылкой; если в источнике нет ответа, так и говорит;
-* **предлагает запомнить** («Записать как «Москва — это столица»?»), и пишет в
-  граф только после «да»; полная формулировка, которую ядро не разбирает,
-  остаётся в словарном запасе (`vocab.json`);
-* сеть выключена по умолчанию, ходит только по списку разрешённых хостов
-  (`ru.wikipedia.org`, `api.github.com` и т. п.), с таймаутом, лимитом байт и
-  кэшем; единственный модуль с сетевыми импортами — `rasm_cim_v17/agent/tools.py`,
-  это проверяет сканер офлайн-инварианта.
-
-Провайдер поиска задаётся `--endpoint`: URL с `{query}` (SearxNG, свой шлюз),
-`github` (api.github.com) или пусто (Википедия).
-
-## Интеграция старых данных (v0.11–v0.15)
-
-Данные предыдущих версий читаются как **данные**, а не как код:
+## Быстрый старт (CLI и Сервер)
 
 ```bash
-python -m rasm_cim import path/to/kb/          --dry-run   # rasm-cim-kb/1
-python -m rasm_cim import demo_facts.jsonl     --dry-run   # плоские факты v0.11
-python -m rasm_cim import path/to/learned/     --dry-run   # rasm-cim-learned/1
+# 1. Установка Python-ядра и серверных модулей
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip setuptools wheel
+pip install -e ".[full,dev]"
+
+# 2. Полная диагностика окружения и платформы
+modelforge doctor
+
+# 3. Создание проекта, русско-таджикской гибридной модели и реальное обучение
+modelforge create project --name "RU-TJ Lab"
+modelforge create model --prompt "Создай компактную языковую модель для русского и таджикского текста с экспериментальной архитектурой"
+modelforge train --model <MODEL_ID> --epochs 6
+modelforge model generate --model <MODEL_ID> --prompt "Салом ҷаҳон! Привет"
+modelforge export --model <MODEL_ID> --format gguf
+
+# 4. Запуск сервера ядра и интерактивного Web Studio
+modelforge server --host 0.0.0.0 --port 8765
 ```
 
-* dry-run ничего не пишет и показывает, что будет импортировано, что пропущено
-  и почему;
-* импорт идемпотентен (журнал `import_ledger.json` по sha256 источника плюс
-  дедупликация в самом графе);
-* каждый факт сохраняет происхождение (legacy statement id, doc_id, фрагмент,
-  надёжность) в `Statement.provenance["legacy"]` и запись `EV_IMPORT` в журнале
-  источников;
-* откат — `python -m rasm_cim restore <ledger_id>`;
-* неизвестный предикат **не** подменяется «похожим»: запись пропускается с
-  причиной, таблицу нужно расширить в `rasm_cim_v17/interop/mapping.py`.
-
-## Метрики качества (Планы B–G)
-
-```bash
-python -m rasm_cim metrics        # качество семантики
-python -m rasm_cim coref          # качество кореференции
-python -m rasm_cim explain "Где находится Париж?"   # доказательство и источники
-python -m rasm_cim plan "Где находится Париж?"      # план ответа (ResponseIR)
-python -m rasm_cim generation                       # метрики связности
-python -m rasm_cim learn                            # обучение без забывания
-python -m rasm_cim stress                           # фаззинг, офлайн, замеры
-python -m rasm_cim meaning "Кем был Исаак Ньютон?"   # как понят вопрос
-```
-
-На размеченном корпусе из 38 реплик (`tests_v17/corpus/semantic_cases.jsonl`,
-sha256 печатается вместе с числами): речевой акт — 97.4 %, сущности
-P/R/F1 = 0.975, точность ответов — 96.4 %, фактов без источника в ответах —
-0.0 %. Полный список промахов и их причины — `docs_v17/BENCHMARK_REPORT.md`.
-Кореференция (7 диалогов, 5 отсылок): верно 80 %, ошибочных связок — **0**,
-один честный отказ вместо догадки; ответы в диалогах 100 %. Доказательства:
-точность источников 1.0, покрытие посылок 13/13. Генерация: 13/13 утверждений
-со `statement_id`, средняя длина 1.86 предложения, детерминизм — да. Обучение:
-12/12 уроков, удержание старых фактов 100 %, добавлено 0 противоречий, откат
-точный. Надёжность: 100 враждебных входов — 0 падений, 0 сетевых импортов,
-p50 0,54 мс; ARM64/Termux не проверялись (`docs_v17/TERMUX.md`). Всё это на
-маленьких собственных наборах: 38 кейсов, 5 отсылок, 12 уроков, 14 реплик,
-100 фазз-входов. Это регрессионные ориентиры, а не независимая оценка; размеры и
-sha256 указаны рядом с каждым числом.
-
-Сводка «требование ТЗ → где реализовано → чем измерено → что не проверено» —
-`docs_v17/FINAL_VERIFICATION.md`. Не проверено: ARM64/Termux, Python 3.14,
-реальная пользовательская база, качество за пределами собственных корпусов.
-
-## Тесты
-
-```bash
-python -m pytest tests_v16 -q      # 348 passed
-python -m pytest tests_v9 tests_v10 -q                       # 54 passed
-python -m pytest tests_v17 -q                                # 264 passed
-python -m pytest test_rasm*.py rasm_cim_v8/tests -q          # 102 passed (без test_rasm_v5: нужен sklearn)
-# итого 768 passed, 0 failed, 0 skipped
-```
-
-## Документация
-
-* `AUDIT_REPORT.md` — фактическое состояние репозитория и найденные дефекты;
-* `PROGRESS.md` — фазы, точки продолжения;
-* `docs_v17/` — FINAL_VERIFICATION, ARCHITECTURE, CHANGELOG, TEST_REPORT,
-  BENCHMARK_REPORT, LIMITATIONS, TERMUX, REPRODUCE, PLAN_NEXT;
-* `docs_v16/` — аудит, архитектура и миграция ядра;
-* `docs_v10/`, `docs_v9/`, … — история версий.
-
-Установка: `pip install -e .` (для тестов — `-r requirements-dev.txt`;
-numpy нужен только историческим слоям v8/v9). CLI `python -m rasm_cim`
-работает на голой стандартной библиотеке: имена прототипа v0.1 в `rasm_cim/`
-загружаются лениво (проверяется тестом `test_entry_point_does_not_import_numpy`).
+Подробные инструкции по установке для **Android ARM64, Termux ARM64, Windows x64, Linux x64 и macOS** приведены в [`INSTALL.md`](INSTALL.md). Архитектура описана в [`ARCHITECTURE.md`](ARCHITECTURE.md), честный перечень ограничений — в [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md).
