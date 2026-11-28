@@ -225,6 +225,11 @@ class ModelForgeCore:
         self.events.publish("chat.message", evt_payload, project_id=project_id)
         return evt_payload
 
+    def capabilities(self) -> Dict[str, Any]:
+        """Run a bounded real probe; legacy static platform limits remain separate."""
+        from modelforge.platforms.capabilities import measure_capabilities
+        return measure_capabilities(path=self.home_dir, low_memory_mode=self.platform_info.low_memory_mode)
+
     def doctor(self) -> Dict[str, Any]:
         """Full diagnostic check across DB, audit chain, platform, RAM, plugins, MCP & remote connectivity."""
         db_ok, db_msg = self.db.check_integrity()

@@ -14,3 +14,8 @@
 - **Integrations**: провайдеры LLM без скрытого переключения, `MCPManager` (`STDIO` + `Streamable HTTP`) со встроенным локальным MCP-сервером, плагины `tajik_text_inspector` и `architecture_advisor`.
 - **UI & CLI**: приложение Flutter Material 3 (`apps/flutter_app/`, 12 экранов, RU/TG/EN), встроенный Web Studio, CLI `modelforge`.
 - **CI/CD**: GitHub Actions workflows `ci.yml`, `android-build.yml`, `windows-build.yml`, `linux-build.yml`, `macos-build.yml`, `release.yml`.
+
+### Device capability diagnostics
+
+- Added bounded CPU matmul and isolated real NumPy AdamW step probes, with approximate memory budgeting, RSS tracking, and candidate results; exposed via CLI, API, core, builder and training engine.
+- Added psutil as a base dependency. Legacy fixed limits remain in force pending a safe, verified migration; Android probing fails closed until an application memory limit is available. See `docs/CAPABILITIES.md` for safety limitations and measured results.

@@ -131,6 +131,11 @@ class ModelBuilder:
         self._events = events
         self._platform = platform_info
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        """Request the shared measured report explicitly; no probe runs implicitly."""
+        from modelforge.platforms.capabilities import measure_capabilities
+        return measure_capabilities(low_memory_mode=self._platform.low_memory_mode)
+
     def spec_from_prompt(self, prompt: str, name: Optional[str] = None) -> ModelSpec:
         p = prompt.lower()
         langs: List[str] = []

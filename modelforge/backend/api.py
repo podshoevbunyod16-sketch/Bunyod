@@ -223,6 +223,11 @@ def create_app(core: Optional[ModelForgeCore] = None, home_dir: Optional[Path] =
             "state": mf.state.snapshot(),
         }
 
+    @app.get("/api/v1/system/capabilities")
+    def capabilities() -> Dict[str, Any]:
+        # FastAPI runs synchronous endpoints in its threadpool: the probe can take time.
+        return mf.capabilities()
+
     @app.get("/api/v1/doctor")
     async def doctor() -> Dict[str, Any]:
         return mf.doctor()
