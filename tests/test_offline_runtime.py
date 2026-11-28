@@ -36,6 +36,7 @@ def test_android_scaffold_patch_is_idempotent(tmp_path, monkeypatch):
     app = tmp_path / 'android/app'
     app.mkdir(parents=True)
     (tmp_path / 'android/settings.gradle').write_text('plugins {\n    id "com.android.application" version "8"\n}\n')
+    (tmp_path / 'android/build.gradle').write_text('allprojects {}\n')
     (app / 'build.gradle').write_text('plugins {\n    id "kotlin-android"\n}\nandroid { minSdk = flutter.minSdkVersion }\n')
     monkeypatch.setattr(prepare, 'FLUTTER_DIR', tmp_path)
     prepare.configure_android_offline()

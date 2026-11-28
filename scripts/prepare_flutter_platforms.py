@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -57,6 +58,19 @@ def configure_android_offline() -> None:
         text = text.replace('    id "com.android.application"',
                             '    id "com.chaquo.python" version "16.1.0" apply false\n    id "com.android.application"', 1)
         settings.write_text(text, encoding="utf-8")
+    # Chaquopy detects AGP through the root buildscript classpath, while newer
+    # Flutter templates declare AGP only in pluginManagement.
+    root_build = android / "build.gradle"
+    root_text = root_build.read_text(encoding="utf-8")
+    if "com.android.tools.build:gradle:" not in root_text:
+        match = re.search(r'id "com\.android\.application" version "([^" ]+)"', text)
+        if not match:
+            raise RuntimeError("Could not detect Android Gradle plugin version")
+        version = match.group(1)
+        root_text = ("buildscript {\n    repositories { google(); mavenCentral() }\n"
+                     f"    dependencies {{ classpath 'com.android.tools.build:gradle:{version}' }}\n"
+                     "}\n\n" + root_text)
+        root_build.write_text(root_text, encoding="utf-8")
     text = build.read_text(encoding="utf-8")
     if 'id "com.chaquo.python"' not in text:
         text = text.replace('    id "kotlin-android"', '    id "kotlin-android"\n    id "com.chaquo.python"', 1)
