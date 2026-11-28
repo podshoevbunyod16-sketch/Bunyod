@@ -31,7 +31,13 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-        run: bash platform/android/build_android.sh
+        run: |
+          set -o pipefail
+          bash platform/android/build_android.sh 2>&1 | tee android-build.log || {
+            details=$(tail -n 70 android-build.log | tr '\n' ' ' | cut -c 1-6000)
+            echo "::error::Android build failed: $details"
+            exit 1
+          }
       - name: Verify ARM64 & ARMv7 native ABIs inside APK
         run: |
           python3 - <<'PY'
