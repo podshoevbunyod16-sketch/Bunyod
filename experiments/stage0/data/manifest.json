@@ -1,0 +1,12 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "ru.txt": "db5b304037bcad6c8c0ae45bc69528122f2a265ce689889c6d4b3e28fe94affc",
+    "tg.txt": "753264bb91a52d9a95ddf9feb98645a1b9311de8e05ee56a70fad83ef7b89f96",
+    "split.json": "e684b74859d5058df858e98a1535c883c7ea94213df00f33c3e50a44acbce78d",
+    "prompts.json": "33e888ea0da13e2762584644a8ffdcfa1cfd2f3deaec17fb2b829c52035a7663"
+  },
+  "license": "MIT (repository LICENSE)",
+  "provenance": "Synthetic text generated for this experiment; no external source",
+  "code_commit": "fc607083500b59a627235029e3b22ea1f4ca6e28"
+}

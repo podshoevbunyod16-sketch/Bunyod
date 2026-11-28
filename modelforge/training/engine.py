@@ -176,6 +176,11 @@ class TrainingEngine:
         self._datasets = dataset_manager
         self._platform = platform_info
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        """Request the shared measured report explicitly; no probe runs implicitly."""
+        from modelforge.platforms.capabilities import measure_capabilities
+        return measure_capabilities(low_memory_mode=self._platform.low_memory_mode)
+
     def train(
         self,
         model_id: str,

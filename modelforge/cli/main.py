@@ -150,7 +150,9 @@ def build_parser() -> argparse.ArgumentParser:
     mc.add_argument("--args", default="{}", help="JSON arguments object")
 
     # modelforge doctor
-    sub.add_parser("doctor", help="Run full platform, DB, security, RAM, MCP & plugin diagnostics")
+    p_doc = sub.add_parser("doctor", help="Run platform diagnostics")
+    p_doc.add_argument("--capabilities", action="store_true", help="Run bounded hardware and training-step probes")
+    p_doc.add_argument("--output", default="", help="JSON report path (default: application home/capabilities.json)")
 
     # modelforge export
     p_exp = sub.add_parser("export", help="Export a model to gguf, safetensors, pt, json, or yaml")
@@ -195,7 +197,14 @@ def main(argv: Optional[List[str]] = None) -> int:
             return 0
 
         if args.command == "doctor":
-            _print_output(core.doctor(), as_json=args.json)
+            if args.capabilities:
+                report = core.capabilities()
+                output = Path(args.output).expanduser() if args.output else core.home_dir / "capabilities.json"
+                output.parent.mkdir(parents=True, exist_ok=True)
+                output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+                _print_output(report, as_json=True)
+            else:
+                _print_output(core.doctor(), as_json=args.json)
             return 0
 
         if args.command == "chat":

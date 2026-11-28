@@ -53,3 +53,7 @@ GGUF-экспорт таких моделей отключён, поскольк
 
 Android APK/AAB собирается для ARM; тренировку и генерацию проверяет Android
 x86_64-эмулятор в CI. На физическом ARM-смартфоне функция пока не проверена.
+
+## Capability probe
+
+See [CAPABILITIES.md](CAPABILITIES.md). Android application memory limits are not integrated, so Android probing is disabled; a physical phone and thermal behaviour have not been verified. RSS polling is not an enforceable hard memory limit, cgroup v1 and nonstandard mounts are not covered, and measured maxima do not replace the legacy static builder/training limits. Frozen builds cannot run the subprocess probe. A single synthetic step is not full training.

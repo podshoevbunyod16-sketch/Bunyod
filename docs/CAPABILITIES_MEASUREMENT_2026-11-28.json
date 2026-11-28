@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "device": {
+    "platform": "linux",
+    "device_form_factor": "unknown",
+    "battery_present": null,
+    "battery_source": "psutil.sensors_battery; None means unknown",
+    "cpu": {
+      "architecture": "x86_64",
+      "raw_machine": "x86_64",
+      "model": "intel(r) xeon(r) processor @ 2.60ghz",
+      "model_source": "/proc/cpuinfo",
+      "logical_cores": 2,
+      "core_source": "os.cpu_count",
+      "instruction_flags": [
+        "avx2"
+      ],
+      "flags_source": "/proc/cpuinfo"
+    },
+    "memory": {
+      "total_bytes": 4131278848,
+      "available_system_bytes": 3786715136,
+      "source": "psutil.virtual_memory",
+      "cgroup": {
+        "limit_bytes": 3997061120,
+        "current_bytes": 359526400,
+        "available_bytes": 3637534720,
+        "source": "/sys/fs/cgroup/user/memory.max and /sys/fs/cgroup/user/memory.current"
+      },
+      "available_for_budget_bytes": 3637534720,
+      "android_app_limit_bytes": null,
+      "android_app_limit_source": "not applicable"
+    },
+    "disk": {
+      "path": "/tmp/modelforge-capabilities",
+      "free_bytes": 20479815680,
+      "source": "shutil.disk_usage"
+    },
+    "packages": {
+      "numpy": true,
+      "psutil": true,
+      "torch": false,
+      "fastapi": true,
+      "safetensors": true
+    },
+    "packages_source": "importlib.util.find_spec (presence only)"
+  },
+  "config": {
+    "reserve_fraction": 0.35,
+    "total_timeout_seconds": 55.0,
+    "per_probe_seconds": 10.0,
+    "batch_size": 1,
+    "context_length": 16,
+    "vocab_size": 256,
+    "steps_per_epoch": 100,
+    "candidates": [
+      500000,
+      1000000,
+      3000000,
+      8000000,
+      15000000,
+      30000000
+    ]
+  },
+  "measurement_kind": "bounded probe, not full training",
+  "benchmark": {
+    "matmul": {
+      "size": 512,
+      "repeats": 5,
+      "dtype": "float32",
+      "seconds": 0.009376822999968226,
+      "gflops": 143.13774292258137,
+      "source": "timed numpy.matmul; single BLAS thread",
+      "peak_rss_bytes": 57106432,
+      "rss_source": "parent psutil sampling (may miss spikes)",
+      "status": "ok"
+    },
+    "reference_step": {
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 60,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "batch_size": 1,
+      "parameters": 103500,
+      "step_seconds": 0.00334765799999559,
+      "loss": 5.497448921203613,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 65626112,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 65626112,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "ok"
+    }
+  },
+  "candidates": [
+    {
+      "target_parameters": 500000,
+      "estimated_parameters": 490320,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 144,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 7927040,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 490320,
+      "step_seconds": 0.00789746399999558,
+      "loss": 5.660119533538818,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 65757184,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 65757184,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    },
+    {
+      "target_parameters": 1000000,
+      "estimated_parameters": 1010180,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 212,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 16279616,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 1010180,
+      "step_seconds": 0.014130086000022857,
+      "loss": 5.674661636352539,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 76988416,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 76988416,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    },
+    {
+      "target_parameters": 3000000,
+      "estimated_parameters": 3024920,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 376,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 48599424,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 3024920,
+      "step_seconds": 0.0388219259999687,
+      "loss": 5.70629358291626,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 118771712,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 118771712,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    },
+    {
+      "target_parameters": 8000000,
+      "estimated_parameters": 8013500,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 620,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 128541632,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 8013500,
+      "step_seconds": 0.10184694600002331,
+      "loss": 5.764627456665039,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 224452608,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 224452608,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    },
+    {
+      "target_parameters": 15000000,
+      "estimated_parameters": 14965380,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 852,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 239890496,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 14965380,
+      "step_seconds": 0.19644372200002636,
+      "loss": 5.9151458740234375,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 362299392,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 362299392,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    },
+    {
+      "target_parameters": 30000000,
+      "estimated_parameters": 30015180,
+      "spec": {
+        "architecture": "tiny_transformer",
+        "vocab_size": 256,
+        "d_model": 1212,
+        "n_layers": 2,
+        "n_heads": 4,
+        "context_length": 16,
+        "dropout": 0.0,
+        "norm_type": "rmsnorm",
+        "positional_encoding": "sinusoidal"
+      },
+      "estimated_training_bytes": 480871616,
+      "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+      "batch_size": 1,
+      "parameters": 30015180,
+      "step_seconds": 0.3925113290000013,
+      "loss": 5.5560302734375,
+      "weights_changed": true,
+      "peak_rss_bytes_worker": 657862656,
+      "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+      "peak_rss_bytes": 657862656,
+      "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+      "status": "passed"
+    }
+  ],
+  "memory_budget": {
+    "bytes": 2364397568,
+    "reserve_fraction": 0.35,
+    "source": "available system/cgroup memory times configured reserve",
+    "approximate": true
+  },
+  "classification": {
+    "max_params": 30015180,
+    "training_from_scratch": {
+      "tested_candidate": {
+        "target_parameters": 30000000,
+        "estimated_parameters": 30015180,
+        "spec": {
+          "architecture": "tiny_transformer",
+          "vocab_size": 256,
+          "d_model": 1212,
+          "n_layers": 2,
+          "n_heads": 4,
+          "context_length": 16,
+          "dropout": 0.0,
+          "norm_type": "rmsnorm",
+          "positional_encoding": "sinusoidal"
+        },
+        "estimated_training_bytes": 480871616,
+        "estimate_note": "approximate FP32 AdamW + activation heuristic, excludes interpreter and transient buffers",
+        "batch_size": 1,
+        "parameters": 30015180,
+        "step_seconds": 0.3925113290000013,
+        "loss": 5.5560302734375,
+        "weights_changed": true,
+        "peak_rss_bytes_worker": 657862656,
+        "peak_source": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+        "peak_rss_bytes": 657862656,
+        "rss_source": "max(worker ru_maxrss, parent psutil sampling)",
+        "status": "passed"
+      },
+      "estimated_seconds_per_epoch": 39.25113290000013,
+      "epoch_basis": "100 steps; approximation, no dataset supplied"
+    },
+    "finetune": "Not measured; cannot assert a supported size.",
+    "inference": "Not measured; cannot assert a supported size.",
+    "remote": "Use a larger machine for sizes not verified here.",
+    "warnings": [
+      "A single step is not full training; actual memory, speed and device temperature may differ."
+    ]
+  },
+  "status": "completed",
+  "elapsed_seconds": 3.4464268670000138
+}
