@@ -12,11 +12,11 @@ jobs:
     name: Build ModelForge-Android-ARM64 (APK & AAB)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
@@ -32,7 +32,7 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: bash platform/android/build_android.sh
-      - name: Verify ARM64 native ABI inside APK
+      - name: Verify ARM64 & ARMv7 native ABIs inside APK
         run: |
           python3 - <<'PY'
           import zipfile, pathlib
@@ -43,10 +43,16 @@ jobs:
           with zipfile.ZipFile(apk) as zf:
               names = zf.namelist()
               arm64_libs = [n for n in names if n.startswith("lib/arm64-v8a/")]
+              armv7_libs = [n for n in names if n.startswith("lib/armeabi-v7a/")]
               assert arm64_libs, f"No arm64-v8a libraries found in APK! Entries sample: {names[:20]}"
-              print("Verified Android ARM64 libs:", arm64_libs)
+              assert armv7_libs, "No armeabi-v7a libraries found in APK!"
+              print("Verified Android ARM64 + ARMv7 libs:", len(arm64_libs), len(armv7_libs))
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ModelForge-Android-APK-Only
+          path: release_artifacts/ModelForge-Android-ARM64.apk
+      - uses: actions/upload-artifact@v7
         with:
           name: ModelForge-Android-ARM64
           path: |

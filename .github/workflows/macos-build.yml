@@ -12,8 +12,8 @@ jobs:
     name: Build ModelForge-macOS (DMG)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           cache: pip
@@ -32,7 +32,7 @@ jobs:
         run: |
           test -s release_artifacts/ModelForge-macOS.dmg
           python3 scripts/smoke_e2e.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ModelForge-macOS
           path: |

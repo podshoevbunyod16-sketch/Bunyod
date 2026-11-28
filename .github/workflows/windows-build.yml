@@ -12,8 +12,8 @@ jobs:
     name: Build ModelForge-Windows-x64 (Setup EXE & Portable ZIP)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           cache: pip
@@ -34,7 +34,7 @@ jobs:
           if (-not (Test-Path "release_artifacts/ModelForge-Windows-x64-Portable.zip")) { throw "Missing Portable ZIP" }
           if (-not (Test-Path "release_artifacts/ModelForge-Windows-x64-Setup.exe")) { throw "Missing Setup EXE" }
           python scripts/smoke_e2e.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ModelForge-Windows-x64
           path: |

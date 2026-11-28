@@ -56,8 +56,26 @@ dpkg-deb --build --root-owner-group "${DEB_ROOT}" "${OUT_DIR}/ModelForge-Linux-x
 # 2. Build AppImage
 APPDIR="${OUT_DIR}/ModelForge.AppDir"
 rm -rf "${APPDIR}"
-mkdir -p "${APPDIR}/usr/bin"
+mkdir -p "${APPDIR}/usr/bin" "${APPDIR}/usr/share/metainfo"
 cp -r "${BUNDLE_DIR}/"* "${APPDIR}/usr/bin/"
+
+cat > "${APPDIR}/usr/share/metainfo/modelforge-ai.appdata.xml" <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>modelforge-ai.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>ModelForge AI</name>
+  <summary>Cross-platform AI Model, Agent and Research Laboratory</summary>
+  <description>
+    <p>ModelForge AI provides local and hybrid neural model creation, autonomous multi-agent orchestration, scientific experiment tracking, and prompt-driven project editing.</p>
+  </description>
+  <launchable type="desktop-id">modelforge-ai.desktop</launchable>
+  <provides>
+    <binary>modelforge_app</binary>
+  </provides>
+</component>
+EOF
 
 cat > "${APPDIR}/AppRun" <<'EOF'
 #!/usr/bin/env bash
